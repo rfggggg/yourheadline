@@ -2,9 +2,6 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <script src="vue.js"></script>
-    <script src="axios.min.js"></script>
-
     <title>Title</title>
 </head>
 
@@ -37,7 +34,26 @@
     </div>
 </div>
 
+
+
+<script src="js/vue.js"></script>
+<script src="js/axios.min.js"></script>
 <script src="component.js"></script>
+<script src="js/jquery.min.js"></script>
+<script>
+    $(function() {
+        let userName = localStorage.getItem("userName");
+        let passWord = localStorage.getItem("passWord");
+
+        //验证cookies。否则用户可以通过直接调用api访问他人的收藏等。
+
+    })
+</script>
+
+
+
+
+
 <style>
     .sideBar{
         background-color: aquamarine;
