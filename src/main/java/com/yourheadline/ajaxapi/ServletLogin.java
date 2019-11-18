@@ -8,6 +8,8 @@ public class ServletLogin {
     @PostMapping("/api/login")
     @ResponseBody
     public String doLogin(@RequestParam String userName, @RequestParam String passWord){
-        return "succeed.";
+        System.out.println(userName);
+        System.out.println(passWord);
+        return "ok";
     }
 }

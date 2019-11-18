@@ -37,7 +37,7 @@
                     <div class="form-group">
                       <input id="login-password" type="password" name="passWord" required data-msg="请输入密码" placeholder="密码" class="input-material">
                     </div>
-                    <button id="login" type="submit" class="btn btn-primary">登录</button>
+                    <button id="login" type="button" onclick="clickLogin()" class="btn btn-primary">登录</button>
                     <div style="margin-top: -40px;"> 
                     	<!-- <input type="checkbox"  id="check1"/>&nbsp;<span>记住密码</span>
                     	<input type="checkbox" id="check2"/>&nbsp;<span>自动登录</span> -->
@@ -52,7 +52,7 @@
                     </div>
                   </form>
                   <br />
-                  <small>没有账号?</small><a href="register.html" class="signup">&nbsp;注册</a>
+                  <small>没有账号?</small><a href="register" class="signup">&nbsp;注册</a>
                 </div>
               </div>
             </div>
@@ -67,63 +67,62 @@
     <!-- Main File-->
     <script src="js/front.js"></script>
     <script>
-    	$(function(){
-    		/*判断上次是否勾选记住密码和自动登录*/
-    		var check1s=localStorage.getItem("check1");
-    		var check2s=localStorage.getItem("check2");
-    		var oldName=localStorage.getItem("userName");
-    		var oldPass=localStorage.getItem("passWord");
-    		if(check1s=="true"){
-    			 $("#login-username").val(oldName);
-    			 $("#login-password").val(oldPass);
-    			 $("#check1").prop('checked',true);
-    		}else{
-    			 $("#login-username").val('');
-    			 $("#login-password").val('');
-    			 $("#check1").prop('checked',false);
-    		}
-    		if(check2s=="true"){
-    			$("#check2").prop('checked',true);
-    			$("#loginFrom").submit();
-    			//location="https://www.baidu.com?userName="+oldName+"&passWord="+oldPass;//添加退出当前账号功能
-    		}else{
-    			$("#check2").prop('checked',false);
-    		}
-    		/*拿到刚刚注册的账号*/
-    		/*if(localStorage.getItem("name")!=null){
-    			$("#login-username").val(localStorage.getItem("name"));
-    		}*/
-    		/*登录*/
-    		$("#login").click(function(){
-    			var userName=$("#login-username").val();
-    			var passWord=$("#login-password").val();
-    			/*获取当前输入的账号密码*/
-    			localStorage.setItem("userName",userName)
-    			localStorage.setItem("passWord",passWord)
-    			/*获取记住密码  自动登录的 checkbox的值*/
-    			var check1 = $("#check1").prop('checked');
-	    		var check2 = $('#check2').prop('checked');
-	    		localStorage.setItem("check1",check1);
-	    		localStorage.setItem("check2",check2);
-    		})
-    		
-    		/*$("#check2").click(function(){
-    			var flag=$('#check2').prop('checked');
-    			if(flag){
-    				var userName=$("#login-username").val();
-	    			var passWord=$("#login-password").val();
-	    			$.ajax({
-	    				type:"post",
-	    				url:"http://localhost:8080/powers/pow/regUsers",
-	    				data:{"userName":userName,"passWord":passWord},
-	    				async:true,
-	    				success:function(res){
-	    					alert(res);
-	    				}
-	    			});
-    			}
-    		})*/
-    	})
+      function clickLogin()
+      {
+        let userName=$("#login-username").val();
+        let passWord=$("#login-password").val();
+        /*获取当前输入的账号密码*/
+        localStorage.setItem("userName",userName);
+        localStorage.setItem("passWord",passWord);
+        /*获取记住密码  自动登录的 checkbox的值*/
+        let check1 = $("#check1").prop('checked');
+        let check2 = $('#check2').prop('checked');
+        localStorage.setItem("check1",check1);
+        localStorage.setItem("check2",check2);
+
+        console.log(userName,typeof userName,passWord,typeof passWord);
+
+        doLogin(userName, passWord);
+      }
+
+      function doLogin(userName, passWord)
+      {
+        $.ajax({
+          type:"post",
+          url:"/api/login",
+          data:{"userName":userName,"passWord":passWord},
+          async:true,
+          success:function(res){
+            alert(res);
+          }
+        });
+      }
+
+
+      $(function(){
+        /*判断上次是否勾选记住密码和自动登录*/
+        let check1s=localStorage.getItem("check1");
+        let check2s=localStorage.getItem("check2");
+        let oldName=localStorage.getItem("userName");
+        let oldPass=localStorage.getItem("passWord");
+        if(check1s=="true"){
+          $("#login-username").val(oldName);
+          $("#login-password").val(oldPass);
+          $("#check1").prop('checked',true);
+        }
+        else{
+          $("#login-username").val('');
+          $("#login-password").val('');
+          $("#check1").prop('checked',false);
+        }
+        if(check2s=="true"){
+          doLogin();
+        }
+        else{
+          $("#check2").prop('checked',false);
+        }
+
+      })
     </script>
   </body>
 </html>
