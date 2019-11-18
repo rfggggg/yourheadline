@@ -4,7 +4,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api")
-public class ServletHomeArticle {
+public class ServletArticleHome {
     @GetMapping("/article/home")
     @ResponseBody
     public String getData(){
