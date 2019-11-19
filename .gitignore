@@ -5,7 +5,7 @@ target/
 !**/src/test/**
 
 
-src/main/resources/*.yml
+src/main/resources/application.yml
 
 
 ### STS ###
