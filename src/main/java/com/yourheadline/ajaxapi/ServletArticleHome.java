@@ -1,5 +1,6 @@
 package com.yourheadline.ajaxapi;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import com.yourheadline.entity.*;
 import java.sql.*;
@@ -11,7 +12,6 @@ public class ServletArticleHome {
     @GetMapping("/article/home")
     @ResponseBody
     public Map<String, Object> getData(){
-
         String url="jdbc:mysql://localhost:3306/yourheadline?autoReconnect=true&useUnicode=true&createDatabaseIfNotExist=true&characterEncoding=utf8&useSSL=true&serverTimezone=Asia/Shanghai";
 
         Map<String, Object> map = new HashMap<String, Object>();
