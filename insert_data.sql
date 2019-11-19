@@ -5,8 +5,8 @@ use yourheadline;
 
 insert into user values(null, 'tom', '123456', '1999-01-01', 'male', '666@gmail.com', '12345678901', '2019-11-14');
 insert into user values(null, 'jerry', '123456', '1999-01-01', 'male', '666@gmail.com', '12345678901', '2019-11-14');
-insert into user values(null, 'Tom', '123456', '1999-01-01', 'male', '666@gmail.com', '12345678901', '2019-11-14');
-insert into user values(null, 'Jerry', '123456', '1999-01-01', 'male', '666@gmail.com', '12345678901', '2019-11-14');
+insert into user values(null, 'mike', '123456', '1999-01-01', 'male', '666@gmail.com', '12345678901', '2019-11-14');
+insert into user values(null, 'mary', '123456', '1999-01-01', 'male', '666@gmail.com', '12345678901', '2019-11-14');
 
 
 
