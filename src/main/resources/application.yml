@@ -14,3 +14,7 @@ spring:
     # JPA 相关配置
     spring.jpa.database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     spring.jpa.show-sql: true
+    
+    
+    
+    啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊
