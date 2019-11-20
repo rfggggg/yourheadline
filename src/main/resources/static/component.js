@@ -10,6 +10,7 @@ var app = new Vue({
         alist: [
             {id:1,text:"<p>不应该出现的文章条条</p>",author_name:"a1",publish_time:"1:00"}
         ],
+        mlist:[],
     },
     beforeMount() {
         // 调用后端的api取得模块
@@ -19,11 +20,14 @@ var app = new Vue({
     methods:{
         // 调用后端的api取得所有模块的名字
         getModules: function() {
-            this.modules=[
-                {id: 1, name: "模块1"},
-                {id: 2, name: "模块2"},
-                {id: 3, name: "模块3"},
-            ]
+            // this.modules=[
+            //     {id: 1, name: "模块1"},
+            //     {id: 2, name: "模块2"},
+            //     {id: 3, name: "模块3"},
+            // ]
+            axios.get('/api/module').then(function (response) {
+                this.updateModule(response.data.module_list);
+            }.bind(this));
         },
         toHome: function() {
             axios.get('/api/article/home').then(function (response) {
@@ -60,6 +64,9 @@ var app = new Vue({
         updateList: function(newData) {
             this.alist = newData;
         },
+        updateModule: function (newData) {
+            this.mlist=newData;
+        }
     }
 })
 
