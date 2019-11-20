@@ -1,12 +1,15 @@
 package com.yourheadline.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Date;
 import java.util.Objects;
 
 @Entity
 @Table(name = "article", schema = "yourheadline", catalog = "")
-public class ArticleEntity {
+public class ArticleEntity implements Serializable {
     private int articleId;
     private Integer authorId;
     private Integer editorId;
@@ -15,6 +18,14 @@ public class ArticleEntity {
     private String articleText;
     private Date addTime;
     private int likeNum;
+
+
+    private AuthorEntity author;
+    @ManyToOne(cascade={CascadeType.ALL}, fetch = FetchType.LAZY)
+    @JoinColumn(name = "author_id", insertable=false, updatable=false)
+    public AuthorEntity getAuthor() { return author; }
+    public void setAuthor(AuthorEntity ae) { this.author = ae; }
+
 
     @Id
     @Column(name = "article_id")
