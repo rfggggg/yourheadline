@@ -5,7 +5,6 @@ target/
 !**/src/test/**
 
 
-*.yml
 
 
 ### STS ###
@@ -22,6 +21,10 @@ target/
 *.iws
 *.iml
 *.ipr
+
+
+###db configuration
+*.yml
 
 ### NetBeans ###
 /nbproject/private/
