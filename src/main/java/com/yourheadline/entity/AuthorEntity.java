@@ -2,6 +2,8 @@ package com.yourheadline.entity;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -11,6 +13,11 @@ public class AuthorEntity {
     private String authorName;
     private String authorAvartarLink;
     private Date addTime;
+
+    private List<ArticleEntity> articleEntityList = new ArrayList<ArticleEntity>();
+    @OneToMany(fetch = FetchType.LAZY)
+    public List<ArticleEntity> getArticleEntityList() { return articleEntityList; }
+    public void setArticleEntityList(List<ArticleEntity> list) { this.articleEntityList = list; }
 
     @Id
     @Column(name = "author_id")
