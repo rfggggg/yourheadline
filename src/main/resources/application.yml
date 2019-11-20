@@ -9,7 +9,6 @@ spring:
     password: mysql
 
 
-    ddddd
 
   hikari:
     maximum-pool-size: 20
