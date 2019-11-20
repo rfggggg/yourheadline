@@ -19,8 +19,8 @@
         <div @click = "toCollect">收藏</div>
         <div @click = "toHistory">历史</div>
 
-        <div v-for="m in modules" @click="toModule(m.id)">
-            {{m.name}}
+        <div v-for="m in mlist" @click="toModule(m.moduleId)">
+            {{m.moduleName}}
         </div>
     </div>
     <div class = "articleBlock">
