@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+
+<body>
+
+<!---所有的vue功能的东西都要写在这个div里面--->
+<div id="app">
+    <div class = "top-nav">
+        <div class = "top-div">{{message}}</div>
+        <div class = "top-div">成为作者</div>
+        <div class = "top-div">用户: wx_130302332</div>
+        <div class="top-div">
+            <a href="./login">登录</a>
+        </div>
+    </div>
+    <div class = "sideBar">
+        <div @click = "toHome">主页</div>
+        <div @click = "toCollect">收藏</div>
+        <div @click = "toHistory">历史</div>
+        <div v-for="m in modules" @click="toModule(m.moduleId)">
+            {{m.moduleName}}
+        </div>
+    </div>
+    <div class = "articleBlock">
+        <div v-for="item in alist">
+            <p>
+                <a id="article-headline" href="login">
+                    正文：{{item.articleTitle}}<br>
+                </a>
+                作者：{{item.authorId}}<br>
+                发布时间{{item.addTime}}
+            </p> 
+        </div>
+    </div>
+</div>
+
+
+
+<script src="js/vue.js"></script>
+<script src="js/axios.min.js"></script>
+<script src="component.js"></script>
+<script src="js/jquery.min.js"></script>
+<script>
+    $(function() {
+        let userName = localStorage.getItem("userName");
+        let passWord = localStorage.getItem("passWord");
+
+        //验证cookies。否则用户可以通过直接调用api访问他人的收藏等。
+
+    })
+</script>
+
+
+
+
+
+<style>
+    .sideBar{
+        background-color: aquamarine;
+        position: fixed;
+        width: 60px;
+        height: 540px;
+        left: 30px;
+        top: 60px;
+
+    }
+    .top-nav {
+        /*顶部导航栏*/
+        background: rgba(244, 245, 246, .95);
+        position: fixed;
+        width: 100%;
+        height: 50px;
+        z-index: 10;
+        font-size: large;
+    }
+    .articleBlock{
+        position: absolute;
+        left: 180px;
+        width: 600px;
+        margin-top: 60px;
+        background-color: antiquewhite;
+    }
+    .top-div{
+        float: left;
+        width: 25%;
+    }
+    #article-headline{
+        text-decoration-line: none;
+        color: black;
+    }
+
+</style>
+
+
+</body>
+</html>
