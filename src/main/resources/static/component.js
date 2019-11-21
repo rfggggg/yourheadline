@@ -1,5 +1,6 @@
 var rootUrl='localhost:8080';
 
+
 var app = new Vue({
     el: '#app',
     data: {
@@ -10,6 +11,9 @@ var app = new Vue({
         alist: [
             {id:1,text:"<p>不应该出现的文章条条</p>",author_name:"a1",publish_time:"1:00"}
         ],
+        clist:[],
+        articleid:[],
+        num: 0,
     },
     beforeMount() {
         // 调用后端的api取得模块
@@ -21,8 +25,7 @@ var app = new Vue({
         getModules: function() {
             axios.get('/api/module').then(function (response) {
                 this.updateModule(response.data.module_list);
-            }.bind(this)
-            );
+            }.bind(this));
         },
 
         toHome: function() {
@@ -32,25 +35,29 @@ var app = new Vue({
         },
 
         toCollect: function() {
-            this.alist = [
-                {id:1,articleTitle:"<p>这是收藏页的文章条条1</p>",authorId:"a1",addTime:"1:00"},
-                {id:2,articleTitle:"<p>这是收藏页的文章条条2</p>",authorId:"a2",addTime:"2:00"},
-                {id:1,articleTitle:"<p>这是收藏页的文章条条1</p>",authorId:"a1",addTime:"1:00"},
-                {id:2,articleTitle:"<p>这是收藏页的文章条条2</p>",authorId:"a2",addTime:"2:00"},
-            ]
+            axios.get('/api/collect').then(function (response) {
+                this.updateclist(response.data.collect_list);
+                this.alist = [];
+                this.clist.forEach((item)=>{
+                    console.log(item.articleId);
+                    this.num = this.articleid.push(item.articleId);
+                    axios.get('/api/article/collect?id=' + item.articleId).then(function (datas) {
+                        this.alist.push(datas.data.article);
+                    }.bind(this));
+                });
+            }.bind(this));
         },
 
         toHistory: function() {
             this.alist = [
-                {id:1,articleTitle:"<p>这是历史页的文章条条1</p>",authorId:"a1",addTime:"1:00"},
+                {id:1,articleTitle:"<p>这是````历史页的文章条条1</p>",authorId:"a1",addTime:"1:00"},
             ]
         },
 
         toModule: function(id) {
             axios.get('/api/article/module?id=' + id).then(function (response) {
                 this.updateList(response.data.module_article);
-            }.bind(this)
-            );
+            }.bind(this));
         },
 
         updateList: function(newData) {
@@ -59,6 +66,10 @@ var app = new Vue({
 
         updateModule:function (data) {
             this.modules = data;
+        },
+
+        updateclist:function (data) {
+            this.clist = data;
         },
     }
 })

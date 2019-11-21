@@ -10,4 +10,5 @@ import java.util.List;
 @Repository
 public interface ArticleDAO extends JpaRepository<ArticleEntity,Long> {
     List<ArticleEntity> findByModuleId(int id);
+    ArticleEntity findByArticleId(int id);
 }

@@ -30,7 +30,7 @@ public class ServletArticleHome {
 
     @GetMapping("/article/module")
     @ResponseBody
-    public  Map<String, Object> findByModuleid(@RequestParam int id){
+    public  Map<String, Object> findModuleid(@RequestParam int id){
 
         Map<String, Object> map = new HashMap<String, Object>();
 
@@ -40,4 +40,18 @@ public class ServletArticleHome {
 
         return map;
     }
+
+    @GetMapping("/article/collect")
+    @ResponseBody
+    public  Map<String, Object> findArticleid(@RequestParam int id){
+
+        Map<String, Object> map = new HashMap<String, Object>();
+
+        ArticleEntity article = articleDAO.findByArticleId(id);
+
+        map.put("article", article);
+
+        return map;
+    }
+
 }

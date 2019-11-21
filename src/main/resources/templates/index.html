@@ -8,6 +8,7 @@
 <body>
 
 <!---所有的vue功能的东西都要写在这个div里面--->
+
 <div id="app">
     <div class = "top-nav">
         <div class = "top-div">{{message}}</div>
@@ -19,7 +20,11 @@
     </div>
     <div class = "sideBar">
         <div @click = "toHome">主页</div>
-        <div @click = "toCollect">收藏</div>
+        <div @click = "toCollect">收藏
+            <div v-for="item in clist">
+                {{item.articleId}}
+            </div>
+        </div>
         <div @click = "toHistory">历史</div>
         <div v-for="m in modules" @click="toModule(m.moduleId)">
             {{m.moduleName}}
@@ -33,7 +38,7 @@
                 </a>
                 作者：{{item.authorId}}<br>
                 发布时间{{item.addTime}}
-            </p> 
+            </p>
         </div>
     </div>
 </div>
