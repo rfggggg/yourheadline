@@ -13,7 +13,7 @@ import java.util.*;
 @RestController
 @RequestMapping("/api")
 public class ServletArticleHome {
-
+//    @Autowired
 //    ArticleDAO articleDAO;
     @Autowired
     ArticleInfoDAO articleInfoDAO;
@@ -24,7 +24,10 @@ public class ServletArticleHome {
 
         Map<String, Object> map = new HashMap<String, Object>();
 
+
         List<ArticleInfo> aiList = articleInfoDAO.findInfo();
+
+//        老的用法，用@OneToMany和@ManyToOne的方法，注释掉不要了
 //        List<ArticleEntity> aList = articleDAO.findAll();
 //        List<ArticleInfo> aiList = new ArrayList<ArticleInfo>();
 //

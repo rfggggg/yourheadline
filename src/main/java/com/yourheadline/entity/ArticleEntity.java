@@ -20,11 +20,12 @@ public class ArticleEntity implements Serializable {
     private int likeNum;
 
 
-    private AuthorEntity author;
-    @ManyToOne(cascade={CascadeType.ALL}, fetch = FetchType.LAZY)
-    @JoinColumn(name = "author_id", insertable=false, updatable=false)
-    public AuthorEntity getAuthor() { return author; }
-    public void setAuthor(AuthorEntity ae) { this.author = ae; }
+//    老的用法，用@OneToMany和@ManyToOne的方法，注释掉不要了
+//    private AuthorEntity author;
+//    @ManyToOne(cascade={CascadeType.ALL}, fetch = FetchType.LAZY)
+//    @JoinColumn(name = "author_id", insertable=false, updatable=false)
+//    public AuthorEntity getAuthor() { return author; }
+//    public void setAuthor(AuthorEntity ae) { this.author = ae; }
 
 
     @Id
