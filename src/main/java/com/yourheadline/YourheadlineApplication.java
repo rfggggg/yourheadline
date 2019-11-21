@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class YourheadlineApplication {
 
     public static void main(String[] args) {
+
         SpringApplication.run(YourheadlineApplication.class, args);
+
     }
 
 }
