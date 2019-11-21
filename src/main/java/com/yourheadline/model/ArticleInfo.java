@@ -5,10 +5,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import java.sql.Date;
+import java.util.Date;
 
 @Entity
-public class ArticleInfo {
+public class ArticleInfo{
 
     @Id
     @GeneratedValue
@@ -36,6 +36,21 @@ public class ArticleInfo {
 
 
     public ArticleInfo(){}
+    public ArticleInfo(int articleId)
+    {
+        this.articleId = articleId;
+    }
+    public ArticleInfo(int articleId,
+                       Integer authorId,
+                       Integer editorId,
+                       Integer moduleId,
+                       String articleTitle,
+                       String articleText,
+                       Date addTime)
+    {
+        this.articleId = articleId;
+        this.authorId = authorId;
+    }
     public ArticleInfo(int articleId,
                        Integer authorId,
                        Integer editorId,

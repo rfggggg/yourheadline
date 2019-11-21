@@ -14,10 +14,12 @@ public class AuthorEntity {
     private String authorAvartarLink;
     private Date addTime;
 
-    private List<ArticleEntity> articleEntityList = new ArrayList<ArticleEntity>();
-    @OneToMany(fetch = FetchType.LAZY)
-    public List<ArticleEntity> getArticleEntityList() { return articleEntityList; }
-    public void setArticleEntityList(List<ArticleEntity> list) { this.articleEntityList = list; }
+
+//    老的用法，用@OneToMany和@ManyToOne的方法，注释掉不要了
+//    private List<ArticleEntity> articleEntityList = new ArrayList<ArticleEntity>();
+//    @OneToMany(fetch = FetchType.LAZY)
+//    public List<ArticleEntity> getArticleEntityList() { return articleEntityList; }
+//    public void setArticleEntityList(List<ArticleEntity> list) { this.articleEntityList = list; }
 
     @Id
     @Column(name = "author_id")
