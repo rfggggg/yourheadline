@@ -11,9 +11,7 @@ var app = new Vue({
         alist: [
             {id:1,text:"<p>不应该出现的文章条条</p>",author_name:"a1",publish_time:"1:00"}
         ],
-        clist:[],
-        articleid:[],
-        num: 0,
+        clist:[],hlist:[]
     },
     beforeMount() {
         // 调用后端的api取得模块
@@ -39,8 +37,6 @@ var app = new Vue({
                 this.updateclist(response.data.collect_list);
                 this.alist = [];
                 this.clist.forEach((item)=>{
-                    console.log(item.articleId);
-                    this.num = this.articleid.push(item.articleId);
                     axios.get('/api/article/collect?id=' + item.articleId).then(function (datas) {
                         this.alist.push(datas.data.article);
                     }.bind(this));
@@ -49,9 +45,15 @@ var app = new Vue({
         },
 
         toHistory: function() {
-            this.alist = [
-                {id:1,articleTitle:"<p>这是````历史页的文章条条1</p>",authorId:"a1",addTime:"1:00"},
-            ]
+            axios.get('/api/history').then(function (response) {
+                this.updatehlist(response.data.history_list);
+                this.alist = [];
+                this.hlist.forEach((item)=>{
+                    axios.get('/api/article/collect?id=' + item.articleId).then(function (datas) {
+                        this.alist.push(datas.data.article);
+                    }.bind(this));
+                });
+            }.bind(this));
         },
 
         toModule: function(id) {
@@ -70,6 +72,10 @@ var app = new Vue({
 
         updateclist:function (data) {
             this.clist = data;
+        },
+
+        updatehlist:function (data) {
+            this.hlist = data;
         },
     }
 })

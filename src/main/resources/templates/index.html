@@ -11,7 +11,7 @@
 
 <div id="app">
     <div class = "top-nav">
-        <div class = "top-div">{{message}}</div>
+        <div class = "top-div" @click = "toHome">{{message}}</div>
         <div class = "top-div">成为作者</div>
         <div class = "top-div">用户: wx_130302332</div>
         <div class="top-div">
@@ -20,11 +20,7 @@
     </div>
     <div class = "sideBar">
         <div @click = "toHome">主页</div>
-        <div @click = "toCollect">收藏
-            <div v-for="item in clist">
-                {{item.articleId}}
-            </div>
-        </div>
+        <div @click = "toCollect">收藏</div>
         <div @click = "toHistory">历史</div>
         <div v-for="m in modules" @click="toModule(m.moduleId)">
             {{m.moduleName}}
