@@ -4,6 +4,7 @@ import javax.persistence.*;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
+
 import java.util.Objects;
 
 @Entity
@@ -50,6 +51,7 @@ public class AuthorEntity {
     public void setAuthorAvatarLink(String authorAvatarLink) {
         this.authorAvatarLink = authorAvatarLink;
     }
+
 
     @Basic
     @Column(name = "add_time")

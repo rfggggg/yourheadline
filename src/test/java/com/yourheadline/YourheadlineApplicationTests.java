@@ -17,41 +17,40 @@ class YourheadlineApplicationTests {
     @Test
     void contextLoads() {
     }
+
     @Test
-    void testArticleInfoDAO_selectCollectionByUserId()
-    {
+    void testArticleInfoDAO_selectCollectionByUserId() {
         List<ArticleInfo> ai;
         ai = articleInfoDAO.selectCollectionByUserId(1);
         System.out.println(ai);
     }
+
     @Test
-    void testArticleInfoDAO_selectHistoryByUserId()
-    {
+    void testArticleInfoDAO_selectHistoryByUserId() {
         List<ArticleInfo> ai;
         ai = articleInfoDAO.selectHistoryByUserId(1);
         System.out.println(ai);
     }
+
     @Test
-    void testArticleInfoDAO_findAll()
-    {
+    void testArticleInfoDAO_findAll() {
         List<ArticleInfo> ai;
         ai = articleInfoDAO.findAll();
         System.out.println(ai);
     }
+
     @Test
-    void testArticleInfoDAO_findArticleInfoByModuleId()
-    {
+    void testArticleInfoDAO_findArticleInfoByModuleId() {
         List<ArticleInfo> ai;
         ai = articleInfoDAO.findArticleInfoByModuleId(1);
         System.out.println(ai);
     }
+
     @Test
-    void testArticleInfoDAO_findArticleInfoByAuthorId()
-    {
+    void testArticleInfoDAO_findArticleInfoByAuthorId() {
         List<ArticleInfo> ai;
         ai = articleInfoDAO.findArticleInfoByAuthorId(1);
         System.out.println(ai);
     }
-
-
 }
+

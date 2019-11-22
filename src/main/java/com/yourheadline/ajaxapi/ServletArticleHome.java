@@ -18,9 +18,10 @@ public class ServletArticleHome {
     @Autowired
     ArticleInfoDAO articleInfoDAO;
 
+
     @GetMapping("/article/home")
     @ResponseBody
-    public Map<String, Object> getData(){
+    public Map<String, Object> getData() {
 
         Map<String, Object> map = new HashMap<String, Object>();
 
@@ -49,6 +50,31 @@ public class ServletArticleHome {
         map.put("article_list", aiList);
 
         return map;
-
     }
+    @GetMapping("/article/module")
+    @ResponseBody
+    public  Map<String, Object> findModuleid(@RequestParam int id){
+
+        Map<String, Object> map = new HashMap<String, Object>();
+
+        List<ArticleInfo> mlist = articleInfoDAO.findArticleInfoByModuleId(id);
+
+        map.put("article_list", mlist);
+
+        return map;
+    }
+
+    @GetMapping("/article/collect")
+    @ResponseBody
+    public  Map<String, Object> findArticleid(@RequestParam int id){
+
+        Map<String, Object> map = new HashMap<String, Object>();
+
+        List<ArticleInfo> article = articleInfoDAO.selectCollectionByUserId(id);
+
+        map.put("article_list", article);
+
+        return map;
+    }
+
 }

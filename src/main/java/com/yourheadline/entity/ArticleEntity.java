@@ -10,11 +10,13 @@ import java.util.Objects;
 @Entity
 @Table(name = "article", schema = "yourheadline", catalog = "")
 public class ArticleEntity implements Serializable {
+
     private int articleId;
     private Integer authorId;
     private Integer editorId;
     private Integer moduleId;
     private String articleTitle;
+
 
     private String articleIntro;
 
@@ -107,7 +109,6 @@ public class ArticleEntity implements Serializable {
         this.articleText = articleText;
     }
 
-
     @Basic
     @Column(name = "cover_link")
     public String getCoverLink() {
@@ -137,6 +138,7 @@ public class ArticleEntity implements Serializable {
         if (o == null || getClass() != o.getClass()) return false;
         ArticleEntity that = (ArticleEntity) o;
         return articleId == that.articleId &&
+
                 Objects.equals(authorId, that.authorId) &&
                 Objects.equals(editorId, that.editorId) &&
                 Objects.equals(moduleId, that.moduleId) &&

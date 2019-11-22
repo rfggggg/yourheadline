@@ -3,7 +3,7 @@ var rootUrl='localhost:8080';
 var app = new Vue({
     el: '#app',
     data: {
-        message: 'Hello Vue!',
+        message: 'Your headline!',
         modules: [
             {url:"#em1",name: "不应该出现的模块"}
         ],
@@ -11,6 +11,8 @@ var app = new Vue({
             {id:1,text:"<p>不应该出现的文章条条</p>",author_name:"a1",publish_time:"1:00"}
         ],
         mlist:[],
+        clist:[],
+        hlist:[]
     },
     beforeMount() {
         // 调用后端的api取得模块
@@ -20,11 +22,7 @@ var app = new Vue({
     methods:{
         // 调用后端的api取得所有模块的名字
         getModules: function() {
-            // this.modules=[
-            //     {id: 1, name: "模块1"},
-            //     {id: 2, name: "模块2"},
-            //     {id: 3, name: "模块3"},
-            // ]
+
             axios.get('/api/module').then(function (response) {
                 this.updateModule(response.data.module_list);
             }.bind(this));
@@ -35,38 +33,42 @@ var app = new Vue({
             }.bind(this));
         },
         toCollect: function() {
-            this.alist = [
-                {id:1,text:"<p>这是收藏页的文章条条1</p>",author_name:"a1",publish_time:"1:00"},
-                {id:2,text:"<p>这是收藏页的文章条条2</p>",author_name:"a2",publish_time:"2:00"},
-                {id:1,text:"<p>这是收藏页的文章条条1</p>",author_name:"a1",publish_time:"1:00"},
-                {id:2,text:"<p>这是收藏页的文章条条2</p>",author_name:"a2",publish_time:"2:00"},
-                {id:1,text:"<p>这是收藏页的文章条条1</p>",author_name:"a1",publish_time:"1:00"},
-                {id:2,text:"<p>这是收藏页的文章条条2</p>",author_name:"a2",publish_time:"2:00"},
-                {id:1,text:"<p>这是收藏页的文章条条1</p>",author_name:"a1",publish_time:"1:00"},
-                {id:2,text:"<p>这是收藏页的文章条条2</p>",author_name:"a2",publish_time:"2:00"},
-                {id:1,text:"<p>这是收藏页的文章条条1</p>",author_name:"a1",publish_time:"1:00"},
-                {id:2,text:"<p>这是收藏页的文章条条2</p>",author_name:"a2",publish_time:"2:00"},
-                {id:1,text:"<p>这是收藏页的文章条条1</p>",author_name:"a1",publish_time:"1:00"},
-                {id:2,text:"<p>这是收藏页的文章条条2</p>",author_name:"a2",publish_time:"2:00"},
-            ]
+            axios.get('/api/article/collect?id=1').then(function (response) {
+                this.updateList(response.data.article_list);
+            }.bind(this));
         },
         toHistory: function() {
-            this.alist = [
-                {id:1,text:"<p>这是历史页的文章条条1</p>",author_name:"a1",publish_time:"1:00"},
-            ]
+            axios.get('/api/history').then(function (response) {
+                this.updatehlist(response.data.history_list);
+                this.alist = [];
+                this.hlist.forEach((item)=>{
+                    axios.get('/api/article/collect?id=' + item.articleId).then(function (datas) {
+                        this.alist.push(datas.data.article);
+                    }.bind(this));
+                });
+            }.bind(this));
         },
         toModule: function(id) {
-            this.alist = [
-                {id:1,text:"<p>这是模块页" + id + "的文章条条</p>",author_name:"a1",publish_time:"1:00"},
-                {id:2,text:"<p>这是模块页" + id + "的文章条条</p>",author_name:"a2",publish_time:"2:00"},
-            ]
+            axios.get('/api/article/module?id=' + id).then(function (response) {
+                this.updateList(response.data.module_article);
+            }.bind(this));
         },
+
         updateList: function(newData) {
             this.alist = newData;
         },
-        updateModule: function (newData) {
-            this.mlist=newData;
-        }
+
+        updateModule:function (data) {
+            this.modules = data;
+        },
+
+        updateclist:function (data) {
+            this.clist = data;
+        },
+
+        updatehlist:function (data) {
+            this.hlist = data;
+        },
     }
 })
 

@@ -1,9 +1,8 @@
 package com.yourheadline.dao;
 
 import com.yourheadline.entity.ModuleEntity;
+import com.yourheadline.entity.ViewedEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
-@Repository
-public interface ModuleDAO extends JpaRepository<ModuleEntity, Integer> {
+public interface HistoryDAO extends JpaRepository<ViewedEntity, Long> {
 }
