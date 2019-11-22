@@ -5,9 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.Date;
 
 @Entity
+@Table(name = "article_info", schema = "yourheadline", catalog = "")
 public class ArticleInfo{
 
     @Id
@@ -23,74 +25,39 @@ public class ArticleInfo{
     @Autowired
     public String articleTitle;
     @Autowired
-    public String articleText;
+    public String articleIntro;
     @Autowired
     public Date addTime;
-    @Autowired
-    public int likeNum;
 
     @Autowired
     public String authorName;
     @Autowired
-    public String editorName;
+    public String authorAvatarLink;
+    @Autowired
+    public int likeNum;
 
 
     public ArticleInfo(){}
-    public ArticleInfo(int articleId)
-    {
-        this.articleId = articleId;
-    }
     public ArticleInfo(int articleId,
                        Integer authorId,
                        Integer editorId,
                        Integer moduleId,
                        String articleTitle,
-                       String articleText,
-                       Date addTime)
-    {
-        this.articleId = articleId;
-        this.authorId = authorId;
-    }
-    public ArticleInfo(int articleId,
-                       Integer authorId,
-                       Integer editorId,
-                       Integer moduleId,
-                       String articleTitle,
-                       String articleText,
+                       String articleIntro,
                        Date addTime,
-                       int likeNum,
-                       String authorName)
-    {
-        this.articleId = articleId;
-        this.authorId = authorId;
-        this.editorId = editorId;
-        this.moduleId = moduleId;
-        this.articleTitle = articleTitle;
-        this.articleText = articleText;
-        this.addTime = addTime;
-        this.likeNum = likeNum;
-        this.authorName = authorName;
-    }
-    public ArticleInfo(int articleId, 
-                       Integer authorId, 
-                       Integer editorId, 
-                       Integer moduleId, 
-                       String articleTitle, 
-                       String articleText, 
-                       Date addTime, 
-                       int likeNum,
                        String authorName,
-                       String editorName)
+                       String authorAvatarLink,
+                       int likeNum)
     {
         this.articleId = articleId;
         this.authorId = authorId;
         this.editorId = editorId;
         this.moduleId = moduleId;
         this.articleTitle = articleTitle;
-        this.articleText = articleText;
+        this.articleIntro = articleIntro;
         this.addTime = addTime;
-        this.likeNum = likeNum;
         this.authorName = authorName;
-        this.editorName = editorName;
+        this.authorAvatarLink = authorAvatarLink;
+        this.likeNum = likeNum;
     }
 }

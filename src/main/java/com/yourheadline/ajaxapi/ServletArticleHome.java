@@ -24,8 +24,7 @@ public class ServletArticleHome {
 
         Map<String, Object> map = new HashMap<String, Object>();
 
-
-        List<ArticleInfo> aiList = articleInfoDAO.findInfo();
+        List<ArticleInfo> aiList = articleInfoDAO.findAll();
 
 //        老的用法，用@OneToMany和@ManyToOne的方法，注释掉不要了
 //        List<ArticleEntity> aList = articleDAO.findAll();

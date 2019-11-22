@@ -11,7 +11,7 @@ import java.util.Objects;
 public class AuthorEntity {
     private int authorId;
     private String authorName;
-    private String authorAvartarLink;
+    private String authorAvatarLink;
     private Date addTime;
 
 
@@ -42,13 +42,13 @@ public class AuthorEntity {
     }
 
     @Basic
-    @Column(name = "author_avartar_link")
-    public String getAuthorAvartarLink() {
-        return authorAvartarLink;
+    @Column(name = "author_avatar_link")
+    public String getAuthorAvatarLink() {
+        return authorAvatarLink;
     }
 
-    public void setAuthorAvartarLink(String authorAvartarLink) {
-        this.authorAvartarLink = authorAvartarLink;
+    public void setAuthorAvatarLink(String authorAvatarLink) {
+        this.authorAvatarLink = authorAvatarLink;
     }
 
     @Basic
@@ -68,12 +68,12 @@ public class AuthorEntity {
         AuthorEntity that = (AuthorEntity) o;
         return authorId == that.authorId &&
                 Objects.equals(authorName, that.authorName) &&
-                Objects.equals(authorAvartarLink, that.authorAvartarLink) &&
+                Objects.equals(authorAvatarLink, that.authorAvatarLink) &&
                 Objects.equals(addTime, that.addTime);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(authorId, authorName, authorAvartarLink, addTime);
+        return Objects.hash(authorId, authorName, authorAvatarLink, addTime);
     }
 }
