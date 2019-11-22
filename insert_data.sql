@@ -3,10 +3,10 @@ use yourheadline;
 
 
 
-insert into user values(null, 'tom', '123456', '1999-01-01', 'male', '666@gmail.com', '12345678901', '2019-11-14');
-insert into user values(null, 'jerry', '123456', '1999-01-01', 'male', '666@gmail.com', '12345678901', '2019-11-14');
-insert into user values(null, 'mike', '123456', '1999-01-01', 'male', '666@gmail.com', '12345678901', '2019-11-14');
-insert into user values(null, 'mary', '123456', '1999-01-01', 'male', '666@gmail.com', '12345678901', '2019-11-14');
+insert into user values(null, 'tom', '123456', '', '1999-01-01', 'male', '666@gmail.com', '12345678901', '2019-11-14');
+insert into user values(null, 'jerry', '123456', '', '1999-01-01', 'male', '666@gmail.com', '12345678901', '2019-11-14');
+insert into user values(null, 'mike', '123456', '', '1999-01-01', 'male', '666@gmail.com', '12345678901', '2019-11-14');
+insert into user values(null, 'mary', '123456', '', '1999-01-01', 'male', '666@gmail.com', '12345678901', '2019-11-14');
 
 
 
@@ -36,12 +36,12 @@ insert into module values(null, '游戏', '');
 
 
 
-insert into article values(null, 1, 1, 1, "模块1文章1", "啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊", '2019-11-14', 0);
-insert into article values(null, 1, 1, 1, "模块1文章2", "啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊", '2019-11-14', 0);
-insert into article values(null, 1, 1, 2, "模块2文章1", "啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊", '2019-11-14', 0);
-insert into article values(null, 1, 1, 2, "模块2文章2", "啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊", '2019-11-14', 0);
-insert into article values(null, 1, 1, 2, "模块2文章3", "啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊", '2019-11-14', 0);
-insert into article values(null, 1, 1, 3, "模块3文章1", "啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊", '2019-11-14', 0);
+insert into article values(null, 1, 1, 1, "模块1文章1", "文章简介",  "啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊", '', '2019-11-14');
+insert into article values(null, 1, 1, 1, "模块1文章2", "文章简介",  "啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊", '', '2019-11-14');
+insert into article values(null, 1, 1, 2, "模块2文章1", "文章简介",  "啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊", '', '2019-11-14');
+insert into article values(null, 1, 1, 2, "模块2文章2", "文章简介",  "啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊", '', '2019-11-14');
+insert into article values(null, 1, 1, 2, "模块2文章3", "文章简介",  "啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊", '', '2019-11-14');
+insert into article values(null, 1, 1, 3, "模块3文章1", "文章简介",  "啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊", '', '2019-11-14');
 
 
 
@@ -86,6 +86,25 @@ insert into viewed values(null, 1, 4, '2019-11-14');
 insert into collect values (null, 1, 1, '2019-11-14');
 insert into collect values (null, 1, 3, '2019-11-14');
 insert into collect values (null, 1, 2, '2019-11-14');
+
+
+
+insert into user_like_article values (null, 1, 1, '2019-11-22');
+insert into user_like_article values (null, 1, 2, '2019-11-22');
+insert into user_like_article values (null, 1, 3, '2019-11-22');
+insert into user_like_article values (null, 1, 4, '2019-11-22');
+insert into user_like_article values (null, 1, 5, '2019-11-22');
+insert into user_like_article values (null, 1, 6, '2019-11-22');
+insert into user_like_article values (null, 2, 1, '2019-11-22');
+insert into user_like_article values (null, 2, 2, '2019-11-22');
+insert into user_like_article values (null, 2, 3, '2019-11-22');
+insert into user_like_article values (null, 2, 4, '2019-11-22');
+insert into user_like_article values (null, 2, 5, '2019-11-22');
+insert into user_like_article values (null, 3, 1, '2019-11-22');
+insert into user_like_article values (null, 3, 2, '2019-11-22');
+insert into user_like_article values (null, 3, 3, '2019-11-22');
+insert into user_like_article values (null, 3, 4, '2019-11-22');
+insert into user_like_article values (null, 4, 1, '2019-11-22');
 
 
 
