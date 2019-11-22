@@ -23,4 +23,10 @@ public class ControllerRouter {
     {
         return "register";
     }
+
+    @GetMapping("/article")
+    public String getArticlePage()
+    {
+        return "article";
+    }
 }

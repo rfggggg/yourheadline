@@ -20,7 +20,7 @@ public class ServletArticleHome {
 
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection c= DriverManager.getConnection(url, "root", "mysql");
+            Connection c= DriverManager.getConnection(url, "root", "gmcq19990118-.-");
 
             String sql = "select * from article";
             PreparedStatement stmt=c.prepareStatement(sql);
