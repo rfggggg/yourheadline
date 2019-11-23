@@ -8,7 +8,7 @@ import java.util.Objects;
 @Table(name = "user_like_article", schema = "yourheadline", catalog = "")
 public class UserLikeArticleEntity {
     private int likeId;
-    private Integer userName;
+    private Integer userId;
     private Integer articleId;
     private Date addTime;
 
@@ -23,13 +23,13 @@ public class UserLikeArticleEntity {
     }
 
     @Basic
-    @Column(name = "user_name")
-    public Integer getUserName() {
-        return userName;
+    @Column(name = "user_id")
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setUserName(Integer userName) {
-        this.userName = userName;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     @Basic
@@ -58,13 +58,13 @@ public class UserLikeArticleEntity {
         if (o == null || getClass() != o.getClass()) return false;
         UserLikeArticleEntity that = (UserLikeArticleEntity) o;
         return likeId == that.likeId &&
-                Objects.equals(userName, that.userName) &&
+                Objects.equals(userId, that.userId) &&
                 Objects.equals(articleId, that.articleId) &&
                 Objects.equals(addTime, that.addTime);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(likeId, userName, articleId, addTime);
+        return Objects.hash(likeId, userId, articleId, addTime);
     }
 }

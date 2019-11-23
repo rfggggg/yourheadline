@@ -5,10 +5,9 @@ import java.sql.Date;
 import java.util.Objects;
 
 @Entity
-@Table(name = "author_application", schema = "yourheadline", catalog = "")
-public class AuthorApplicationEntity {
+@Table(name = "author_apply", schema = "yourheadline", catalog = "")
+public class AuthorApplyEntity {
     private int id;
-    private String authorName;
     private Date applyTime;
     private String applicationFileLink;
 
@@ -20,16 +19,6 @@ public class AuthorApplicationEntity {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    @Basic
-    @Column(name = "author_name")
-    public String getAuthorName() {
-        return authorName;
-    }
-
-    public void setAuthorName(String authorName) {
-        this.authorName = authorName;
     }
 
     @Basic
@@ -56,15 +45,14 @@ public class AuthorApplicationEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        AuthorApplicationEntity that = (AuthorApplicationEntity) o;
+        AuthorApplyEntity that = (AuthorApplyEntity) o;
         return id == that.id &&
-                Objects.equals(authorName, that.authorName) &&
                 Objects.equals(applyTime, that.applyTime) &&
                 Objects.equals(applicationFileLink, that.applicationFileLink);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, authorName, applyTime, applicationFileLink);
+        return Objects.hash(id, applyTime, applicationFileLink);
     }
 }
