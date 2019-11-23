@@ -10,6 +10,8 @@ public class UserEntity {
     private int userId;
     private String userName;
     private String password;
+    private String userType;
+    private String userAvatarLink;
     private Date birthDate;
     private String gender;
     private String email;
@@ -44,6 +46,26 @@ public class UserEntity {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Basic
+    @Column(name = "user_type")
+    public String getUserType() {
+        return userType;
+    }
+
+    public void setUserType(String userType) {
+        this.userType = userType;
+    }
+
+    @Basic
+    @Column(name = "user_avatar_link")
+    public String getUserAvatarLink() {
+        return userAvatarLink;
+    }
+
+    public void setUserAvatarLink(String userAvatarLink) {
+        this.userAvatarLink = userAvatarLink;
     }
 
     @Basic
@@ -104,6 +126,8 @@ public class UserEntity {
         return userId == that.userId &&
                 Objects.equals(userName, that.userName) &&
                 Objects.equals(password, that.password) &&
+                Objects.equals(userType, that.userType) &&
+                Objects.equals(userAvatarLink, that.userAvatarLink) &&
                 Objects.equals(birthDate, that.birthDate) &&
                 Objects.equals(gender, that.gender) &&
                 Objects.equals(email, that.email) &&
@@ -113,6 +137,6 @@ public class UserEntity {
 
     @Override
     public int hashCode() {
-        return Objects.hash(userId, userName, password, birthDate, gender, email, mobilePhone, addTime);
+        return Objects.hash(userId, userName, password, userType, userAvatarLink, birthDate, gender, email, mobilePhone, addTime);
     }
 }

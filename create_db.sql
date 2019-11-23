@@ -6,9 +6,13 @@ create table if not exists user (
 
 user_id int not null auto_increment primary key,
 
-user_name varchar(20) unique not null,
-password varchar(20) not null,
-	
+user_name varchar(50) unique not null,
+password varchar(50) not null,
+
+user_type varchar(50) not null default "normal",
+
+user_avatar_link varchar(50),
+
 birth_date date,
 gender varchar(20),
 	
@@ -21,35 +25,27 @@ add_time date
 
 
 
-create table if not exists editor (
-editor_id int not null auto_increment primary key,
-editor_account varchar(20) unique not null,
-editor_worker_id int,
-editor_password varchar(20)
-
+create table if not exists editor_worker (
+editor_id int primary key references user(user_id),
+worker_id int
 );
 
 
 
 
-create table if not exists author (
-author_id int not null auto_increment primary key,
-author_name varchar(20),
-author_avartar_link varchar(50) default '',
-add_time date,
-
+create table if not exists editor_authorize_author (
+author_id int primary key references user(user_id),
 authorize_editor_id int,
-
-foreign key(authorize_editor_id) references editor(editor_id)
+authorize_date date
 );
 
 
 
 
 
-create table if not exists author_application (
-id int not null auto_increment primary key,
-author_name varchar(20) unique not null,
+create table if not exists author_apply (
+
+id int primary key references user(user_id),
 apply_time date,
 application_file_link varchar(50)
 
@@ -77,15 +73,17 @@ create table if not exists article (
 
 article_id int not null auto_increment primary key,
 
-author_id int references author(author_id),
-editor_id int references editor(editor_id),
+author_id int references user(user_id),
+editor_id int references user(user_id),
 module_id int references module(module_id),
 
 article_title varchar(200),
+article_intro text,
 article_text text,
-	
-add_time date,
-like_num int not null default 0
+
+cover_link varchar(50),
+
+add_time date
 
 );
 
@@ -97,10 +95,11 @@ create table if not exists article_unchecked (
 
 id int not null auto_increment primary key,
 
-author_id int references author(author_id),
+author_id int references user(user_id),
 module_id int references module(module_id),
 
 article_title varchar(200),
+article_intro text,
 article_text text,
 
 apply_time date
@@ -165,9 +164,8 @@ add_time date
 
 create table if not exists user_like_article (
 
-like_id int not null auto_increment,
-primary key(like_id),
-user_name int references user(user_id),
+like_id int not null auto_increment primary key,
+user_id int references user(user_id),
 article_id int references article(article_id),
 add_time date
 
@@ -181,7 +179,7 @@ create table if not exists follow (
 
 follow_id int not null auto_increment primary key,
 user_id int references user(user_id),
-author_id int references author(author_id),
+author_id int references user(user_id),
 add_time date
 
 );

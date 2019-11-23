@@ -5,7 +5,10 @@ target/
 !**/src/test/**
 
 
+<<<<<<< HEAD
+=======
 src/main/resources/application.yml
+>>>>>>> lx
 
 
 ### STS ###
@@ -22,6 +25,9 @@ src/main/resources/application.yml
 *.iws
 *.iml
 *.ipr
+
+###db configuration
+*.yml
 
 ### NetBeans ###
 /nbproject/private/

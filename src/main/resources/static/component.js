@@ -1,6 +1,5 @@
 var rootUrl='localhost:8080';
 
-
 var app = new Vue({
     el: '#app',
     data: {
@@ -11,7 +10,9 @@ var app = new Vue({
         alist: [
             {id:1,text:"<p>不应该出现的文章条条</p>",author_name:"a1",publish_time:"1:00"}
         ],
-        clist:[],hlist:[]
+        mlist:[],
+        clist:[],
+        hlist:[]
     },
     beforeMount() {
         // 调用后端的api取得模块
@@ -21,44 +22,35 @@ var app = new Vue({
     methods:{
         // 调用后端的api取得所有模块的名字
         getModules: function() {
+
             axios.get('/api/module').then(function (response) {
                 this.updateModule(response.data.module_list);
             }.bind(this));
         },
-
         toHome: function() {
             axios.get('/api/article/home').then(function (response) {
                 this.updateList(response.data.article_list);
             }.bind(this));
         },
-
         toCollect: function() {
-            axios.get('/api/collect').then(function (response) {
-                this.updateclist(response.data.collect_list);
-                this.alist = [];
-                this.clist.forEach((item)=>{
-                    axios.get('/api/article/collect?id=' + item.articleId).then(function (datas) {
-                        this.alist.push(datas.data.article);
-                    }.bind(this));
-                });
+            axios.get('/api/article/collect?id=1').then(function (response) {
+                this.updateList(response.data.article_list);
             }.bind(this));
         },
-
         toHistory: function() {
-            axios.get('/api/history').then(function (response) {
-                this.updatehlist(response.data.history_list);
-                this.alist = [];
-                this.hlist.forEach((item)=>{
-                    axios.get('/api/article/collect?id=' + item.articleId).then(function (datas) {
-                        this.alist.push(datas.data.article);
+            // axios.get('/api/history').then(function (response) {
+            //     this.updatehlist(response.data.history_list);
+                // this.alist = [];
+                // this.hlist.forEach((item)=>{
+                    axios.get('/api/article/collect?id=1').then(function (response) {
+                        this.updateList(response.data.article_list);
                     }.bind(this));
-                });
-            }.bind(this));
+                // });
+            // }.bind(this));
         },
-
         toModule: function(id) {
             axios.get('/api/article/module?id=' + id).then(function (response) {
-                this.updateList(response.data.module_article);
+                this.updateList(response.data.article_list);
             }.bind(this));
         },
 

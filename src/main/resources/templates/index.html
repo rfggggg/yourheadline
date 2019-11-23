@@ -2,21 +2,26 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=7dWMrK7LI4IauYBNtpwRPoStbHIcvLGi"></script>
+    <title>YourHeadline</title>
 </head>
 
 <body>
 
 <!---所有的vue功能的东西都要写在这个div里面--->
 
+
 <div id="app">
     <div class = "top-nav">
-        <div class = "top-div" @click = "toHome">{{message}}</div>
-        <div class = "top-div">成为作者</div>
-        <div class = "top-div">用户: wx_130302332</div>
-        <div class="top-div">
-            <a href="./login">登录</a>
+        <div class = "top-div" @click = "toHome">
+            <img src="./img/logo.png" style="height: 80px; cursor: pointer; margin-left: 40px">
         </div>
+        <div class="top-div" id="location_component">
+            <i class="el-icon-location-information"></i>
+            <label id="location"></label>
+        </div>
+        <label class = "top-div" id="clock"></label>
     </div>
     <div class = "sideBar">
         <div @click = "toHome">主页</div>
@@ -24,6 +29,16 @@
         <div @click = "toHistory">历史</div>
         <div v-for="m in modules" @click="toModule(m.moduleId)">
             {{m.moduleName}}
+        </div>
+    </div>
+    <span class = "demonstration">今日头条</span>
+    <div class = "pictureBlock">
+        <div class="block">
+            <el-carousel height="250px">
+                <el-carousel-item v-for="item in 6" :key="item">
+                    <h3 class="small">{{ item }}</h3>
+                </el-carousel-item>
+            </el-carousel>
         </div>
     </div>
     <div class = "articleBlock">
@@ -37,14 +52,87 @@
             </p>
         </div>
     </div>
+    <div class = "loginBlock">
+        <div class = "innerBlock">
+            <span>资讯不断，登录点赞，信息万千，收藏每天</span>
+            <img src="./img/touxiang.png">
+            <a class = "loginButton" href="login.html">
+                <button class = "login-button">登录</button>
+            </a>
+            <a class = "registerText" href="register.html">
+                没有账号？注册一个吧!
+            </a>
+        </div>
+    </div>
 </div>
-
 
 
 <script src="js/vue.js"></script>
 <script src="js/axios.min.js"></script>
 <script src="component.js"></script>
 <script src="js/jquery.min.js"></script>
+<!--获取当前城市-->
+<script type="text/javascript">
+    var map = new BMap.Map("container");
+    var nowCity = new BMap.LocalCity();
+    nowCity.get(bdGetPosition);
+    function bdGetPosition(result){
+        var city = document.getElementById("location");
+        city.innerText = result.name;
+    }
+</script>
+<!--获取当前时间-->
+<script type="text/javascript">
+    window.onload(getDate());
+
+    function getDate()
+    {
+        window.setTimeout(function(){
+            window.requestAnimationFrame(getDate)
+        },1000/2);
+        var d=new Date();
+        var year=d.getFullYear(); //获取年
+        var month=d.getMonth()+1;  //获取月，从 Date 对象返回月份 (0 ~ 11)，故在此处+1
+        var day=d.getDay();  //获取日
+        var days=d.getDate();//获取日期
+        var hour=d.getHours();   //获取小时
+        var minute=d.getMinutes();  //获取分钟
+        var second=d.getSeconds();   //获取秒
+
+        if(month<10) month="0"+month;
+        if(days<10) days="0"+days;
+        if(hour<10) hour="0"+hour;
+        if(minute<10) minute="0"+minute;
+        if(second<10) second="0"+second;
+
+        var week=new Array("星期日","星期一","星期二","星期三","星期四","星期五","星期六");
+        var Tools=document.getElementById("clock");
+        var da=year+"/"+month+"/"+days+" "+week[day]+" "+hour+":"+minute+":"+second;
+        Tools.innerHTML=da;
+    }
+</script>
+<!--侧栏动态效果-->
+<script type="text/javascript">
+    // 获取导航栏到屏幕顶部的距离
+    var oTop = $(".sideBar").offset().top;
+    //获取导航栏的高度，此高度用于保证内容的平滑过渡
+    var martop = $('.sideBar').outerHeight();
+
+    var sTop = 0;
+    // 监听页面的滚动
+    $(window).scroll(function () {
+        // 获取页面向上滚动的距离
+        sTop = $(this).scrollTop();
+        // 当导航栏到达屏幕顶端
+        if (sTop >= oTop) {
+            // 修改导航栏position属性，使之固定在屏幕顶端
+            $(".sideBar").css({ "position": "fixed", "top": "0"});
+        } else {
+            // 当导航栏脱离屏幕顶端时，回复原来的属性
+            $(".sideBar").css({ "position": "absolute", "left": "100px", "top": "165px"});
+        }
+    });
+</script>
 <script>
     $(function() {
         let userName = localStorage.getItem("userName");
@@ -56,46 +144,152 @@
 </script>
 
 
-
-
-
 <style>
+    body{
+        padding: 0;
+        margin: 0;
+    }
+    #app{
+        margin: 0;
+        padding: 0;
+    }
     .sideBar{
         background-color: aquamarine;
-        position: fixed;
-        width: 60px;
+        position: absolute;
+        width: 120px;
         height: 540px;
-        left: 30px;
-        top: 60px;
-
+        left: 100px;
+        top: 165px;
     }
     .top-nav {
         /*顶部导航栏*/
-        background: rgba(244, 245, 246, .95);
-        position: fixed;
+        background: rgba(255, 216, 77, 1);
+        position: absolute;
+        top: 0;
         width: 100%;
-        height: 50px;
+        height: 80px;
         z-index: 10;
         font-size: large;
-    }
-    .articleBlock{
-        position: absolute;
-        left: 180px;
-        width: 600px;
-        margin-top: 60px;
-        background-color: antiquewhite;
+        min-width: 1410px;
     }
     .top-div{
         float: left;
-        width: 25%;
+    }
+    #clock{
+        width: 320px;
+        margin-left: 100px;
+        margin-top: 30px;
+        color: black;
+        font-size: medium;
+    }
+    #location_component{
+        width: 80px;
+        margin-left: 45%;
+        margin-top: 30px;
+        font-size: medium;
+    }
+    .demonstration{
+        font-size: 20px;
+        color: #5184eb;
+        border-bottom-color: #5184eb;
+        border-bottom-style: solid;
+        border-bottom-width: 3px;
+        position: absolute;
+        left: 220px;
+        margin-top: 115px;
+    }
+    .pictureBlock{
+        position: absolute;
+        left: 220px;
+        width: 50%;
+        min-width: 700px;
+        margin-top: 165px;
+    }
+    .articleBlock{
+        position: absolute;
+        left: 220px;
+        width: 50%;
+        min-width: 700px;
+        margin-top: 465px;
+        background-color: antiquewhite;
     }
     #article-headline{
         text-decoration-line: none;
         color: black;
+    }
+    .el-carousel__item h3 {
+        color: #475669;
+        font-size: 18px;
+        opacity: 0.75;
+        line-height: 200px;
+        top: 120px;
+    }
+    .el-carousel__item:nth-child(2n) {
+        background-color: #99a9bf;
+    }
+    .el-carousel__item:nth-child(2n+1) {
+        background-color: #d3dce6;
+    }
+    .loginBlock{
+        position: absolute;
+        width: 300px;
+        height: 300px;
+        margin-top: 165px;
+        margin-left: 1100px;
+        padding: 20px;
+        background-color: #e8e8e8;
+    }
+    .innerBlock{
+        width: 300px;
+        height: 300px;
+        background-color: white;
+    }
+    .innerBlock>span{
+        color: #777;
+        font-size: 15px;
+        position: relative;
+        top: 30px;
+        left: 5px;
+        text-align: center;
+    }
+    .innerBlock>img{
+        position: relative;
+        width: 60px;
+        height: 60px;
+        top: 70px;
+        left: 40%;
+    }
+    .login-button{
+        width: 240px;
+        height: 40px;
+        margin-top: 100px;
+        margin-left: 30px;
+        font-size: 14px;
+        line-height: 20px;
+        color: #fff;
+        background: #FFC84D;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    .registerText{
+        position: relative;
+        margin-top: 100px;
+        margin-left: 80px;
+        font-size: 13px;
+        text-decoration: none;
+        text-align: center;
+        color: #5184eb;
     }
 
 </style>
 
 
 </body>
+
+
+<!--这两个script一定要放在body外-->
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+
 </html>
