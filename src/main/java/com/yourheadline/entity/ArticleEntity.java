@@ -1,20 +1,39 @@
 package com.yourheadline.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Date;
 import java.util.Objects;
 
 @Entity
 @Table(name = "article", schema = "yourheadline", catalog = "")
-public class ArticleEntity {
+public class ArticleEntity implements Serializable {
+
     private int articleId;
     private Integer authorId;
     private Integer editorId;
     private Integer moduleId;
     private String articleTitle;
+
+
+    private String articleIntro;
+
     private String articleText;
+
+    private String coverLink;
+
     private Date addTime;
-    private int likeNum;
+
+
+//    老的用法，用@OneToMany和@ManyToOne的方法，注释掉不要了
+//    private AuthorEntity author;
+//    @ManyToOne(cascade={CascadeType.ALL}, fetch = FetchType.LAZY)
+//    @JoinColumn(name = "author_id", insertable=false, updatable=false)
+//    public AuthorEntity getAuthor() { return author; }
+//    public void setAuthor(AuthorEntity ae) { this.author = ae; }
+
 
     @Id
     @Column(name = "article_id")
@@ -66,6 +85,20 @@ public class ArticleEntity {
         this.articleTitle = articleTitle;
     }
 
+
+    @Basic
+    @Column(name = "article_intro")
+    public String getArticleIntro() {
+        return articleIntro;
+    }
+
+    public void setArticleIntro(String articleIntro) {
+        this.articleIntro = articleIntro;
+    }
+
+
+
+
     @Basic
     @Column(name = "article_text")
     public String getArticleText() {
@@ -77,6 +110,18 @@ public class ArticleEntity {
     }
 
     @Basic
+    @Column(name = "cover_link")
+    public String getCoverLink() {
+        return coverLink;
+    }
+
+    public void setCoverLink(String coverLink) {
+        this.coverLink = coverLink;
+    }
+
+
+
+    @Basic
     @Column(name = "add_time")
     public Date getAddTime() {
         return addTime;
@@ -86,15 +131,6 @@ public class ArticleEntity {
         this.addTime = addTime;
     }
 
-    @Basic
-    @Column(name = "like_num")
-    public int getLikeNum() {
-        return likeNum;
-    }
-
-    public void setLikeNum(int likeNum) {
-        this.likeNum = likeNum;
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -102,17 +138,19 @@ public class ArticleEntity {
         if (o == null || getClass() != o.getClass()) return false;
         ArticleEntity that = (ArticleEntity) o;
         return articleId == that.articleId &&
-                likeNum == that.likeNum &&
+
                 Objects.equals(authorId, that.authorId) &&
                 Objects.equals(editorId, that.editorId) &&
                 Objects.equals(moduleId, that.moduleId) &&
                 Objects.equals(articleTitle, that.articleTitle) &&
+                Objects.equals(articleIntro, that.articleIntro) &&
                 Objects.equals(articleText, that.articleText) &&
+                Objects.equals(coverLink, that.coverLink) &&
                 Objects.equals(addTime, that.addTime);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(articleId, authorId, editorId, moduleId, articleTitle, articleText, addTime, likeNum);
+        return Objects.hash(articleId, authorId, editorId, moduleId, articleTitle, articleIntro, articleText, coverLink, addTime);
     }
 }

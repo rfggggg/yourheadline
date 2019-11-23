@@ -2,6 +2,9 @@ package com.yourheadline.entity;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
+
 import java.util.Objects;
 
 @Entity
@@ -9,8 +12,15 @@ import java.util.Objects;
 public class AuthorEntity {
     private int authorId;
     private String authorName;
-    private String authorAvartarLink;
+    private String authorAvatarLink;
     private Date addTime;
+
+
+//    老的用法，用@OneToMany和@ManyToOne的方法，注释掉不要了
+//    private List<ArticleEntity> articleEntityList = new ArrayList<ArticleEntity>();
+//    @OneToMany(fetch = FetchType.LAZY)
+//    public List<ArticleEntity> getArticleEntityList() { return articleEntityList; }
+//    public void setArticleEntityList(List<ArticleEntity> list) { this.articleEntityList = list; }
 
     @Id
     @Column(name = "author_id")
@@ -33,14 +43,15 @@ public class AuthorEntity {
     }
 
     @Basic
-    @Column(name = "author_avartar_link")
-    public String getAuthorAvartarLink() {
-        return authorAvartarLink;
+    @Column(name = "author_avatar_link")
+    public String getAuthorAvatarLink() {
+        return authorAvatarLink;
     }
 
-    public void setAuthorAvartarLink(String authorAvartarLink) {
-        this.authorAvartarLink = authorAvartarLink;
+    public void setAuthorAvatarLink(String authorAvatarLink) {
+        this.authorAvatarLink = authorAvatarLink;
     }
+
 
     @Basic
     @Column(name = "add_time")
@@ -59,12 +70,12 @@ public class AuthorEntity {
         AuthorEntity that = (AuthorEntity) o;
         return authorId == that.authorId &&
                 Objects.equals(authorName, that.authorName) &&
-                Objects.equals(authorAvartarLink, that.authorAvartarLink) &&
+                Objects.equals(authorAvatarLink, that.authorAvatarLink) &&
                 Objects.equals(addTime, that.addTime);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(authorId, authorName, authorAvartarLink, addTime);
+        return Objects.hash(authorId, authorName, authorAvatarLink, addTime);
     }
 }

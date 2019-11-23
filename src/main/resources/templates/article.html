@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/html">
+<html lang="en">
 <html>
 <head>
     <meta charset="UTF-8">
@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
 </head>
 <body>
-<div id="app">
+<div id="article">
     <el-row>
         <el-col span="6">
             <p></p>
@@ -28,9 +28,10 @@
         </el-col>
         <el-col span="12">
             <el-card>
-                <el-button type="primary" icon="el-icon-edit">写评论</el-button>
+                <el-button type="primary" icon="el-icon-edit" @click="writeComment">写评论</el-button>
                 <el-button type="primary" icon="el-icon-folder-add" plain>加入收藏</el-button>
-                <el-button style="float: right" type="primary" icon="el-icon-caret-top">赞同</el-button>
+                <el-button style="float: right" type="primary" icon="el-icon-caret-top">赞同{{articleInfo.likeNum}}
+                </el-button>
                 <el-button style="float: right" type="primary" icon="el-icon-share"></el-button>
                 <el-button style="float: right" type="primary" icon="el-icon-search"></el-button>
 
@@ -51,7 +52,7 @@
             <div>
                 <el-card class="box-card">
                     <div slot="header" class="clearfix">
-                        <span>卡片名称</span>
+                        <span>正文</span>
                         <el-button style="float: right; padding: 3px 0" type="text">操作按钮</el-button>
                     </div>
                     <div class="text item">
@@ -88,25 +89,29 @@
                     </div>
                 </el-card>
                 <el-card>
-                    <el-collapse v-model="activeNames" @change="handleChange">
-                        <el-collapse-item title="一致性 与现实生活一致：与现实生活的流程、逻辑保持一致，遵循用户习惯的语言和概念 Consistency" name="1">
-                            <div>与现实生活一致：与现实生活的流程、逻辑保持一致，遵循用户习惯的语言和概念；</div>
-                            <div>在界面中一致：所有的元素和结构需保持一致，比如：设计样式、图标和文本、元素的位置等。</div>
-                        </el-collapse-item>
-                        <el-collapse-item title="反馈 Feedback" name="2">
-                            <div>控制反馈：通过界面样式和交互动效让用户可以清晰的感知自己的操作；</div>
-                            <div>页面反馈：操作后，通过页面元素的变化清晰地展现当前状态。</div>
-                        </el-collapse-item>
-                        <el-collapse-item title="效率 Efficiency" name="3">
-                            <div>简化流程：设计简洁直观的操作流程；</div>
-                            <div>清晰明确：语言表达清晰且表意明确，让用户快速理解进而作出决策；</div>
-                            <div>帮助用户识别：界面简单直白，让用户快速识别而非回忆，减少用户记忆负担。</div>
-                        </el-collapse-item>
-                        <el-collapse-item title="可控 Controllability" name="4">
-                            <div>用户决策：根据场景可给予用户操作建议或安全提示，但不能代替用户进行决策；</div>
-                            <div>结果可控：用户可以自由的进行操作，包括撤销、回退和终止当前操作等。</div>
-                        </el-collapse-item>
-                    </el-collapse>
+                    <div slot="header">
+                        <span>评论</span>
+                    </div>
+                    <div class="container">
+                        <div class="comment" v-for="comment in commentList">
+                            <div class="info">
+                                <img class="avatar" :src="comment.fromAvatar" width="36" height="36"/>
+                                <div class="right">
+                                    <div class="name">{{comment.fromName}}
+                                    </div>
+                                    <div class="date">{{comment.date}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="content">{{comment.content}}
+                            </div>
+                            <div>
+                                 <el-button class="like" icon="el-icon-thumb"  @click="likeComment(comment)" round>
+                                 <div class="like-num">{{comment.likeNum > 0 ? comment.likeNum + '人赞' : '赞'}}</div>
+                                 </el-button>
+                            </div>
+                        </div>
+                    </div>
                 </el-card>
             </div>
         </el-col>
@@ -114,23 +119,132 @@
 </div>
 
 </body>
+
+
 <!-- import Vue before Element -->
 <script src="https://unpkg.com/vue/dist/vue.js"></script>
 <!-- import JavaScript -->
 <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+
 <script>
-    new Vue({
-      el: '#app',
-      data: function() {
-        return {  }
-      }
+   new Vue({
+      el: '#article',
+      data: {
+      islike:false,
+      articleInfo:{},
+      newComment:{},
+      commentList:[ {
+      id: 'comment0001', //主键id
+      date: '2018-07-05 08:30',  //评论时间
+      ownerId: 'talents100020', //文章的id
+      fromId: 'errhefe232213',  //评论者id
+      fromName: '犀利的评论家',   //评论者昵称
+      fromAvatar: 'http://ww4.sinaimg.cn/bmiddle/006DLFVFgy1ft0j2pddjuj30v90uvagf.jpg', //评论者头像
+      likeNum: 3, //点赞人数
+      content: '非常靠谱的程序员',  //评论内容
+      },
+      {
+      id: 'comment0001', //主键id
+      date: '2018-07-05 08:30',  //评论时间
+      ownerId: 'talents100020', //文章的id
+      fromId: 'errhefe232213',  //评论者id
+      fromName: '犀利的评论家',   //评论者昵称
+      fromAvatar: 'http://ww4.sinaimg.cn/bmiddle/006DLFVFgy1ft0j2pddjuj30v90uvagf.jpg', //评论者头像
+      likeNum: 3, //点赞人数
+      content: '呜呜呜呜呜呜呜呜呜呜呜呜呜呜呜呜呜呜呜呜呜呜呜呜呜呜呜呜呜呜呜呜呜呜呜呜呜呜呜呜呜呜呜呜呜呜呜呜呜呜呜呜呜呜呜呜呜呜阿伟死了',  //评论内容
+      }]
+      },
+      methods: {
+        getArticleInfo: function() {
+            axios.get('/api/article/detail?id=1').then(function (response) {
+                this.updateArticleInfo(response.data.article_list);
+            }.bind(this));
+        },
+        updateArticleInfo:function(info){
+        this.articleInfo=info;
+        },
+        likeComment:function(comment){
+           if (comment.isLike === null) {
+          Vue.$set(comment, "isLike", true);
+          comment.likeNum++;
+        } else {
+          if (comment.isLike) {
+            comment.likeNum--;
+          } else {
+            comment.likeNum++;
+          }
+          comment.isLike = !comment.isLike;
+        }
+        },
+        writeComment:function(){
+         this.$prompt('请输入评论', '评论', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+        }).then(({ value }) => {
+          this.newComment=value;
+          this.$message({
+            type: 'success',
+            message: '评论成功'
+          });
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '取消评论'
+          });
+        });
+        }
+        }
     })
-
-
-
 
 
 
 </script>
 
+<style>
+      .comment {
+      display: flex;
+      flex-direction: column;
+      padding: 10px;
+      border-bottom: 1px solid #F2F6FC;
+      }
+      .info {
+        display: flex;
+        align-items: center;
+      }
+      .avatar {
+          border-radius: 50%;
+      }
+      .right {
+          display: flex;
+          flex-direction: column;
+          margin-left: 10px;
+      }
+      .name {
+            font-size: 16px;
+            color: #303133;
+            margin-bottom: 5px;
+            font-weight: 500;
+      }
+      .date {
+            font-size: 14px;
+            color: #909399;
+      }
+      .like {
+          display: flex;
+          align-items: center;
+          margin-right: 10px;
+          cursor: pointer;
+          color: #909399;
+      }
+      .content {
+        font-size: 16px;
+        color: #303133;
+        line-height: 20px;
+        padding: 10px 0;
+      }
+
+
+
+
+</style>
 </html>
