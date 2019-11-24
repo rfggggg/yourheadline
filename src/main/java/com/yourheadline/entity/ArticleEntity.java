@@ -1,39 +1,21 @@
 package com.yourheadline.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
-import java.io.Serializable;
 import java.sql.Date;
 import java.util.Objects;
 
 @Entity
 @Table(name = "article", schema = "yourheadline", catalog = "")
-public class ArticleEntity implements Serializable {
-
+public class ArticleEntity {
     private int articleId;
     private Integer authorId;
     private Integer editorId;
     private Integer moduleId;
     private String articleTitle;
-
-
     private String articleIntro;
-
     private String articleText;
-
     private String coverLink;
-
     private Date addTime;
-
-
-//    老的用法，用@OneToMany和@ManyToOne的方法，注释掉不要了
-//    private AuthorEntity author;
-//    @ManyToOne(cascade={CascadeType.ALL}, fetch = FetchType.LAZY)
-//    @JoinColumn(name = "author_id", insertable=false, updatable=false)
-//    public AuthorEntity getAuthor() { return author; }
-//    public void setAuthor(AuthorEntity ae) { this.author = ae; }
-
 
     @Id
     @Column(name = "article_id")
@@ -85,7 +67,6 @@ public class ArticleEntity implements Serializable {
         this.articleTitle = articleTitle;
     }
 
-
     @Basic
     @Column(name = "article_intro")
     public String getArticleIntro() {
@@ -95,9 +76,6 @@ public class ArticleEntity implements Serializable {
     public void setArticleIntro(String articleIntro) {
         this.articleIntro = articleIntro;
     }
-
-
-
 
     @Basic
     @Column(name = "article_text")
@@ -119,8 +97,6 @@ public class ArticleEntity implements Serializable {
         this.coverLink = coverLink;
     }
 
-
-
     @Basic
     @Column(name = "add_time")
     public Date getAddTime() {
@@ -131,14 +107,12 @@ public class ArticleEntity implements Serializable {
         this.addTime = addTime;
     }
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ArticleEntity that = (ArticleEntity) o;
         return articleId == that.articleId &&
-
                 Objects.equals(authorId, that.authorId) &&
                 Objects.equals(editorId, that.editorId) &&
                 Objects.equals(moduleId, that.moduleId) &&

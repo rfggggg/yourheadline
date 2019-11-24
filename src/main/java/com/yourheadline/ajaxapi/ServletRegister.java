@@ -20,4 +20,6 @@ public class ServletRegister {
         userDAO.save(u);
         return "ok";
     }
+
+
 }

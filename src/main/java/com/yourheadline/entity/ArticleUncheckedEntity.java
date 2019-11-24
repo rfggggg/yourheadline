@@ -11,6 +11,7 @@ public class ArticleUncheckedEntity {
     private Integer authorId;
     private Integer moduleId;
     private String articleTitle;
+    private String articleIntro;
     private String articleText;
     private Date applyTime;
 
@@ -55,6 +56,16 @@ public class ArticleUncheckedEntity {
     }
 
     @Basic
+    @Column(name = "article_intro")
+    public String getArticleIntro() {
+        return articleIntro;
+    }
+
+    public void setArticleIntro(String articleIntro) {
+        this.articleIntro = articleIntro;
+    }
+
+    @Basic
     @Column(name = "article_text")
     public String getArticleText() {
         return articleText;
@@ -83,12 +94,13 @@ public class ArticleUncheckedEntity {
                 Objects.equals(authorId, that.authorId) &&
                 Objects.equals(moduleId, that.moduleId) &&
                 Objects.equals(articleTitle, that.articleTitle) &&
+                Objects.equals(articleIntro, that.articleIntro) &&
                 Objects.equals(articleText, that.articleText) &&
                 Objects.equals(applyTime, that.applyTime);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, authorId, moduleId, articleTitle, articleText, applyTime);
+        return Objects.hash(id, authorId, moduleId, articleTitle, articleIntro, articleText, applyTime);
     }
 }
