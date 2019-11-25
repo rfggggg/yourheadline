@@ -76,11 +76,13 @@ var app = new Vue({
         },
         getUser:function () {
             this.userinfo={ser_id:1,user_name:"jia",user_type:"author",birth_date:"1999-01-01",gender:"man",email:"99@qq.com",
-                mobile_phone:"123456",add_time:"1999-01-01"
-        };
+                mobile_phone:"123456",add_time:"1999-01-01"};
         },
         onSubmitOnUserinfoPage:function() {
             console.log('submit!');
+        },
+        updateuser:function (data) {
+            this.userinfo=data;
         }
     }
 })

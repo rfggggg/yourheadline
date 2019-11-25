@@ -6,6 +6,27 @@
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
 </head>
 <body>
+<!-- JavaScript files-->
+<script src="js/jquery.min.js"></script>
+<script src="js/jquery.cookie.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="vendor/jquery-validation/jquery.validate.min.js"></script><!--表单验证-->
+<script src="js/axios.min.js"></script>
+<script>
+    function finduserinfo(_userId){
+        let data = {
+            userId:_userId
+        }
+        let jsonStr = JSON.stringify(data);
+        axios.post('/api/userinfo',jsonStr
+            ).then(function (response) {
+            this.updateuser(response.user_info)
+        }.bind(this));
+
+    }
+    finduserinfo(localStorage.getItem("userId"));
+    // finduserinfo(Number(localStorage.getItem("userId")));
+</script>
 <div id="app">
 <!--    头像栏-->
     <br><br><br>
