@@ -3,10 +3,7 @@ package com.yourheadline.ajaxapi;
 import com.yourheadline.dao.UserDAO;
 import com.yourheadline.entity.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,15 +17,20 @@ public class ServletUserinfo {
 
     @PostMapping("/api/userinfo")
     @ResponseBody
-    public Map<String, Object> finduserinfo(@RequestParam Map<String, String> inMap){
+    public Map<String, Object> finduserinfo(@RequestBody Map<String, String> inMap){
         Map<String, Object> map = new HashMap<>();
 
-        List<UserEntity> userinfo = new ArrayList<>();
+        UserEntity u = new UserEntity();
         if (inMap.containsKey("userId")) {
             int userId = Integer.parseInt(inMap.get("userId"));
+
+            List<UserEntity> userinfo = new ArrayList<>();
             userinfo = userDAO.findByUserId(userId);
+            if (!userinfo.isEmpty()){
+                u = userinfo.get(0);
+            }
         }
-        map.put("user_info",userinfo);
+        map.put("user_info",u);
         return map;
     }
 }

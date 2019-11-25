@@ -12,21 +12,7 @@
 <script src="js/bootstrap.min.js"></script>
 <script src="vendor/jquery-validation/jquery.validate.min.js"></script><!--表单验证-->
 <script src="js/axios.min.js"></script>
-<script>
-    function finduserinfo(_userId){
-        let data = {
-            userId:_userId
-        }
-        let jsonStr = JSON.stringify(data);
-        axios.post('/api/userinfo',jsonStr
-            ).then(function (response) {
-            this.updateuser(response.user_info)
-        }.bind(this));
 
-    }
-    finduserinfo(localStorage.getItem("userId"));
-    // finduserinfo(Number(localStorage.getItem("userId")));
-</script>
 <div id="app">
 <!--    头像栏-->
     <br><br><br>
@@ -47,10 +33,10 @@
                 </el-col>
                 <el-col :span="4">
                     <div v-model="userinfo" class="username">
-                        {{userinfo.user_name}}
+                        {{userinfo.userName}}
                     </div>
                     <div v-model="userinfo" class="userid">
-                        ID:{{userinfo.user_id}}
+                        ID:{{userinfo.userId}}
                     </div>
                 </el-col>
                 </el-row>
@@ -70,13 +56,13 @@
                         <el-tab-pane label="基本资料" name="first">
                             <el-form label-position="right" label-width="80px" :model="userinfo">
                                 <el-form-item label="用户名">
-                                    <el-input v-model="userinfo.user_name"></el-input>
+                                    <el-input v-model="userinfo.userName"></el-input>
                                 </el-form-item>
                                 <el-form-item label="ID">
-                                    <el-input v-model="userinfo.user_id" disabled="true"></el-input>
+                                    <el-input v-model="userinfo.userId" disabled="true"></el-input>
                                 </el-form-item>
                                 <el-form-item label="生日">
-                                    <el-date-picker type="date" placeholder="选择日期" v-model="userinfo.birth_date" style="width: 100%;">
+                                    <el-date-picker type="date" placeholder="选择日期" v-model="userinfo.birthDate" style="width: 100%;">
                                     </el-date-picker>
                                 </el-form-item>
                                 <el-form-item label="性别">
@@ -89,10 +75,10 @@
                                     <el-input v-model="userinfo.email"></el-input>
                                 </el-form-item>
                                 <el-form-item label="手机">
-                                    <el-input v-model="userinfo.mobile_phone"></el-input>
+                                    <el-input v-model="userinfo.mobilePhone"></el-input>
                                 </el-form-item>
                                 <el-form-item label="注册时间">
-                                    <el-input v-model="userinfo.add_time" disabled="true"></el-input>
+                                    <el-input v-model="userinfo.addTime" disabled="true"></el-input>
                                 </el-form-item>
                                 <el-form-item>
                                     <el-button type="primary" @click="onSubmitOnUserinfoPage">立即修改</el-button>

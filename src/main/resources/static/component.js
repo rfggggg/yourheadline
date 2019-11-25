@@ -13,79 +13,91 @@ var app = new Vue({
         mlist:[],
         clist:[],
         hlist:[],
-        userinfo:{user_id:1,user_name:"jia",user_type:"author",birth_date:"1999-01-01",gender:"male",email:"99@qq.com",
-            mobile_phone:"123456",add_time:"1999-01-01"
+        userinfo:{userId:1,userName:"jia",userType:"author",birthDate:"1999-01-01",gender:"male",email:"99@qq.com",
+            mobilePhone:"123456",addTime:"1999-01-01"
         }
     },
     beforeMount() {
         // 调用后端的api取得模块
         this.getModules();
         this.toHome();
+        this.finduserinfo(localStorage.getItem("userId"));
     },
-    methods:{
-        // 调用后端的api取得所有模块的名字
-        getModules: function() {
-            axios.get('/api/module').then(function (response) {
-                this.updateModule(response.data.module_list);
-            }.bind(this));
-        },
-        toHome: function() {
-            axios.get('/api/article/home').then(function (response) {
-                this.updateList(response.data.article_list);
-            }.bind(this));
-        },
-        toCollect: function() {
-            axios.get('/api/article/collect?id=1').then(function (response) {
-                this.updateList(response.data.article_list);
-            }.bind(this));
-        },
-        toHistory: function() {
-            axios.get('/api/history').then(function (response) {
-                this.updatehlist(response.data.history_list);
-                this.alist = [];
-                this.hlist.forEach((item)=>{
-                    axios.get('/api/article/collect?id=' + item.articleId).then(function (datas) {
-                        this.alist.push(datas.data.article);
-                    }.bind(this));
-                });
-            }.bind(this));
-        },
-        toModule: function(id) {
-            axios.get('/api/article/module?id=' + id).then(function (response) {
-                this.updateList(response.data.module_article);
-            }.bind(this));
-        },
+    methods: {
+            // 调用后端的api取得所有模块的名字
+            getModules: function () {
+                axios.get('/api/module').then(function (response) {
+                    this.updateModule(response.data.module_list);
+                }.bind(this));
+            },
+            toHome: function () {
+                axios.get('/api/article/home').then(function (response) {
+                    this.updateList(response.data.article_list);
+                }.bind(this));
+            },
+            toCollect: function () {
+                axios.get('/api/article/collect?id=1').then(function (response) {
+                    this.updateList(response.data.article_list);
+                }.bind(this));
+            },
+            toHistory: function () {
+                axios.get('/api/history').then(function (response) {
+                    this.updatehlist(response.data.history_list);
+                    this.alist = [];
+                    this.hlist.forEach((item) => {
+                        axios.get('/api/article/collect?id=' + item.articleId).then(function (datas) {
+                            this.alist.push(datas.data.article);
+                        }.bind(this));
+                    });
+                }.bind(this));
+            },
+            toModule: function (id) {
+                axios.get('/api/article/module?id=' + id).then(function (response) {
+                    this.updateList(response.data.module_article);
+                }.bind(this));
+            },
 
-        updateList: function(newData) {
-            this.alist = newData;
-        },
+            updateList: function (newData) {
+                this.alist = newData;
+            },
 
-        updateModule:function (data) {
-            this.modules = data;
-        },
+            updateModule: function (data) {
+                this.modules = data;
+            },
 
-        updateclist:function (data) {
-            this.clist = data;
-        },
+            updateclist: function (data) {
+                this.clist = data;
+            },
 
-        updatehlist:function (data) {
-            this.hlist = data;
-        },
-        handleClickOnUserinfoPage:function(tab, event) {
-            console.log(tab, event);
-        },
-        getUser:function () {
-            this.userinfo={ser_id:1,user_name:"jia",user_type:"author",birth_date:"1999-01-01",gender:"man",email:"99@qq.com",
-                mobile_phone:"123456",add_time:"1999-01-01"};
-        },
-        onSubmitOnUserinfoPage:function() {
-            console.log('submit!');
-        },
-        updateuser:function (data) {
-            this.userinfo=data;
-        }
+            updatehlist: function (data) {
+                this.hlist = data;
+            },
+            handleClickOnUserinfoPage: function (tab, event) {
+                console.log(tab, event);
+            },
+            // getUser:function () {
+            //     this.userinfo={ser_id:1,user_name:"jia",user_type:"author",birth_date:"1999-01-01",gender:"man",email:"99@qq.com",
+            //         mobile_phone:"123456",add_time:"1999-01-01"};
+            // },
+            onSubmitOnUserinfoPage: function () {
+                console.log('submit!');
+            },
+             finduserinfo: function(_userId) {
+                let data = {
+                    userId: _userId
+                };
+                axios.post('/api/userinfo', data
+                ).then(function (response) {
+                    this.updateuser(response.data.user_info)
+                }.bind(this));
+
+            },
+            updateuser:function (data) {
+                console.log(data);
+                this.userinfo=data;
+            }
     }
-})
+});
 
 
 
