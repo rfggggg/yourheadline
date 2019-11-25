@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <script src="js/wangEditor.js"></script>
+    <script src="js/jquery.min.js"></script>
+</head>
+<body>
+<button id="uploadArticle" onclick = "doUpload();">发布文章</button>
+<div id = "editor"></div>
+
+<script>
+    function doUpload()
+    {
+        let uid = localStorage.getItem("userId");
+        let uname = localStorage.getItem("userName");
+        let pwd = localStorage.getItem("passWord");
+
+        $.ajax({
+            type:"post",
+            url:"/api/upload-article",
+            data: {
+                    articleId: window.articleId,
+                    authorId: uid,
+                    authorName: uname,
+                    password: pwd,
+
+                    articleTitle: "大傻逼",
+                    articleIntro: "测试intro",
+                    articleText: editor.txt.html(),
+
+                    moduleId: 2,
+                },
+            async:true,
+            success:function(response){
+                // console.log(response);
+            }
+        });
+    }
+
+
+    var E = window.wangEditor;
+    //这里的id为<div id="editor"中的id.
+    var editor = new E('#editor');
+    var articleId = 0;
+
+    //开启debug模式
+    editor.customConfig.debug = true;
+    // 关闭粘贴内容中的样式
+    editor.customConfig.pasteFilterStyle = false
+    // 忽略粘贴内容中的图片
+    editor.customConfig.pasteIgnoreImg = true
+    // 使用 base64 保存图片
+    //editor.customConfig.uploadImgShowBase64 = true
+
+    // 上传图片到服务器
+    editor.customConfig.uploadFileName = 'img'; //设置文件上传的参数名称
+    editor.customConfig.uploadImgServer = '/api/upload-article-img/'; //设置上传文件的服务器路径
+    editor.customConfig.uploadImgMaxSize = 3 * 1024 * 1024; // 将图片大小限制为 3M
+    // 附加参数
+    editor.customConfig.uploadImgParams = {
+        // 如果版本 <=v3.1.0 ，属性值会自动进行 encode ，此处无需 encode
+        // 如果版本 >=v3.1.1 ，属性值不会自动 encode ，如有需要自己手动 encode
+        articleId: window.articleId,
+        authorName: localStorage.getItem("userName"),
+        passWord: localStorage.getItem("passWord")
+    }
+    //自定义上传图片事件
+    editor.customConfig.uploadImgHooks = {
+        before : function(xhr, editor, files) {
+
+        },
+        success : function(xhr, editor, result) {
+            console.log("上传成功");
+        },
+        fail : function(xhr, editor, result) {
+            console.log("上传失败,原因是"+result);
+        },
+        error : function(xhr, editor) {
+            console.log("上传出错");
+        },
+        timeout : function(xhr, editor) {
+            console.log("上传超时");
+        }
+    }
+
+
+    editor.create();
+
+</script>
+</body>
+</html>
