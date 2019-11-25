@@ -25,9 +25,53 @@ public class ServletUploadArticle {
     @Autowired
     Validation validation;
 
-    @PostMapping("/upload-article")
+    @PostMapping("/new-article")
     @ResponseBody
-    public Map<String, Object> uploadArticle(@RequestParam Integer articleId,
+    public Map<String, Object> uploadNewArticle(@RequestParam Integer authorId,
+                                             @RequestParam String authorName,
+                                             @RequestParam String password,
+
+                                             @RequestParam String articleTitle,
+                                             @RequestParam String articleIntro,
+                                             @RequestParam String articleText,
+
+                                             @RequestParam Integer moduleId
+                                             )
+    {
+        Date applyDate = new Date(Calendar.getInstance().getTimeInMillis());
+
+        Map<String, Object> map = new HashMap<>();
+
+        String status = "";
+
+        if (validation.checkAuthor(authorId, authorName, password)){
+                ArticleUncheckedEntity a = articleUncheckedDAO.save(
+                        new ArticleUncheckedEntity(
+                                authorId,moduleId ,articleTitle,articleIntro,articleText,applyDate
+                        )
+                );
+                status = "Succeed";
+        }
+        else{
+            status = "FailCheckAuthor";
+        }
+
+
+        //打印接收的参数
+//        for (Map.Entry<String, String> entry : inMap.entrySet()) {
+//            System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
+//        }
+
+        map.put("status", status);
+        return map;
+    }
+
+
+
+
+    @PostMapping("/edit-article")
+    @ResponseBody
+    public Map<String, Object> editArticle(@RequestParam Integer articleId,
 
                                              @RequestParam Integer authorId,
                                              @RequestParam String authorName,
@@ -38,7 +82,7 @@ public class ServletUploadArticle {
                                              @RequestParam String articleText,
 
                                              @RequestParam Integer moduleId
-                                             )
+    )
     {
         Date applyDate = new Date(Calendar.getInstance().getTimeInMillis());
 

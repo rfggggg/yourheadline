@@ -52,4 +52,14 @@ public class Validation {
     }
 
 
+    public boolean checkAuthor(int authorId, String authorName, String password) {
+        List<UserEntity> list = instance.userDAO.findByUserName(authorName);
+        if (!list.isEmpty()) {
+            UserEntity u =list.get(0);
+            if (u.getPassword().equals(password) && u.getUserId() == authorId && u.getUserType().equals("author")){
+                return true;
+            }
+        }
+        return false;
+    }
 }

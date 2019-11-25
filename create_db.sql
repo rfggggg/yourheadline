@@ -11,7 +11,7 @@ password varchar(50) not null,
 
 user_type varchar(50) not null default "normal",
 
-user_avatar_link varchar(50),
+user_avatar_link longtext,
 
 birth_date date,
 gender varchar(20),
@@ -79,9 +79,9 @@ module_id int references module(module_id),
 
 article_title varchar(200),
 article_intro text,
-article_text text,
+article_text longtext,
 
-cover_link varchar(50),
+cover_link longtext,
 
 add_time date
 
@@ -100,7 +100,7 @@ module_id int references module(module_id),
 
 article_title varchar(200),
 article_intro text,
-article_text text,
+article_text longtext,
 
 cover_link varchar(50),
 
