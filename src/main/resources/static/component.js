@@ -75,25 +75,37 @@ var app = new Vue({
             handleClickOnUserinfoPage: function (tab, event) {
                 console.log(tab, event);
             },
-            // getUser:function () {
-            //     this.userinfo={ser_id:1,user_name:"jia",user_type:"author",birth_date:"1999-01-01",gender:"man",email:"99@qq.com",
-            //         mobile_phone:"123456",add_time:"1999-01-01"};
-            // },
             onSubmitOnUserinfoPage: function () {
-                console.log('submit!');
+                let newName=$("#nameinput").val();
+                let newbirthDate=$("#birthinput").val();
+                let newgender=$("#genderinput").val();
+                let newemail=$("#emailinput").val();
+                let newmobilePhone=$("#phoneinput").val();
+                console.log(newName);
+                this.updateuserinfo(localStorage.getItem("userId"),newName,newbirthDate,newgender,newemail,newmobilePhone)
+            },
+            updateuserinfo:function(_userId,_username,_birthdate,_gender,_email,_mobilephone){
+                let data = {
+                    userId:_userId,
+                    userName:_username,
+                    birthDate:_birthdate,
+                    gender:_gender,
+                    email:_email,
+                    mobilePhone:_mobilephone
+                };
+                axios.post('/api/updateUser', data).then(function (response) {
+                    this.updateuser(response.data.user_info)
+                }.bind(this));
             },
              finduserinfo: function(_userId) {
                 let data = {
                     userId: _userId
                 };
-                axios.post('/api/userinfo', data
-                ).then(function (response) {
+                axios.post('/api/userinfo', data).then(function (response) {
                     this.updateuser(response.data.user_info)
                 }.bind(this));
-
             },
             updateuser:function (data) {
-                console.log(data);
                 this.userinfo=data;
             }
     }

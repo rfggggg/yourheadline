@@ -56,26 +56,26 @@
                         <el-tab-pane label="基本资料" name="first">
                             <el-form label-position="right" label-width="80px" :model="userinfo">
                                 <el-form-item label="用户名">
-                                    <el-input v-model="userinfo.userName"></el-input>
+                                    <el-input id="nameinput" v-model="userinfo.userName"></el-input>
                                 </el-form-item>
                                 <el-form-item label="ID">
                                     <el-input v-model="userinfo.userId" disabled="true"></el-input>
                                 </el-form-item>
                                 <el-form-item label="生日">
-                                    <el-date-picker type="date" placeholder="选择日期" v-model="userinfo.birthDate" style="width: 100%;">
+                                    <el-date-picker id="birthinput" type="date" placeholder="选择日期" v-model="userinfo.birthDate" style="width: 100%;">
                                     </el-date-picker>
                                 </el-form-item>
                                 <el-form-item label="性别">
-                                    <el-select v-model="userinfo.gender" placeholder="请选择性别">
+                                    <el-select id="genderinput" v-model="userinfo.gender" placeholder="请选择性别">
                                         <el-option label="male" value="male"></el-option>
                                         <el-option label="female" value="female"></el-option>
                                     </el-select>
                                 </el-form-item>
                                 <el-form-item label="邮箱">
-                                    <el-input v-model="userinfo.email"></el-input>
+                                    <el-input id="emailinput" v-model="userinfo.email"></el-input>
                                 </el-form-item>
                                 <el-form-item label="手机">
-                                    <el-input v-model="userinfo.mobilePhone"></el-input>
+                                    <el-input id="phoneinput" v-model="userinfo.mobilePhone"></el-input>
                                 </el-form-item>
                                 <el-form-item label="注册时间">
                                     <el-input v-model="userinfo.addTime" disabled="true"></el-input>
