@@ -23,4 +23,10 @@ public class ControllerRouter {
     {
         return "register";
     }
+
+    @GetMapping("/userinfo")
+    public String getUserPage()
+    {
+        return "userinfo";
+    }
 }
