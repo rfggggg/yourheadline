@@ -102,6 +102,8 @@ article_title varchar(200),
 article_intro text,
 article_text text,
 
+cover_link varchar(50),
+
 apply_time date
 
 );

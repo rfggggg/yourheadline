@@ -18,6 +18,7 @@ public class ServletLogin {
     public Map<String, Object> doLogin(@RequestParam String userName, @RequestParam String passWord){
 
         Map<String, Object> map = new HashMap<>();
+        int userId = 0;
         String loginStatus = "";
         String userType = "";
         String userAvatarLink = "";
@@ -34,8 +35,10 @@ public class ServletLogin {
             loginStatus = "Succeed";
             userType = list.get(0).getUserType();
             userAvatarLink = list.get(0).getUserAvatarLink();
+            userId = list.get(0).getUserId();
         }
 
+        map.put("userId", userId);
         map.put("loginStatus", loginStatus);
         map.put("userType", userType);
         map.put("userAvatarLink", userAvatarLink);
