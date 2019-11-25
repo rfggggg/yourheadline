@@ -12,7 +12,10 @@ var app = new Vue({
         ],
         mlist:[],
         clist:[],
-        hlist:[]
+        hlist:[],
+        userinfo:{user_id:1,user_name:"jia",user_type:"author",birth_date:"1999-01-01",gender:"male",email:"99@qq.com",
+            mobile_phone:"123456",add_time:"1999-01-01"
+        }
     },
     beforeMount() {
         // 调用后端的api取得模块
@@ -22,7 +25,6 @@ var app = new Vue({
     methods:{
         // 调用后端的api取得所有模块的名字
         getModules: function() {
-
             axios.get('/api/module').then(function (response) {
                 this.updateModule(response.data.module_list);
             }.bind(this));
@@ -69,6 +71,17 @@ var app = new Vue({
         updatehlist:function (data) {
             this.hlist = data;
         },
+        handleClickOnUserinfoPage:function(tab, event) {
+            console.log(tab, event);
+        },
+        getUser:function () {
+            this.userinfo={ser_id:1,user_name:"jia",user_type:"author",birth_date:"1999-01-01",gender:"man",email:"99@qq.com",
+                mobile_phone:"123456",add_time:"1999-01-01"
+        };
+        },
+        onSubmitOnUserinfoPage:function() {
+            console.log('submit!');
+        }
     }
 })
 
