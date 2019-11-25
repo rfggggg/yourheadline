@@ -30,7 +30,7 @@
             <el-card>
                 <el-button type="primary" icon="el-icon-edit" @click="writeComment">写评论</el-button>
                 <el-button type="primary" icon="el-icon-folder-add" plain>加入收藏</el-button>
-                <el-button style="float: right" type="primary" icon="el-icon-caret-top">赞同{{articleInfo.likeNum}}
+                <el-button style="float: right" type="primary" icon="el-icon-caret-top" @click="likeArticle(articleInfo[0])">赞同{{articleInfo[0].likeNum}}
                 </el-button>
                 <el-button style="float: right" type="primary" icon="el-icon-share"></el-button>
                 <el-button style="float: right" type="primary" icon="el-icon-search"></el-button>
@@ -97,9 +97,9 @@
                             <div class="info">
                                 <img class="avatar" :src="comment.fromAvatar" width="36" height="36"/>
                                 <div class="right">
-                                    <div class="name">{{comment.fromName}}
+                                    <div class="name">{{comment.userId}}
                                     </div>
-                                    <div class="date">{{comment.date}}
+                                    <div class="date">{{comment.addTime}}
                                     </div>
                                 </div>
                             </div>
@@ -125,34 +125,19 @@
 <script src="https://unpkg.com/vue/dist/vue.js"></script>
 <!-- import JavaScript -->
 <script src="https://unpkg.com/element-ui/lib/index.js"></script>
-
+<script src="js/axios.min.js"></script>
+<script src="js/jquery.min.js"></script>
 <script>
    new Vue({
       el: '#article',
       data: {
-      islike:false,
-      articleInfo:{},
+      articleInfo:[],
       newComment:{},
-      commentList:[ {
-      id: 'comment0001', //主键id
-      date: '2018-07-05 08:30',  //评论时间
-      ownerId: 'talents100020', //文章的id
-      fromId: 'errhefe232213',  //评论者id
-      fromName: '犀利的评论家',   //评论者昵称
-      fromAvatar: 'http://ww4.sinaimg.cn/bmiddle/006DLFVFgy1ft0j2pddjuj30v90uvagf.jpg', //评论者头像
-      likeNum: 3, //点赞人数
-      content: '非常靠谱的程序员',  //评论内容
+      commentList:[],
       },
-      {
-      id: 'comment0001', //主键id
-      date: '2018-07-05 08:30',  //评论时间
-      ownerId: 'talents100020', //文章的id
-      fromId: 'errhefe232213',  //评论者id
-      fromName: '犀利的评论家',   //评论者昵称
-      fromAvatar: 'http://ww4.sinaimg.cn/bmiddle/006DLFVFgy1ft0j2pddjuj30v90uvagf.jpg', //评论者头像
-      likeNum: 3, //点赞人数
-      content: '呜呜呜呜呜呜呜呜呜呜呜呜呜呜呜呜呜呜呜呜呜呜呜呜呜呜呜呜呜呜呜呜呜呜呜呜呜呜呜呜呜呜呜呜呜呜呜呜呜呜呜呜呜呜呜呜呜呜阿伟死了',  //评论内容
-      }]
+      beforeMount(){
+      this.getArticleInfo();
+      this.getAllComment();
       },
       methods: {
         getArticleInfo: function() {
@@ -160,18 +145,39 @@
                 this.updateArticleInfo(response.data.article_list);
             }.bind(this));
         },
-        updateArticleInfo:function(info){
-        this.articleInfo=info;
+        getAllComment:function(){
+         axios.get('/api/comment?id=1').then(function (response) {
+                this.updateCommentList(response.data.comment_list);
+            }.bind(this));
+        },
+        likeArticle:function(article){
+           if (article.isLike === null) {
+          Vue.$set(article, "isLike", true);
+          article.likeNum++;
+          this.plusLikeNumOfArticle(article.articleId);
+        } else {
+          if (article.isLike) {
+            article.likeNum--;
+            this.minusLikeNumOfArticle(article.articleId);
+          } else {
+            article.likeNum++;
+            this.plusLikeNumOfArticle(article.articleId);
+          }
+          article.isLike = !article.isLike;
+        }
         },
         likeComment:function(comment){
            if (comment.isLike === null) {
           Vue.$set(comment, "isLike", true);
           comment.likeNum++;
+          this.plusLikeNumOfComment(comment.commentId);
         } else {
           if (comment.isLike) {
             comment.likeNum--;
+            this.minusLikeNumOfComment(comment.commentId);
           } else {
             comment.likeNum++;
+            this.plusLikeNumOfComment(comment.commentId);
           }
           comment.isLike = !comment.isLike;
         }
@@ -182,6 +188,7 @@
           cancelButtonText: '取消',
         }).then(({ value }) => {
           this.newComment=value;
+         // this.addComment(newComment);
           this.$message({
             type: 'success',
             message: '评论成功'
@@ -192,7 +199,29 @@
             message: '取消评论'
           });
         });
-        }
+        },
+         plusLikeNumOfArticle:function(id){
+         axios.get('/api/plusLikeNumOfArticle?id='+id).then(function (response) {
+            }.bind(this));
+        },
+        minusLikeNumOfArticle:function(id){
+         axios.get('/api/minusLikeNumOfArticle?id='+id).then(function (response) {
+            }.bind(this));
+        },
+        plusLikeNumOfComment:function(id){
+         axios.get('/api/plusLikeNumOfComment?id='+id).then(function (response) {
+            }.bind(this));
+        },
+        minusLikeNumOfComment:function(id){
+         axios.get('/api/minusLikeNumOfComment?id='+id).then(function (response) {
+            }.bind(this));
+        },
+        updateArticleInfo:function(info){
+        this.articleInfo=info;
+        },
+        updateCommentList:function(commentList){
+        this.commentList=commentList;
+        },
         }
     })
 

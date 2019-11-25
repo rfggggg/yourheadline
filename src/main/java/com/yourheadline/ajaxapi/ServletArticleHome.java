@@ -1,13 +1,10 @@
 package com.yourheadline.ajaxapi;
 
-import com.yourheadline.dao.ArticleDAO;
 import com.yourheadline.dao.ArticleInfoDAO;
 import com.yourheadline.model.ArticleInfo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
-import com.yourheadline.entity.*;
-import java.sql.*;
+
 import java.util.*;
 
 @RestController
