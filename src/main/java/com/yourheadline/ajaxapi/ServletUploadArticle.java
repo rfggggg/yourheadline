@@ -45,12 +45,32 @@ public class ServletUploadArticle {
         String status = "";
 
         if (validation.checkAuthor(authorId, authorName, password)){
-                ArticleUncheckedEntity a = articleUncheckedDAO.save(
-                        new ArticleUncheckedEntity(
-                                authorId,moduleId ,articleTitle,articleIntro,articleText,applyDate
-                        )
-                );
+            ArticleUncheckedEntity a = new ArticleUncheckedEntity();
+            a.setAuthorId(authorId);
+            a.setArticleTitle(articleTitle);
+            a.setArticleIntro(articleIntro);
+            a.setArticleText(articleText);
+            a.setApplyTime(applyDate);
+            a.setModuleId(moduleId);
+
+            String firstImageBeginTag = "<img src=\"";
+            char firstImageEndTag = '\"';
+            int firstImageBegin = articleText.indexOf(firstImageBeginTag);
+            if (firstImageBegin!=-1) {
+                firstImageBegin += firstImageBeginTag.length();
+                int firstImageLength = articleText.substring(firstImageBegin).indexOf(firstImageEndTag);
+                firstImageLength += 1;
+                String firstImageData = articleText.substring(firstImageBegin, firstImageBegin + firstImageLength);
+                a.setCoverLink(firstImageData);
+            }
+
+            a = articleUncheckedDAO.save(a);
+            if (a!=null) {
                 status = "Succeed";
+            }
+            else{
+                status = "DatabaseInnerError";
+            }
         }
         else{
             status = "FailCheckAuthor";
