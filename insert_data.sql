@@ -2,9 +2,9 @@ use yourheadline;
 
 
 
-insert into user values(1, 'author0', '123456', 'author', '', '1999-01-01', 'male', '666@gmail.com', '12345678901', '2019-11-14');
+insert into user values(1, 'author0', '123456', 'author', 'img/p_big3.jpg', '1999-01-01', 'male', '666@gmail.com', '12345678901', '2019-11-14');
 insert into user values(2, 'author1', '123456', 'author', '', '1999-01-01', 'male', '666@gmail.com', '12345678901', '2019-11-14');
-insert into user values(3, 'editor0', '123456', 'editor', '', '1999-01-01', 'male', '666@gmail.com', '12345678901', '2019-11-14');
+insert into user values(3, 'editor0', '123456', 'editor', 'img/p_big3.jpg', '1999-01-01', 'male', '666@gmail.com', '12345678901', '2019-11-14');
 insert into user values(4, 'editor1', '123456', 'editor', '', '1999-01-01', 'male', '666@gmail.com', '12345678901', '2019-11-14');
 insert into user values(5, 'newauthor0', '123456', 'unchecked_author', '', '1999-01-01', 'male', '666@gmail.com', '12345678901', '2019-11-14');
 insert into user values(6, 'newauthor1', '123456', 'unchecked_author', '', '1999-01-01', 'male', '666@gmail.com', '12345678901', '2019-11-14');

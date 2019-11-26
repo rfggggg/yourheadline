@@ -14,7 +14,10 @@
         </el-col>
         <el-col span="12">
             <el-card>
-                <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
+                <el-avatar src="articleInfo[0].authorAvatarLink"></el-avatar>{{articleInfo[0].authorName}}
+                <div style="text-align:center">
+                        {{articleInfo[0].articleTitle}}
+                </div>
             </el-card>
         </el-col>
         <el-col span="6">
@@ -95,9 +98,9 @@
                     <div class="container">
                         <div class="comment" v-for="comment in commentList">
                             <div class="info">
-                                <img class="avatar" :src="comment.fromAvatar" width="36" height="36"/>
+                                <img class="avatar" :src="comment.userAvatarLink" width="36" height="36"/>
                                 <div class="right">
-                                    <div class="name">{{comment.userId}}
+                                    <div class="name">{{comment.userName}}
                                     </div>
                                     <div class="date">{{comment.addTime}}
                                     </div>

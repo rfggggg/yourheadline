@@ -2,6 +2,7 @@ package com.yourheadline.ajaxapi;
 
 import com.yourheadline.dao.CommentDAO;
 import com.yourheadline.entity.CommentEntity;
+import com.yourheadline.model.CommentInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,7 +22,7 @@ public class ServletComment {
     public Map<String, Object> getAllCommentOfArticle(@RequestParam int id) {
         Map<String, Object> map = new HashMap<String, Object>();
 
-        List<CommentEntity> clist = commentDAO.findByArticleId(id);
+        List<CommentInfo> clist = commentDAO.findByArticleId(id);
 
         map.put("comment_list", clist);
 
@@ -47,7 +48,7 @@ public class ServletComment {
         Map<String, Object> map = new HashMap<String, Object>();
 
         CommentEntity comment = commentDAO.findByCommentId(id);
-        comment.setLikeNum(comment.getLikeNum()+1);
+        comment.setLikeNum(comment.getLikeNum()-1);
         commentDAO.save(comment);
         map.put("comment", comment);
 
