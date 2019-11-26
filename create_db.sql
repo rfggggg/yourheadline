@@ -102,7 +102,7 @@ article_title varchar(200),
 article_intro text,
 article_text longtext,
 
-cover_link varchar(50),
+cover_link longtext,
 
 apply_time date
 

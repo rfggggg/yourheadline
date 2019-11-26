@@ -14,8 +14,7 @@ public class ArticleUncheckedEntity {
     private String articleIntro;
     private String articleText;
     private Date applyTime;
-
-
+    private String coverLink;
 
     public ArticleUncheckedEntity(Integer authorId,
                                   Integer moduleId,
@@ -49,10 +48,10 @@ public class ArticleUncheckedEntity {
         this.applyTime = applyTime;
     }
 
+
     public ArticleUncheckedEntity() {
 
     }
-
 
     @Id
     @Column(name = "id")
@@ -142,5 +141,15 @@ public class ArticleUncheckedEntity {
     @Override
     public int hashCode() {
         return Objects.hash(id, authorId, moduleId, articleTitle, articleIntro, articleText, applyTime);
+    }
+
+    @Basic
+    @Column(name = "cover_link")
+    public String getCoverLink() {
+        return coverLink;
+    }
+
+    public void setCoverLink(String coverLink) {
+        this.coverLink = coverLink;
     }
 }
