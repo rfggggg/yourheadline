@@ -78,4 +78,27 @@ public class ServletUpdateUser {
         }
         return null;
     }
+
+    @PostMapping("/updateUser/updateAvatarLink")
+    @ResponseBody
+    public Map<String, Object> updateuserAvatarLink(@RequestBody Map<String, String> inMap){
+        Map<String, Object> map = new HashMap<>();
+
+        UserEntity u = new UserEntity();
+        if (inMap.containsKey("userId")) {
+            int userId = Integer.parseInt(inMap.get("userId"));
+
+            List<UserEntity> userinfo = new ArrayList<>();
+            userinfo = userDAO.findByUserId(userId);
+            if (!userinfo.isEmpty()){
+                u = userinfo.get(0);
+            }
+            if (inMap.containsKey("userAvatarLink")) {
+                u.setUserAvatarLink(inMap.get("userAvatarLink"));
+            }
+            userDAO.save(u);
+        }
+        map.put("user_info", u);
+        return map;
+    }
 }

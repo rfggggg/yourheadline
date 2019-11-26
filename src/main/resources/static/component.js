@@ -16,7 +16,9 @@ var app = new Vue({
         userinfo:{userId:1,userName:"jia",userType:"author",birthDate:"1999-01-01",gender:"male",email:"99@qq.com",
             mobilePhone:"123456",addTime:"1999-01-01"
         },
-        ufilist:[]
+        ufilist:[],
+        imageUrl:'',
+        changeuseravatarlink:false
     },
     beforeMount() {
         // 调用后端的api取得模块
@@ -83,7 +85,6 @@ var app = new Vue({
                 let newgender=$("#genderinput").val();
                 let newemail=$("#emailinput").val();
                 let newmobilePhone=$("#phoneinput").val();
-                console.log(newName);
                 this.updateuserinfo(localStorage.getItem("userId"),newName,newbirthDate,newgender,newemail,newmobilePhone);
                 this.open1();
             },
@@ -132,15 +133,51 @@ var app = new Vue({
             },
             unfollow:function(index,row){
                 this.deleteuserfollow(row.followId);
-                this.ufilist.splice(index,1);
             },
             deleteuserfollow:function (_followId) {
                 let data={
                     followId:_followId
                 }
                 axios.post('/api/updateUser/deletefollow', data).then(function (response) {
+                    this.finduserfollowinfo(localStorage.getItem("userId"));
                 }.bind(this));
-                //this.finduserfollowinfo(localStorage.getItem("userId"));
+            },
+            handleAvatarSuccess:function(res, file) {
+                this.imageUrl = URL.createObjectURL(file.raw);
+            },
+            beforeAvatarUpload:function(file) {
+                const isJPG = file.type === 'image/jpeg';
+                const isLt2M = file.size / 1024 / 1024 < 2;
+
+                if (!isJPG) {
+                    this.$message.error('上传头像图片只能是 JPG 格式!');
+                }
+                if (!isLt2M) {
+                    this.$message.error('上传头像图片大小不能超过 2MB!');
+                }
+                return isJPG && isLt2M;
+            },
+            changeUserAvatarLink:function() {
+                this.changeuseravatarlink=true;
+            },
+            closeChangeUserAvatarLinkWithCancel:function () {
+                this.changeuseravatarlink=false;
+                this.imageUrl='';
+            },
+            closeChangeUserAvatarLinkWithEnter:function () {
+                this.changeuseravatarlink=false;
+                let newuserAvatarLink=this.imageUrl;
+                this.updateuserAvatarLink(localStorage.getItem("userId"),newuserAvatarLink);
+                this.imageUrl='';
+            },
+            updateuserAvatarLink:function (_userId,_newuserAvatarLink) {
+                let data = {
+                    userId:_userId,
+                    userAvatarLink:_newuserAvatarLink
+                };
+                axios.post('/api/updateUser/updateAvatarLink', data).then(function (response) {
+                    this.updateuser(response.data.user_info)
+                }.bind(this));
             }
     }
 });

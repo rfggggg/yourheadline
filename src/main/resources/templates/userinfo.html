@@ -24,10 +24,10 @@
 <!--                pic-->
                 <el-row>
                 <el-col :span="4">
-                    <div class="demo-image">
+                    <div class="demo-image" v-model="userinfo">
                         <el-image
                                 style="width: 100px; height: 100px"
-                                src="https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg"
+                                v-bind:src="userinfo.userAvatarLink"
                                 fit="fill"></el-image>
                     </div>
                 </el-col>
@@ -38,6 +38,28 @@
                     <div v-model="userinfo" class="userid">
                         ID:{{userinfo.userId}}
                     </div>
+                    <el-button type="primary" @click="changeUserAvatarLink">修改头像</el-button>
+                    <el-dialog
+                            title="修改头像"
+                            :visible.sync="changeuseravatarlink"
+                            width="30%"
+                            :before-close="handleClose">
+                        <span style="text-align: center;display:block;">
+                                <el-upload
+                                        class="avatar-uploader"
+                                        action="https://jsonplaceholder.typicode.com/posts/"
+                                        :show-file-list="false"
+                                        :on-success="handleAvatarSuccess"
+                                        :before-upload="beforeAvatarUpload">
+                                <img v-if="imageUrl" :src="imageUrl" class="avatar">
+                                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                            </el-upload>
+                        </span>
+                        <span slot="footer" class="dialog-footer" style="text-align: center;display:block;">
+                            <el-button @click="closeChangeUserAvatarLinkWithCancel">取 消</el-button>
+                            <el-button type="primary" @click="closeChangeUserAvatarLinkWithEnter">确 定</el-button>
+                        </span>
+                    </el-dialog>
                 </el-col>
                 </el-row>
             </el-card>
@@ -93,13 +115,15 @@
                                         <template slot-scope="scope">
                                             <el-image
                                                     style="width: 50px; height: 50px"
-                                                    src="scope.row.authorAvatarLink"
+                                                    v-bind:src="scope.row.authorAvatarLink"
                                                     fit="fill"></el-image>
                                         </template>
                                     </el-table-column>
                                     <el-table-column prop="authorName" label="用户名" width="250"></el-table-column>
                                     <el-table-column prop="followNum" label="关注人数" width="180"></el-table-column>
-                                    <el-table-column prop="addTime" label="注册时间" width="250"></el-table-column>
+                                    <el-table-column prop="addTime" label="注册时间" width="250">
+
+                                    </el-table-column>
                                     <el-table-column label="操作" width="180">
                                         <template slot-scope="scope">
                                             <el-button type="primary" @click="unfollow(scope.$index,scope.row)">取消关注</el-button>
@@ -171,6 +195,29 @@
     }
     .userid {
         color: #cbd3da;
+    }
+    .avatar-uploader .el-upload {
+        border: 1px dashed #d9d9d9;
+        border-radius: 6px;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+    }
+    .avatar-uploader .el-upload:hover {
+        border-color: #409EFF;
+    }
+    .avatar-uploader-icon {
+        font-size: 28px;
+        color: #8c939d;
+        width: 178px;
+        height: 178px;
+        line-height: 178px;
+        text-align: center;
+    }
+    .avatar {
+        width: 178px;
+        height: 178px;
+        display: block;
     }
 </style>
 
