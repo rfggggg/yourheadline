@@ -24,7 +24,7 @@
 <!--                pic-->
                 <el-row>
                 <el-col :span="4">
-                    <div class="demo-image" v-model="userinfo">
+                    <div class="demo-image">
                         <el-image
                                 style="width: 100px; height: 100px"
                                 v-bind:src="userinfo.userAvatarLink"
@@ -46,12 +46,8 @@
                             :before-close="handleClose">
                         <span style="text-align: center;display:block;">
                                 <el-upload
-                                        class="avatar-uploader"
-                                        action="https://jsonplaceholder.typicode.com/posts/"
-                                        :show-file-list="false"
-                                        :on-success="handleAvatarSuccess"
-                                        :before-upload="beforeAvatarUpload">
-                                <img v-if="imageUrl" :src="imageUrl" class="avatar">
+                                        action='' :on-change="convertUserAvatar" :limit="1" list-type="picture" :auto-upload="false">
+                                <img v-if="userinfo.userAvatarLink" :src="userinfo.userAvatarLink" class="avatar">
                                 <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                             </el-upload>
                         </span>

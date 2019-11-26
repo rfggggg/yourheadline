@@ -17,7 +17,7 @@ var app = new Vue({
             mobilePhone:"123456",addTime:"1999-01-01"
         },
         ufilist:[],
-        imageUrl:'',
+        newUserAvartaLinkOnserinfoPage:'',
         changeuseravatarlink:false
     },
     beforeMount() {
@@ -142,33 +142,25 @@ var app = new Vue({
                     this.finduserfollowinfo(localStorage.getItem("userId"));
                 }.bind(this));
             },
-            handleAvatarSuccess:function(res, file) {
-                this.imageUrl = URL.createObjectURL(file.raw);
-            },
-            beforeAvatarUpload:function(file) {
-                const isJPG = file.type === 'image/jpeg';
-                const isLt2M = file.size / 1024 / 1024 < 2;
-
-                if (!isJPG) {
-                    this.$message.error('上传头像图片只能是 JPG 格式!');
-                }
-                if (!isLt2M) {
-                    this.$message.error('上传头像图片大小不能超过 2MB!');
-                }
-                return isJPG && isLt2M;
+            handleClose:function(done) {
+                this.$confirm('确认关闭？')
+                    .then(_ => {
+                        done();
+                    })
+                    .catch(_ => {});
             },
             changeUserAvatarLink:function() {
                 this.changeuseravatarlink=true;
             },
             closeChangeUserAvatarLinkWithCancel:function () {
                 this.changeuseravatarlink=false;
-                this.imageUrl='';
+                this.newUserAvartaLinkOnserinfoPage ='';
             },
             closeChangeUserAvatarLinkWithEnter:function () {
                 this.changeuseravatarlink=false;
-                let newuserAvatarLink=this.imageUrl;
+                let newuserAvatarLink=this.newUserAvartaLinkOnserinfoPage ;
                 this.updateuserAvatarLink(localStorage.getItem("userId"),newuserAvatarLink);
-                this.imageUrl='';
+                this.newUserAvartaLinkOnserinfoPage ='';
             },
             updateuserAvatarLink:function (_userId,_newuserAvatarLink) {
                 let data = {
@@ -178,6 +170,17 @@ var app = new Vue({
                 axios.post('/api/updateUser/updateAvatarLink', data).then(function (response) {
                     this.updateuser(response.data.user_info)
                 }.bind(this));
+            },
+            convertUserAvatar: function (file,fileList){
+                console.log(file);
+                if (file.raw) {
+                    let reader = new FileReader();
+                    reader.readAsDataURL(file.raw);
+                    reader.onload = function () {
+                        app.newUserAvartaLinkOnserinfoPage= reader.result;
+                    };
+
+                }
             }
     }
 });
