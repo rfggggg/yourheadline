@@ -29,6 +29,7 @@ public class ControllerRouter {
     {
         return "userinfo";
     }
+
     @GetMapping("/register-author")
     public String getRegisterAuthorPage() {return "register-author"; }
 

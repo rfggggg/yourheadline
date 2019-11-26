@@ -1,7 +1,9 @@
 package com.yourheadline.ajaxapi;
 
 import com.yourheadline.dao.UserDAO;
+import com.yourheadline.dao.UserFollowInfoDAO;
 import com.yourheadline.entity.UserEntity;
+import com.yourheadline.model.UserFollowInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,4 +35,5 @@ public class ServletUserinfo {
         map.put("user_info",u);
         return map;
     }
+
 }

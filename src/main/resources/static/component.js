@@ -15,13 +15,15 @@ var app = new Vue({
         hlist:[],
         userinfo:{userId:1,userName:"jia",userType:"author",birthDate:"1999-01-01",gender:"male",email:"99@qq.com",
             mobilePhone:"123456",addTime:"1999-01-01"
-        }
+        },
+        ufilist:[]
     },
     beforeMount() {
         // 调用后端的api取得模块
         this.getModules();
         this.toHome();
         this.finduserinfo(localStorage.getItem("userId"));
+        this.finduserfollowinfo(localStorage.getItem("userId"));
     },
     methods: {
             // 调用后端的api取得所有模块的名字
@@ -82,7 +84,8 @@ var app = new Vue({
                 let newemail=$("#emailinput").val();
                 let newmobilePhone=$("#phoneinput").val();
                 console.log(newName);
-                this.updateuserinfo(localStorage.getItem("userId"),newName,newbirthDate,newgender,newemail,newmobilePhone)
+                this.updateuserinfo(localStorage.getItem("userId"),newName,newbirthDate,newgender,newemail,newmobilePhone);
+                this.open1();
             },
             updateuserinfo:function(_userId,_username,_birthdate,_gender,_email,_mobilephone){
                 let data = {
@@ -107,6 +110,37 @@ var app = new Vue({
             },
             updateuser:function (data) {
                 this.userinfo=data;
+            },
+            open1:function() {
+                this.$notify({
+                    title: '成功',
+                    message: '用户基本资料已更新',
+                    type: 'success'
+                });
+                console.log("资料修改成功");
+            },
+            finduserfollowinfo:function (_userId) {
+                let data = {
+                    userId: _userId
+                };
+                axios.post('/api/userfollowinfo', data).then(function (response) {
+                    this.updateuserfollowinfo(response.data.user_info)
+                }.bind(this));
+            },
+            updateuserfollowinfo:function (data) {
+                this.ufilist=data;
+            },
+            unfollow:function(index,row){
+                this.deleteuserfollow(row.followId);
+                this.ufilist.splice(index,1);
+            },
+            deleteuserfollow:function (_followId) {
+                let data={
+                    followId:_followId
+                }
+                axios.post('/api/updateUser/deletefollow', data).then(function (response) {
+                }.bind(this));
+                //this.finduserfollowinfo(localStorage.getItem("userId"));
             }
     }
 });

@@ -26,6 +26,16 @@ select * from article_info where article_id in
 end //
 delimiter ;
 
+create or replace view user_like_author_info
+(follow_id,user_id,author_id, author_name, author_avatar_link, add_time,follow_num)
+as
+select f.follow_id,f.user_id,author_like.author_id, author_like.author_name, author_like.author_avatar_link, author_like.add_time, author_like.follow_num
+ from follow as f
+ left join
+ (select a.user_id, a.user_name, a.user_avatar_link, a.add_time, count(ff.author_id)
+ from follow as ff left join user as a on ff.author_id = a.user_id group by ff.author_id)
+ as author_like(author_id, author_name, author_avatar_link, add_time,follow_num)
+ on f.author_id=author_like.author_id ;
 
 
 
