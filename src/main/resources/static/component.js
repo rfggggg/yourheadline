@@ -12,7 +12,8 @@ var app = new Vue({
         ],
         mlist:[],
         clist:[],
-        hlist:[]
+        hlist:[],
+        input1:''
     },
     beforeMount() {
         // 调用后端的api取得模块
@@ -20,9 +21,12 @@ var app = new Vue({
         this.toHome();
     },
     methods:{
+        getInput:function(){
+            alert(this.input1);
+            return this.input1;
+        },
         // 调用后端的api取得所有模块的名字
         getModules: function() {
-
             axios.get('/api/module').then(function (response) {
                 this.updateModule(response.data.module_list);
             }.bind(this));

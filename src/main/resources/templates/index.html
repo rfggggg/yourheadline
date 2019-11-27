@@ -17,6 +17,12 @@
         <div class = "top-div" @click = "toHome">
             <img src="./img/logo.png" style="height: 80px; cursor: pointer; margin-left: 40px">
         </div>
+        <div class="top-div" id="searchBar">
+            <el-input v-model="input1" placeholder="请输入内容"></el-input>
+        </div>
+        <div class="top-div" style="margin-top: 25px">
+            <el-button icon="el-icon-search" circle @click="getInput"></el-button>
+        </div>
         <div class="top-div" id="location_component">
             <i class="el-icon-location-information"></i>
             <label id="location"></label>
@@ -223,17 +229,23 @@
     .top-div{
         float: left;
     }
-    #clock{
-        width: 320px;
-        margin-left: 100px;
-        margin-top: 30px;
-        color: black;
-        font-size: medium;
+    #searchBar{
+        width: 260px;
+        height: 20px;
+        margin-top: 25px;
+        margin-left: 150px;
     }
     #location_component{
         width: 80px;
-        margin-left: 45%;
+        margin-left: 20%;
         margin-top: 30px;
+        font-size: medium;
+    }
+    #clock{
+        width: 320px;
+        margin-left: 50px;
+        margin-top: 30px;
+        color: black;
         font-size: medium;
     }
     .demonstration{
