@@ -1,7 +1,7 @@
 create or replace view article_info
-(article_id, author_id, editor_id, module_id, article_title, article_intro, add_time, author_name, author_avatar_link, like_num)
+(article_id, author_id, editor_id, module_id, article_title, article_intro, add_time, cover_link, author_name, author_avatar_link, like_num)
 as
-select a.article_id, a.author_id, a.editor_id, a.module_id, a.article_title, a.article_intro, a.add_time, au.user_name, au.user_avatar_link, count(u.like_id) from article as a left join user as au on a.author_id = au.user_id left join user_like_article as u on a.article_id = u.article_id group by a.article_id;
+select a.article_id, a.author_id, a.editor_id, a.module_id, a.article_title, a.article_intro, a.add_time, cover_link, au.user_name, au.user_avatar_link, count(u.like_id) from article as a left join user as au on a.author_id = au.user_id left join user_like_article as u on a.article_id = u.article_id group by a.article_id;
 
 create or replace view comment_info
 (comment_id,content,add_time,like_num,article_id,user_id,user_name,user_avatar_link)

@@ -14,15 +14,27 @@ public class ServletUserLikeArticle {
     @Autowired
     UserLikeArticleDAO userLikeArticleDAO;
 
-    @GetMapping("/plusLikeNumOfArticle")
+    @PostMapping("/plusLikeNumOfArticle")
     @ResponseBody
-    public Map<String, Object> plusLikeNumOfArticle(@RequestParam int userId,int articleId ) {
+    public Map<String, Object> plusLikeNumOfArticle(@RequestBody Map<String,String>data) {
         Map<String, Object> map = new HashMap<String, Object>();
 
 
-     //   UserLikeArticleEntity newLike = new UserLikeArticleEntity();
-       // userLikeArticleDAO.save(newLike);
-        //map.put("userLikeArticle", newLike);
+        UserLikeArticleEntity newLike = new UserLikeArticleEntity();
+        newLike.setArticleId(Integer.parseInt(data.get("articleId")));
+        newLike.setUserId(Integer.parseInt(data.get("userId")));
+        userLikeArticleDAO.save(newLike);
+        map.put("userLikeArticle", newLike);
+
+        return map;
+    }
+
+    @PostMapping("/minusLikeNumOfArticle")
+    @ResponseBody
+    public Map<String, Object> minusLikeNumOfArticle(@RequestBody Map<String,String>data) {
+        Map<String, Object> map = new HashMap<String, Object>();
+
+        userLikeArticleDAO.deleteByUserIdAndArticleId(Integer.parseInt(data.get("userId")),Integer.parseInt(data.get("articleId")));
 
         return map;
     }

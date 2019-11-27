@@ -13,13 +13,13 @@
     <link rel="stylesheet" href="css/style.default.css" id="theme-stylesheet">
   </head>
   <body>
-    <div class="page login-page">
+    <div class="page login-page" >
       <div class="container d-flex align-items-center">
         <div class="form-holder has-shadow">
           <div class="row">
             <!-- Logo & Information Panel-->
             <div class="col-lg-6">
-              <div class="info d-flex align-items-center">
+              <div class="info d-flex align-items-center" style="background-color: #a71d2a;">
                 <div class="content">
                   <div class="logo">
                     <h1>成为作者！</h1>
@@ -92,13 +92,29 @@
       {
         $.ajax({
           type:"post",
-          url:"/api/register",
+          url:"/api/register-author",
           data:{"userName":userName,"passWord":passWord},
           async:true,
-          success:function(res){
-            localStorage.setItem("userName",userName);
-            localStorage.setItem("passWord",passWord);
-            location="/";
+          success:function(response){
+            // console.log(response);
+            let status = response.registerStatus;
+            let userAvatarLink = response.userAvatarLink;
+            let userType = response.userType;
+            let userId = response.userId;
+            if (status == "UsernameExist"){
+              alert(status);
+            }
+            else if (status == "PasswordTooShort"){
+              alert(status);
+            }
+            else if (status == "Succeed"){
+              localStorage.setItem("userId", userId);
+              localStorage.setItem("userName", userName);
+              localStorage.setItem("passWord", passWord);
+
+              localStorage.setItem("userType", userType);
+              localStorage.setItem("userAvatarLink", userAvatarLink);
+            }
           }
         });
       }

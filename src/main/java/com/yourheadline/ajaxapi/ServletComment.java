@@ -6,6 +6,7 @@ import com.yourheadline.model.CommentInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -51,6 +52,23 @@ public class ServletComment {
         comment.setLikeNum(comment.getLikeNum()-1);
         commentDAO.save(comment);
         map.put("comment", comment);
+
+        return map;
+    }
+
+    @PostMapping("/addNewComment")
+    @ResponseBody
+    public Map<String, Object> addNewComment(@RequestBody Map<String,String> data) {
+
+        Map<String, Object> map = new HashMap<String, Object>();
+        CommentEntity newComment = new CommentEntity();
+       // newComment.setAddTime(new Date());
+        newComment.setContent(data.get("content"));
+        newComment.setLikeNum(0);
+        newComment.setArticleId(Integer.parseInt(data.get("articleId")));
+        newComment.setUserId(Integer.parseInt(data.get("userId")));
+        commentDAO.save(newComment);
+        map.put("comment", newComment);
 
         return map;
     }
