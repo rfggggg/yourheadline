@@ -137,9 +137,10 @@ var app = new Vue({
                 for(i=0;i<data.length;i++) {
                     if (data[i].authorAvatarLink === "" || data[i].authorAvatarLink === undefined || data[i].authorAvatarLink === null) {
                         this.ufilist[i].authorAvatarLink = "./img/touxiang.png";
-                        console.log(this.ufilist[i].authorAvatarLink);
                     }
+                    this.ufilist[i].addTime=this.ufilist[i].addTime.substring(0,10);
                 }
+
             },
             unfollow:function(index,row){
                 this.deleteuserfollow(row.followId);
