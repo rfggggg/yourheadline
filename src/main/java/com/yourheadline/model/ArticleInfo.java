@@ -28,6 +28,8 @@ public class ArticleInfo{
     public String articleIntro;
     @Autowired
     public Date addTime;
+    @Autowired
+    public String coverLink;
 
     @Autowired
     public String authorName;
@@ -45,6 +47,7 @@ public class ArticleInfo{
                        String articleTitle,
                        String articleIntro,
                        Date addTime,
+                       String coverLink,
                        String authorName,
                        String authorAvatarLink,
                        int likeNum)
@@ -56,6 +59,7 @@ public class ArticleInfo{
         this.articleTitle = articleTitle;
         this.articleIntro = articleIntro;
         this.addTime = addTime;
+        this.coverLink = coverLink;
         this.authorName = authorName;
         this.authorAvatarLink = authorAvatarLink;
         this.likeNum = likeNum;
