@@ -25,10 +25,10 @@
                 <el-row>
                 <el-col :span="4">
                     <div class="demo-image">
-                        <el-image
+                        <img
                                 style="width: 100px; height: 100px"
-                                v-bind:src="userinfo.userAvatarLink"
-                                fit="fill"></el-image>
+                                :src="userinfo.userAvatarLink"
+                                fit="fill"></img>
                     </div>
                 </el-col>
                 <el-col :span="4">
@@ -109,10 +109,10 @@
                                 <el-table :data="ufilist" height="250"  style="width: 100%">
                                     <el-table-column label="头像" width="100">
                                         <template slot-scope="scope">
-                                            <el-image
+                                            <img
                                                     style="width: 50px; height: 50px"
-                                                    v-bind:src="scope.row.authorAvatarLink"
-                                                    fit="fill"></el-image>
+                                                    :src="scope.row.authorAvatarLink"
+                                                    fit="fill"></img>
                                         </template>
                                     </el-table-column>
                                     <el-table-column prop="authorName" label="用户名" width="250"></el-table-column>
