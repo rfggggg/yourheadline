@@ -111,6 +111,10 @@ var app = new Vue({
             },
             updateuser:function (data) {
                 this.userinfo=data;
+                this.userinfo.userAvatarLink=require(this.userinfo.userAvatarLink);
+                if(data.userAvatarLink===""||data.userAvatarLink===undefined||data.userAvatarLink===null){
+                    this.userinfo.userAvatarLink="./img/touxiang.png";
+                }
             },
             open1:function() {
                 this.$notify({
@@ -130,6 +134,13 @@ var app = new Vue({
             },
             updateuserfollowinfo:function (data) {
                 this.ufilist=data;
+                console.log("dfdsf")
+                for(i=0;i<data.length;i++) {
+                    if (data[i].authorAvatarLink === "" || data[i].authorAvatarLink === undefined || data[i].authorAvatarLink === null) {
+                        this.ufilist[i].authorAvatarLink = "./img/touxiang.png";
+                        console.log(this.ufilist[i].authorAvatarLink);
+                    }
+                }
             },
             unfollow:function(index,row){
                 this.deleteuserfollow(row.followId);
