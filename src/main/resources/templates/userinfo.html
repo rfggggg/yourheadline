@@ -28,7 +28,7 @@
                         <img
                                 style="width: 100px; height: 100px"
                                 :src="userinfo.userAvatarLink"
-                                fit="fill"></img>
+                                fit="fill"/>
                     </div>
                 </el-col>
                 <el-col :span="4">
@@ -47,7 +47,7 @@
                         <span style="text-align: center;display:block;">
                                 <el-upload
                                         action='' :on-change="convertUserAvatar" :limit="1" list-type="picture" :auto-upload="false">
-                                <img v-if="userinfo.userAvatarLink" :src="userinfo.userAvatarLink" class="avatar">
+                                <img v-if="newUserAvartaLinkOnserinfoPage" :src="newUserAvartaLinkOnserinfoPage" class="avatar">
                                 <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                             </el-upload>
                         </span>

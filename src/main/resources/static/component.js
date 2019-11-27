@@ -111,7 +111,6 @@ var app = new Vue({
             },
             updateuser:function (data) {
                 this.userinfo=data;
-                this.userinfo.userAvatarLink=require(this.userinfo.userAvatarLink);
                 if(data.userAvatarLink===""||data.userAvatarLink===undefined||data.userAvatarLink===null){
                     this.userinfo.userAvatarLink="./img/touxiang.png";
                 }
