@@ -9,10 +9,7 @@ show warnings;
 
 DROP PROCEDURE IF EXISTS select_collection_by_user_id;
 
-
 show warnings;
-
-
 
 delimiter //
 create procedure select_collection_by_user_id(in p_uid Integer)
@@ -22,16 +19,12 @@ select * from article_info where article_id in
 end //
 delimiter ;
 
-show warnings;
-
 
 
 
 DROP PROCEDURE IF EXISTS select_history_by_user_id;
 
-
 show warnings;
-
 
 
 delimiter //
@@ -41,6 +34,7 @@ select * from article_info where article_id in
 (select article_id from viewed where user_id = p_uid);
 end //
 delimiter ;
+
 
 show warnings;
 
@@ -58,8 +52,7 @@ select f.follow_id,f.user_id,author_like.author_id, author_like.author_name, aut
  as author_like(author_id, author_name, author_avatar_link, add_time,follow_num)
  on f.author_id=author_like.author_id ;
  
- show warnings;
- 
+show warnings;
  
 
 
