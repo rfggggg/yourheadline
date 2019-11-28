@@ -106,7 +106,7 @@
         </div>
     </div>
     <div class = "loginBlock">
-        <div class = "innerBlock">
+        <div class = "innerBlock" id="logoutStatus">
             <span>资讯不断，登录点赞，信息万千，收藏每天</span>
             <img src="./img/touxiang.png">
             <a class = "loginButton" href="login">
@@ -116,6 +116,9 @@
                 没有账号？注册一个吧!
             </a>
         </div>
+<!--        <div class = "innerBlock" id="loginStatus">-->
+<!--            <input type="button" value="退出登录" onclick="logout()">-->
+<!--        </div>-->
     </div>
 </div>
 
@@ -186,6 +189,7 @@
         }
     });
 </script>
+
 <script>
     $(function() {
         let userName = localStorage.getItem("userName");
@@ -195,6 +199,7 @@
 
     })
 </script>
+
 
 
 <style>
