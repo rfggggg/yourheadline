@@ -13,13 +13,21 @@
     <link rel="stylesheet" href="css/style.default.css" id="theme-stylesheet">
   </head>
   <body>
+<<<<<<< HEAD
     <div class="page login-page">
+=======
+    <div class="page login-page" >
+>>>>>>> xy
       <div class="container d-flex align-items-center">
         <div class="form-holder has-shadow">
           <div class="row">
             <!-- Logo & Information Panel-->
             <div class="col-lg-6">
+<<<<<<< HEAD
               <div class="info d-flex align-items-center">
+=======
+              <div class="info d-flex align-items-center" style="background-color: #a71d2a;">
+>>>>>>> xy
                 <div class="content">
                   <div class="logo">
                     <h1>成为作者！</h1>
@@ -92,6 +100,7 @@
       {
         $.ajax({
           type:"post",
+<<<<<<< HEAD
           url:"/api/register",
           data:{"userName":userName,"passWord":passWord},
           async:true,
@@ -99,6 +108,31 @@
             localStorage.setItem("userName",userName);
             localStorage.setItem("passWord",passWord);
             location="/";
+=======
+          url:"/api/register-author",
+          data:{"userName":userName,"passWord":passWord},
+          async:true,
+          success:function(response){
+            // console.log(response);
+            let status = response.registerStatus;
+            let userAvatarLink = response.userAvatarLink;
+            let userType = response.userType;
+            let userId = response.userId;
+            if (status == "UsernameExist"){
+              alert(status);
+            }
+            else if (status == "PasswordTooShort"){
+              alert(status);
+            }
+            else if (status == "Succeed"){
+              localStorage.setItem("userId", userId);
+              localStorage.setItem("userName", userName);
+              localStorage.setItem("passWord", passWord);
+
+              localStorage.setItem("userType", userType);
+              localStorage.setItem("userAvatarLink", userAvatarLink);
+            }
+>>>>>>> xy
           }
         });
       }

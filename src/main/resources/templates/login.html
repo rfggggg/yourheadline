@@ -89,10 +89,18 @@
             let status = response.loginStatus;
             let userAvatarLink = response.userAvatarLink;
             let userType = response.userType;
+<<<<<<< HEAD
+=======
+            let userId = response.userId;
+>>>>>>> xy
             // console.log("status:", status);
             // console.log("userAvatarLink:", userAvatarLink);
             // console.log("userType:", userType);
             if (status == "Succeed") {
+<<<<<<< HEAD
+=======
+              localStorage.setItem("userId",userId);
+>>>>>>> xy
               localStorage.setItem("userName", userName);
               localStorage.setItem("passWord", passWord);
               /*获取记住密码  自动登录的 checkbox的值*/
@@ -103,7 +111,10 @@
 
               localStorage.setItem("userType", userType);
               localStorage.setItem("userAvatarLink", userAvatarLink);
+<<<<<<< HEAD
               window.open("/","_self")
+=======
+>>>>>>> xy
             }
             else if(status == "UserNotExist"){
               alert("用户不存在");

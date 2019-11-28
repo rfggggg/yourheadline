@@ -30,6 +30,7 @@
         <label class = "top-div" id="clock"></label>
     </div>
     <div class = "sideBar">
+<<<<<<< HEAD
         <el-menu
                 default-active="1"
                 class="el-menu-vertical-demo"
@@ -115,6 +116,26 @@
             <a class = "registerText" href="register.html">
                 没有账号？注册一个吧!
             </a>
+=======
+        <div @click = "toHome">主页</div>
+        <div @click = "toCollect">收藏</div>
+        <div @click = "toHistory">历史</div>
+
+        <div v-for="m in modules" @click="toModule(m.moduleId)">
+            {{m.moduleName}}
+        </div>
+    </div>
+    <div class = "articleBlock">
+        <div v-for="item in alist">
+            <p>
+
+                <a id="article-headline" href="login">
+                    正文：{{item.articleTitle}}<br>
+                </a>
+                作者：{{item.authorId}}<br>
+                发布时间{{item.addTime}}
+            </p>
+>>>>>>> xy
         </div>
 <!--        <div class = "innerBlock" id="loginStatus">-->
 <!--            <input type="button" value="退出登录" onclick="logout()">-->
@@ -216,9 +237,16 @@
         position: absolute;
         width: 120px;
         height: 540px;
+<<<<<<< HEAD
         left: 100px;
         top: 165px;
         overflow-x: hidden;
+=======
+        left: 30px;
+
+        top: 60px;
+
+>>>>>>> xy
     }
     .top-nav {
         /*顶部导航栏*/
@@ -226,10 +254,25 @@
         position: absolute;
         top: 0;
         width: 100%;
+<<<<<<< HEAD
         height: 80px;
         z-index: 10;
         font-size: large;
         min-width: 1410px;
+=======
+
+        height: 50px;
+        z-index: 10;
+        font-size: large;
+    }
+    .articleBlock{
+        position: absolute;
+        left: 180px;
+        width: 600px;
+
+        margin-top: 60px;
+        background-color: antiquewhite;
+>>>>>>> xy
     }
     .top-div{
         float: left;
