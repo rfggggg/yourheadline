@@ -32,7 +32,6 @@ public class ServletUploadArticle {
                                              @RequestParam String password,
 
                                              @RequestParam String articleTitle,
-                                             @RequestParam String articleIntro,
                                              @RequestParam String articleText,
 
                                              @RequestParam Integer moduleId
@@ -48,7 +47,6 @@ public class ServletUploadArticle {
             ArticleUncheckedEntity a = new ArticleUncheckedEntity();
             a.setAuthorId(authorId);
             a.setArticleTitle(articleTitle);
-            a.setArticleIntro(articleIntro);
             a.setArticleText(articleText);
             a.setApplyTime(applyDate);
             a.setModuleId(moduleId);

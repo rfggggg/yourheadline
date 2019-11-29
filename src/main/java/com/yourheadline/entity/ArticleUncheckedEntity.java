@@ -141,8 +141,6 @@ public class ArticleUncheckedEntity {
     @Override
     public int hashCode() {
         return Objects.hash(id, authorId, moduleId, articleTitle, articleIntro, articleText, applyTime);
-<<<<<<< HEAD
-=======
     }
 
     @Basic
@@ -153,6 +151,5 @@ public class ArticleUncheckedEntity {
 
     public void setCoverLink(String coverLink) {
         this.coverLink = coverLink;
->>>>>>> xy
     }
 }

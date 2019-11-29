@@ -7,6 +7,7 @@
     <title>YourHeadline</title>
 </head>
 
+
 <body>
 
 <!---所有的vue功能的东西都要写在这个div里面--->
@@ -30,7 +31,6 @@
         <label class = "top-div" id="clock"></label>
     </div>
     <div class = "sideBar">
-<<<<<<< HEAD
         <el-menu
                 default-active="1"
                 class="el-menu-vertical-demo"
@@ -75,7 +75,7 @@
     </div>
     <div class = "articleBlock">
         <div class="article" v-for="item in alist">
-            <div class="introPic" v-if="item.coverLink!=='null'">
+            <div class="introPic" v-if="item.coverLink!=='null'&&item.coverLink!==''">
                 <div class="text">
                     <p>
                         <a class="article-headline" :href="'login?id='+item.articleId" target="_blank">
@@ -111,35 +111,43 @@
             <span>资讯不断，登录点赞，信息万千，收藏每天</span>
             <img src="./img/touxiang.png">
             <a class = "loginButton" href="login">
-                <button class = "login-button">登录</button>
+                <button class = "login-button" style="cursor: pointer">登录</button>
             </a>
-            <a class = "registerText" href="register.html">
+            <a class = "registerText" href="register" style="cursor: pointer">
                 没有账号？注册一个吧!
             </a>
-=======
-        <div @click = "toHome">主页</div>
-        <div @click = "toCollect">收藏</div>
-        <div @click = "toHistory">历史</div>
-
-        <div v-for="m in modules" @click="toModule(m.moduleId)">
-            {{m.moduleName}}
         </div>
-    </div>
-    <div class = "articleBlock">
-        <div v-for="item in alist">
-            <p>
-
-                <a id="article-headline" href="login">
-                    正文：{{item.articleTitle}}<br>
-                </a>
-                作者：{{item.authorId}}<br>
-                发布时间{{item.addTime}}
-            </p>
->>>>>>> xy
+        <div>
+            <div class = "innerBlock" id="loginStatus">
+                <div style="margin-left: 75%;width: 60px">
+                    <input type="text" value="退出登录" onclick="Logout()" style="width: 60px;border: 0;cursor: pointer">
+                </div>
+                <div style="margin-top: 40px;margin-left: 20px;float: left">
+                    <img src="./img/leon.jpg" style="width: 80px;height: 80px;border-radius: 100%">
+                </div>
+                <div v-model="userinfo" class="username" style="margin-top: 18%;margin-left: 5%;float: left;font-size: 18px;font-weight: 700">
+                    你好！{{userinfo.userName}}
+                </div>
+                <div class="userClick" id="author" style="float: left;padding-top: 60px;width: 300px;display: none">
+                    <div class="publish" style="float: left;width: 100px;padding-left: 40px;font-size: 18px;font-weight: 500">
+                        <el-button type="danger" icon="el-icon-edit">发表</el-button>
+                    </div>
+                    <div class="myArticle" style="float: left;width: 100px;font-size: 18px;font-weight: 500;padding-left: 10px">
+                        <el-button type="danger" icon="el-icon-tickets">我的文章</el-button>
+                    </div>
+                </div>
+                <div class="userClick" id="normal" style="float: left;padding-top: 60px;width: 300px;display: none">
+                    <div class="publish" style="float: left;width: 100px;padding-left: 40px;font-size: 18px;font-weight: 500">
+                        <el-button type="danger" icon="el-icon-star-off">关注</el-button>
+                    </div>
+                    <div class="myArticle" style="float: left;width: 100px;font-size: 18px;font-weight: 500;padding-left: 10px">
+                        <el-tooltip class="item" effect="dark" content="申请成为作者" placement="right-start">
+                            <el-button type="danger" icon="el-icon-plus">申请</el-button>
+                        </el-tooltip>
+                    </div>
+                </div>
+            </div>
         </div>
-<!--        <div class = "innerBlock" id="loginStatus">-->
-<!--            <input type="button" value="退出登录" onclick="logout()">-->
-<!--        </div>-->
     </div>
 </div>
 
@@ -210,17 +218,41 @@
         }
     });
 </script>
-
 <script>
-    $(function() {
-        let userName = localStorage.getItem("userName");
-        let passWord = localStorage.getItem("passWord");
-
-        //验证cookies。否则用户可以通过直接调用api访问他人的收藏等。
-
-    })
+    function Logout() {
+        localStorage.removeItem("userName");
+        localStorage.removeItem("passWord");
+        localStorage.removeItem("userId");
+        location.reload();
+    }
 </script>
-
+<script>
+    window.onload=function () {
+        let userName = localStorage.getItem("userName");
+        let userType = localStorage.getItem("userType");
+        if(userName != null){
+            $("#loginStatus").css("display","block");
+            // $("#logoutStatus").css("display","none");
+            $(".loginBlock").css("background-color", "rgb(255, 216, 77)");
+            $(".innerBlock").css("background-color", "rgb(250,250,250)");
+        }
+        else {
+            // $("#loginStatus").css("display","none");
+            $("#logoutStatus").css("display","block");
+        }
+        if(userType == 'author'){
+            //发布文章div、我发布的文章
+            $("#author").css("display","block");
+        }
+        else if(userType == 'normal'){
+            //我的关注div、称为作者div
+            $("#normal").css("display","block");
+        }
+        else{
+            //editor div
+        }
+    };
+</script>
 
 
 <style>
@@ -237,16 +269,9 @@
         position: absolute;
         width: 120px;
         height: 540px;
-<<<<<<< HEAD
         left: 100px;
         top: 165px;
         overflow-x: hidden;
-=======
-        left: 30px;
-
-        top: 60px;
-
->>>>>>> xy
     }
     .top-nav {
         /*顶部导航栏*/
@@ -254,25 +279,10 @@
         position: absolute;
         top: 0;
         width: 100%;
-<<<<<<< HEAD
         height: 80px;
         z-index: 10;
         font-size: large;
         min-width: 1410px;
-=======
-
-        height: 50px;
-        z-index: 10;
-        font-size: large;
-    }
-    .articleBlock{
-        position: absolute;
-        left: 180px;
-        width: 600px;
-
-        margin-top: 60px;
-        background-color: antiquewhite;
->>>>>>> xy
     }
     .top-div{
         float: left;
@@ -378,6 +388,7 @@
         width: 300px;
         height: 300px;
         background-color: white;
+        display: none;
     }
     .innerBlock>span{
         color: #777;

@@ -86,8 +86,5 @@ public class ServletRegister {
         return map;
     }
 
-<<<<<<< HEAD
 
-=======
->>>>>>> xy
 }

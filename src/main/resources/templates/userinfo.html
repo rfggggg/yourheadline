@@ -43,7 +43,7 @@
                             title="修改头像"
                             :visible.sync="changeuseravatarlink"
                             width="30%"
-                            :before-close="handleClose">
+                            :before-close="closeHandle">
                         <span style="text-align: center;display:block;">
                                 <el-upload
                                         action='' :on-change="convertUserAvatar" :limit="1" list-type="picture" :auto-upload="false">

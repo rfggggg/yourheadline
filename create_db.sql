@@ -11,18 +11,14 @@ password varchar(50) not null,
 
 user_type varchar(50) not null default "normal",
 
-<<<<<<< HEAD
-user_avatar_link varchar(50),
-=======
 user_avatar_link longtext,
->>>>>>> xy
 
 birth_date date,
 gender varchar(20),
-	
+
 email varchar(50),
 mobile_phone varchar(20),
-	
+
 add_time date
 
 );
@@ -83,15 +79,9 @@ module_id int references module(module_id),
 
 article_title varchar(200),
 article_intro text,
-<<<<<<< HEAD
-article_text text,
-
-cover_link varchar(50),
-=======
 article_text longtext,
 
 cover_link longtext,
->>>>>>> xy
 
 add_time date
 
@@ -110,13 +100,9 @@ module_id int references module(module_id),
 
 article_title varchar(200),
 article_intro text,
-<<<<<<< HEAD
-article_text text,
-=======
 article_text longtext,
 
 cover_link longtext,
->>>>>>> xy
 
 apply_time date
 
@@ -132,7 +118,7 @@ comment_id int not null auto_increment primary key,
 content varchar(1024) not null,
 add_time date,
 like_num int default 0,
-	
+
 article_id int references article(article_id),
 user_id int references user(user_id)
 
