@@ -5,6 +5,7 @@ import com.yourheadline.entity.UserLikeArticleEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,10 +20,11 @@ public class ServletUserLikeArticle {
     public Map<String, Object> plusLikeNumOfArticle(@RequestBody Map<String,String>data) {
         Map<String, Object> map = new HashMap<String, Object>();
 
-
+        Date date =new Date(System.currentTimeMillis());
         UserLikeArticleEntity newLike = new UserLikeArticleEntity();
         newLike.setArticleId(Integer.parseInt(data.get("articleId")));
         newLike.setUserId(Integer.parseInt(data.get("userId")));
+        newLike.setAddTime(date);
         userLikeArticleDAO.save(newLike);
         map.put("userLikeArticle", newLike);
 

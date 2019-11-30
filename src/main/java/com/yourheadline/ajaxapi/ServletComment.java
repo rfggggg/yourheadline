@@ -62,7 +62,8 @@ public class ServletComment {
 
         Map<String, Object> map = new HashMap<String, Object>();
         CommentEntity newComment = new CommentEntity();
-       // newComment.setAddTime(new Date());
+        java.sql.Date date=new java.sql.Date(System.currentTimeMillis());
+        newComment.setAddTime(date);
         newComment.setContent(data.get("content"));
         newComment.setLikeNum(0);
         newComment.setArticleId(Integer.parseInt(data.get("articleId")));
