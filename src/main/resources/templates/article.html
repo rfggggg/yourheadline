@@ -140,7 +140,7 @@
       isCollect:{},
       isFollow:{},
       followIcon:{},
-      articleInfo:[],
+      articleInfo:{},
       newComment:{},
       commentList:[],
       },
@@ -152,7 +152,7 @@
       methods: {
         getArticleInfo: function() {
             axios.get('/api/article/detail?id='+aId).then(function (response) {
-                this.updateArticleInfo(response.data.article_list);
+                this.updateArticleInfo(response.data.articleEntity);
                 this.getFollowState();
             }.bind(this));
         },
@@ -173,7 +173,7 @@
         getFollowState:function(){
          let data = {
            userId:this.userId,
-           authorId:this.articleInfo[0].authorId
+           authorId:this.articleInfo.authorId
                 };
          axios.post('/api/haveFollow',data).then(function (response) {
          this.isFollow=response.data.haveFollow;
@@ -191,14 +191,14 @@
            if (article.isLike === null) {
           Vue.$set(article, "isLike", true);
           this.plusLikeNumOfArticle(article.articleId);
-          this.articleInfo[0].likeNum++;
+          this.articleInfo.likeNum++;
         } else {
           if (article.isLike) {
             this.minusLikeNumOfArticle(this.userId,article.articleId);
-            this.articleInfo[0].likeNum--;
+            this.articleInfo.likeNum--;
           } else {
             this.plusLikeNumOfArticle(this.userId,article.articleId);
-            this.articleInfo[0].likeNum++;
+            this.articleInfo.likeNum++;
           }
           article.isLike = !article.isLike;
         }
@@ -239,7 +239,7 @@
         plusLikeNumOfArticle:function(){
          let data = {
            userId:this.userId,
-           articleId:this.articleInfo[0].articleId
+           articleId:this.articleInfo.articleId
                 };
                 axios.post('/api/plusLikeNumOfArticle',data).then(function (response) {
                 }.bind(this));
@@ -247,7 +247,7 @@
         minusLikeNumOfArticle:function(id){
         let data = {
            userId:this.userId,
-           articleId:this.articleInfo[0].articleId
+           articleId:this.articleInfo.articleId
                 };
                 axios.post('/api/minusLikeNumOfArticle',data).then(function (response) {
                 }.bind(this));
@@ -264,7 +264,7 @@
         let data = {
            content:value,
            userId:this.userId,
-           articleId:this.articleInfo[0].articleId
+           articleId:this.articleInfo.articleId
                 };
                 axios.post('/api/addNewComment',data).then(function (response) {
                 }.bind(this));
@@ -272,7 +272,7 @@
         changeCollect:function(){
         let data = {
            userId:this.userId,
-           articleId:this.articleInfo[0].articleId
+           articleId:this.articleInfo.articleId
                 };
                 if(this.isCollect===false)
                 {
@@ -289,7 +289,7 @@
         changeFollow:function(){
         let data = {
            userId:this.userId,
-           authorId:this.articleInfo[0].authorId
+           authorId:this.articleInfo.authorId
                 };
                 if(this.isFollow===false)
                 {
