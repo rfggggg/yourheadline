@@ -1,19 +1,16 @@
 package com.yourheadline.ajaxapi;
 
-import com.yourheadline.dao.ArticleDAO;
 import com.yourheadline.dao.ArticleInfoDAO;
 import com.yourheadline.model.ArticleInfo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
-import com.yourheadline.entity.*;
-import java.sql.*;
+
 import java.util.*;
 
 @RestController
 @RequestMapping("/api")
 public class ServletArticleHome {
-//    @Autowired
+    //    @Autowired
 //    ArticleDAO articleDAO;
     @Autowired
     ArticleInfoDAO articleInfoDAO;
@@ -51,9 +48,10 @@ public class ServletArticleHome {
 
         return map;
     }
+
     @GetMapping("/article/module")
     @ResponseBody
-    public  Map<String, Object> findModuleid(@RequestParam int id){
+    public Map<String, Object> findModuleid(@RequestParam int id) {
 
         Map<String, Object> map = new HashMap<String, Object>();
 
@@ -66,15 +64,25 @@ public class ServletArticleHome {
 
     @GetMapping("/article/collect")
     @ResponseBody
-    public  Map<String, Object> findArticleid(@RequestParam int id){
+    public Map<String, Object> findArticleid(@RequestParam int id) {
 
         Map<String, Object> map = new HashMap<String, Object>();
 
         List<ArticleInfo> article = articleInfoDAO.selectCollectionByUserId(id);
-
         map.put("article_list", article);
 
         return map;
     }
 
+    @GetMapping("/article/detail")
+    @ResponseBody
+    public  Map<String, Object> findArticle(@RequestParam int id){
+
+        Map<String, Object> map = new HashMap<String, Object>();
+
+        List<ArticleInfo> article = articleInfoDAO.findArticleInfoByArticleId(id);
+        map.put("article_list", article);
+
+        return map;
+    }
 }

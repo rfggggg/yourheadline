@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<html>
+<head>
+    <meta charset="UTF-8">
+    <!-- import CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+</head>
+<body>
+<div id="article">
+    <el-row>
+        <el-col span="6">
+            <p></p>
+        </el-col>
+        <el-col span="12">
+            <el-card>
+                <el-avatar :src="articleInfo[0].authorAvatarLink"></el-avatar>{{articleInfo[0].authorName}}
+                <div style="text-align:center">
+                        {{articleInfo[0].articleTitle}}
+                </div>
+            </el-card>
+        </el-col>
+        <el-col span="6">
+            <p>
+            </p>
+        </el-col>
+    </el-row>
+    <el-row>
+        <el-col span="6">
+            <p></p>
+        </el-col>
+        <el-col span="12">
+            <el-card>
+                <el-button type="primary" icon="el-icon-edit" @click="writeComment">写评论</el-button>
+                <el-button type="primary" icon="el-icon-folder-add" @click="changeCollect" plain>{{isCollect==true?"取消收藏":"加入收藏"}}</el-button>
+                <el-button style="float: right" type="primary" icon="el-icon-caret-top" @click="likeArticle(articleInfo[0])">赞同{{articleInfo[0].likeNum}}</el-button>
+                <el-button style="float: right" type="primary" :icon="followIcon" @click="changeFollow" plain>{{isFollow==true?"取消关注":"关注作者"}}</el-button>
+
+            </el-card>
+        </el-col>
+        <el-col span="6">
+            <div>
+                <p></p>
+            </div>
+        </el-col>
+    </el-row>
+
+    <el-row>
+        <el-col span="6">
+            <p></p>
+        </el-col>
+        <el-col span="12">
+            <div>
+                <el-card class="box-card">
+                    <div slot="header" class="clearfix">
+                        <span>正文</span>
+                    </div>
+                    <div class="text item">
+                        <p>
+                            人民网北京11月22日电 据商务部网站消息，21日，商务部召开例行新闻发布会，商务部办公厅副主任、新闻发言人高峰回答记者提问。
+
+                            香港南华早报记者提问称，据报道，11月16日上午中美经贸高级别磋商进行了建设性的讨论。请问讨论的内容是什么？双方在哪些方面达成了协议，以及现在还有哪些分歧，是否仍在中国自美采购农产品数量以及美国取消加征关税方面存在分歧？中方对于自美采购农产品设置的目标持怎样的立场？另外，特朗普称，与中国必须达成一项他喜欢的协议，否则将加征高关税，对此您怎么看？预期年内是否有可能达成第一阶段协议？
+
+                            高峰回应，11月16日上午，刘鹤副总理应约与美国贸易代表莱特希泽、财政部长姆努钦通话。双方围绕第一阶段协议的各自核心关切进行建设性讨论。双方经贸团队将继续保持密切沟通。关于协议磋商的细节，目前我没有更多信息可以向大家透露。但外界的传言并不准确。
+
+                            中方愿与美方在平等和相互尊重的基础上，共同努力，妥善解决彼此核心关切，力争达成第一阶段协议。这符合中美双方的共同利益，也符合整个世界的利益。谢谢。
+                            人民网北京11月22日电 据商务部网站消息，21日，商务部召开例行新闻发布会，商务部办公厅副主任、新闻发言人高峰回答记者提问。
+
+                            香港南华早报记者提问称，据报道，11月16日上午中美经贸高级别磋商进行了建设性的讨论。请问讨论的内容是什么？双方在哪些方面达成了协议，以及现在还有哪些分歧，是否仍在中国自美采购农产品数量以及美国取消加征关税方面存在分歧？中方对于自美采购农产品设置的目标持怎样的立场？另外，特朗普称，与中国必须达成一项他喜欢的协议，否则将加征高关税，对此您怎么看？预期年内是否有可能达成第一阶段协议？
+
+                            高峰回应，11月16日上午，刘鹤副总理应约与美国贸易代表莱特希泽、财政部长姆努钦通话。双方围绕第一阶段协议的各自核心关切进行建设性讨论。双方经贸团队将继续保持密切沟通。关于协议磋商的细节，目前我没有更多信息可以向大家透露。但外界的传言并不准确。
+
+                            中方愿与美方在平等和相互尊重的基础上，共同努力，妥善解决彼此核心关切，力争达成第一阶段协议。这符合中美双方的共同利益，也符合整个世界的利益。谢谢。
+                            人民网北京11月22日电 据商务部网站消息，21日，商务部召开例行新闻发布会，商务部办公厅副主任、新闻发言人高峰回答记者提问。
+
+                            香港南华早报记者提问称，据报道，11月16日上午中美经贸高级别磋商进行了建设性的讨论。请问讨论的内容是什么？双方在哪些方面达成了协议，以及现在还有哪些分歧，是否仍在中国自美采购农产品数量以及美国取消加征关税方面存在分歧？中方对于自美采购农产品设置的目标持怎样的立场？另外，特朗普称，与中国必须达成一项他喜欢的协议，否则将加征高关税，对此您怎么看？预期年内是否有可能达成第一阶段协议？
+
+                            高峰回应，11月16日上午，刘鹤副总理应约与美国贸易代表莱特希泽、财政部长姆努钦通话。双方围绕第一阶段协议的各自核心关切进行建设性讨论。双方经贸团队将继续保持密切沟通。关于协议磋商的细节，目前我没有更多信息可以向大家透露。但外界的传言并不准确。
+
+                            中方愿与美方在平等和相互尊重的基础上，共同努力，妥善解决彼此核心关切，力争达成第一阶段协议。这符合中美双方的共同利益，也符合整个世界的利益。谢谢。
+                            人民网北京11月22日电 据商务部网站消息，21日，商务部召开例行新闻发布会，商务部办公厅副主任、新闻发言人高峰回答记者提问。
+
+                            香港南华早报记者提问称，据报道，11月16日上午中美经贸高级别磋商进行了建设性的讨论。请问讨论的内容是什么？双方在哪些方面达成了协议，以及现在还有哪些分歧，是否仍在中国自美采购农产品数量以及美国取消加征关税方面存在分歧？中方对于自美采购农产品设置的目标持怎样的立场？另外，特朗普称，与中国必须达成一项他喜欢的协议，否则将加征高关税，对此您怎么看？预期年内是否有可能达成第一阶段协议？
+
+                            高峰回应，11月16日上午，刘鹤副总理应约与美国贸易代表莱特希泽、财政部长姆努钦通话。双方围绕第一阶段协议的各自核心关切进行建设性讨论。双方经贸团队将继续保持密切沟通。关于协议磋商的细节，目前我没有更多信息可以向大家透露。但外界的传言并不准确。
+
+                            中方愿与美方在平等和相互尊重的基础上，共同努力，妥善解决彼此核心关切，力争达成第一阶段协议。这符合中美双方的共同利益，也符合整个世界的利益。谢谢。
+                        </p>
+                    </div>
+                </el-card>
+                <el-card>
+                    <div slot="header">
+                        <span>评论</span>
+                    </div>
+                    <div class="container">
+                        <div class="comment" v-for="comment in commentList">
+                            <div class="info">
+                                <img class="avatar" :src="comment.userAvatarLink" width="36" height="36"/>
+                                <div class="right">
+                                    <div class="name">{{comment.userName}}
+                                    </div>
+                                    <div class="date">{{comment.addTime}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="content">{{comment.content}}
+                            </div>
+                            <div>
+                                 <el-button class="like" icon="el-icon-thumb"  @click="likeComment(comment)" round>
+                                 <div class="like-num">{{comment.likeNum > 0 ? comment.likeNum + '人赞' : '赞'}}</div>
+                                 </el-button>
+                            </div>
+                        </div>
+                    </div>
+                </el-card>
+            </div>
+        </el-col>
+    </el-row>
+</div>
+
+</body>
+
+
+<!-- import Vue before Element -->
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<!-- import JavaScript -->
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<script src="js/axios.min.js"></script>
+<script src="js/jquery.min.js"></script>
+<script>
+ var uId=localStorage.getItem("userId");
+ var uNm=localStorage.getItem("userName");
+   new Vue({
+      el: '#article',
+      data: {
+      userId:uId,
+      userName:uNm,
+      isCollect:{},
+      isFollow:{},
+      followIcon:{},
+      articleInfo:[],
+      newComment:{},
+      commentList:[],
+      },
+      beforeMount(){
+      this.getArticleInfo();
+      this.getAllComment();
+      this.getCollectState();
+      },
+      methods: {
+        getArticleInfo: function() {
+            axios.get('/api/article/detail?id=1').then(function (response) {
+                this.updateArticleInfo(response.data.article_list);
+                this.getFollowState();
+            }.bind(this));
+        },
+        getAllComment:function(){
+         axios.get('/api/comment?id=1').then(function (response) {
+                this.updateCommentList(response.data.comment_list);
+            }.bind(this));
+        },
+        getCollectState:function(){
+         let data = {
+           userId:this.userId,
+           articleId:1
+                };
+         axios.post('/api/haveCollect',data).then(function (response) {
+         this.isCollect=response.data.haveCollect;
+             }.bind(this));
+        },
+        getFollowState:function(){
+         let data = {
+           userId:this.userId,
+           authorId:this.articleInfo[0].authorId
+                };
+         axios.post('/api/haveFollow',data).then(function (response) {
+         this.isFollow=response.data.haveFollow;
+         if(this.isFollow==true)
+         {
+             this.followIcon="el-icon-star-on";
+         }
+         else
+         {
+             this.followIcon="el-icon-star-off";
+         }
+             }.bind(this));
+        },
+        likeArticle:function(article){
+           if (article.isLike === null) {
+          Vue.$set(article, "isLike", true);
+          this.plusLikeNumOfArticle(article.articleId);
+          this.articleInfo[0].likeNum++;
+        } else {
+          if (article.isLike) {
+            this.minusLikeNumOfArticle(this.userId,article.articleId);
+            this.articleInfo[0].likeNum--;
+          } else {
+            this.plusLikeNumOfArticle(this.userId,article.articleId);
+            this.articleInfo[0].likeNum++;
+          }
+          article.isLike = !article.isLike;
+        }
+        },
+        likeComment:function(comment){
+           if (comment.isLike === null) {
+          Vue.$set(comment, "isLike", true);
+          comment.likeNum++;
+          this.plusLikeNumOfComment(comment.commentId);
+        } else {
+          if (comment.isLike) {
+            comment.likeNum--;
+            this.minusLikeNumOfComment(comment.commentId);
+          } else {
+            comment.likeNum++;
+            this.plusLikeNumOfComment(comment.commentId);
+          }
+          comment.isLike = !comment.isLike;
+        }
+        },
+        writeComment:function(){
+         this.$prompt('请输入评论', '评论', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+        }).then(({ value }) => {
+          this.addNewComment(value);
+          this.$message({
+            type: 'success',
+            message: '评论成功'
+          });
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '取消评论'
+          });
+        });
+        },
+        plusLikeNumOfArticle:function(){
+         let data = {
+           userId:this.userId,
+           articleId:this.articleInfo[0].articleId
+                };
+                axios.post('/api/plusLikeNumOfArticle',data).then(function (response) {
+                }.bind(this));
+        },
+        minusLikeNumOfArticle:function(id){
+        let data = {
+           userId:this.userId,
+           articleId:this.articleInfo[0].articleId
+                };
+                axios.post('/api/minusLikeNumOfArticle',data).then(function (response) {
+                }.bind(this));
+        },
+        plusLikeNumOfComment:function(id){
+         axios.get('/api/plusLikeNumOfComment?id='+id).then(function (response) {
+            }.bind(this));
+        },
+        minusLikeNumOfComment:function(id){
+         axios.get('/api/minusLikeNumOfComment?id='+id).then(function (response) {
+            }.bind(this));
+        },
+        addNewComment:function(value){
+        let data = {
+           content:value,
+           userId:this.userId,
+           articleId:this.articleInfo[0].articleId
+                };
+                axios.post('/api/addNewComment',data).then(function (response) {
+                }.bind(this));
+        },
+        changeCollect:function(){
+        let data = {
+           userId:this.userId,
+           articleId:this.articleInfo[0].articleId
+                };
+                if(this.isCollect===false)
+                {
+                axios.post('/api/addNewCollect',data).then(function (response) {
+                }.bind(this));
+                }
+                else
+                {
+                axios.post('/api/deleteCollect',data).then(function (response) {
+                }.bind(this));
+                }
+                this.isCollect=!this.isCollect;
+        },
+        changeFollow:function(){
+        let data = {
+           userId:this.userId,
+           authorId:this.articleInfo[0].authorId
+                };
+                if(this.isFollow===false)
+                {
+                axios.post('/api/addNewFollow',data).then(function (response) {
+                this.followIcon="el-icon-star-on";
+                }.bind(this));
+                }
+                else
+                {
+                axios.post('/api/deleteFollow',data).then(function (response) {
+                this.followIcon="el-icon-star-off";
+                }.bind(this));
+                }
+                this.isFollow=!this.isFollow;
+        },
+        updateArticleInfo:function(info){
+        this.articleInfo=info;
+        },
+        updateCommentList:function(commentList){
+        for(var i in commentList)
+        {
+            if(!!i.addTime)
+            i.addTime=i.addTime.toString().substring(0,3);
+        }
+        this.commentList=commentList;
+        },
+        }
+    })
+
+
+
+</script>
+
+<style>
+      .comment {
+      display: flex;
+      flex-direction: column;
+      padding: 10px;
+      border-bottom: 1px solid #F2F6FC;
+      }
+      .info {
+        display: flex;
+        align-items: center;
+      }
+      .avatar {
+          border-radius: 50%;
+      }
+      .right {
+          display: flex;
+          flex-direction: column;
+          margin-left: 10px;
+      }
+      .name {
+            font-size: 16px;
+            color: #303133;
+            margin-bottom: 5px;
+            font-weight: 500;
+      }
+      .date {
+            font-size: 14px;
+            color: #909399;
+      }
+      .like {
+          display: flex;
+          align-items: center;
+          margin-right: 10px;
+          cursor: pointer;
+          color: #909399;
+      }
+      .content {
+        font-size: 16px;
+        color: #303133;
+        line-height: 20px;
+        padding: 10px 0;
+      }
+
+
+
+
+</style>
+</html>

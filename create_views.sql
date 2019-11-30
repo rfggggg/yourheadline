@@ -5,6 +5,10 @@ select a.article_id, a.author_id, a.editor_id, a.module_id, a.article_title, a.a
 
 show warnings;
 
+create or replace view comment_info
+(comment_id,content,add_time,like_num,article_id,user_id,user_name,user_avatar_link)
+as
+select c.comment_id,c.content,c.add_time,c.like_num,c.article_id,u.user_id,u.user_name,u.user_avatar_link from comment as c left join user as u on c.user_id = u.user_id;
 
 
 DROP PROCEDURE IF EXISTS select_collection_by_user_id;

@@ -28,4 +28,6 @@ public interface ArticleInfoDAO extends JpaRepository<ArticleInfo, Long> {
 
     @Query(value = "call select_unchecked_article()", nativeQuery = true)
     List<ArticleInfo> selectArticleUnchecked();
+    
+    List<ArticleInfo> findArticleInfoByArticleId(int articleId);
 }

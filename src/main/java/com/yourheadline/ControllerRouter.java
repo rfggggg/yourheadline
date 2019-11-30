@@ -24,10 +24,10 @@ public class ControllerRouter {
         return "register";
     }
 
-    @GetMapping("/userinfo")
-    public String getUserPage()
+    @GetMapping("/article")
+    public String getArticlePage()
     {
-        return "userinfo";
+        return "article";
     }
 
     @GetMapping("/register-author")
