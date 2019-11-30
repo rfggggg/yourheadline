@@ -59,21 +59,37 @@ show warnings;
 
 
 
-DROP PROCEDURE IF EXISTS check_article_publish;
+DROP PROCEDURE IF EXISTS check_article;
 
 show warnings;
 
 delimiter //
-create procedure check_article_publish(in p_aid Integer, in p_eid INTEGER)
+create procedure check_article(in p_aid Integer, in p_eid INTEGER)
 Begin
-insert into article 
-(author_id, editor_id, module_id, article_title, article_text, cover_link, add_time)
 
-select author_id, p_eid, module_id, article_title, article_text, cover_link, curdate() 
+select article_id, author_id, editor_id, module_id, article_title, article_intro, add_time, cover_link, author_name, author_avatar_link, like_num
 from article_unchecked 
 where id = p_aid;
 
 delete from article_unchecked where id=p_aid;
+
+end //
+delimiter ;
+
+
+
+DROP PROCEDURE IF EXISTS select_unchecked_article;
+
+show warnings;
+
+delimiter //
+create procedure select_unchecked_article()
+Begin
+
+select a.id as article_id, a.author_id as author_id, 
+0 as editor_id, 
+a.module_id as module_id, a.article_title as article_title, a.article_intro as article_intro, a.apply_time as add_time, a.cover_link as cover_link, au.user_name as author_name, "" as author_avatar_link, 0 as like_num
+from article_unchecked as a left join user as au on a.author_id = au.user_id;
 
 end //
 delimiter ;

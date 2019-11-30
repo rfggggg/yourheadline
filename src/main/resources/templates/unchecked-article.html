@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/vue.js"></script>
+    <script src="js/axios.min.js"></script>
+    <script src="js/jquery.min.js"></script>
+</head>
+<body>
+
+<div id="app">
+    <div class = "articleBlock">
+        <div class="article" v-for="item in alist">
+            <div class="introPic" v-if="item.coverLink!=='null'&&item.coverLink!==''">
+                <div class="text">
+                    <p>
+                        <a class="article-headline" :href="'login?id='+item.articleId" target="_blank">
+                                <span style="font-size: 18px">
+                            正文：{{item.articleTitle}}<br><br>
+                        </span>
+                        </a>
+                        作者：{{item.authorId}}<br>
+                        申请时间{{item.addTime}}
+                    </p>
+                </div>
+                <div class="articlePicture">
+                    <img :src="item.coverLink" style="width: 200px; height: 160px">
+                </div>
+            </div>
+            <div class="introOnly" v-else>
+                <div class="textOnly">
+                    <p>
+                        <a class="article-headline" :href="'login?id='+item.articleId" target="_blank">
+                                <span style="font-size: 18px">
+                            正文：{{item.articleTitle}}<br><br>
+                        </span>
+                        </a>
+                        作者：{{item.authorId}}<br>
+                        申请时间{{item.addTime}}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+var rootUrl='localhost:8080';
+
+var app = new Vue({
+    el: '#app',
+    data: {
+        message: 'Your headline!',
+        modules: [
+            {url:"#em1",name: "不应该出现的模块"}
+        ],
+        alist: [
+            {id:1,text:"<p>不应该出现的文章条条</p>",author_name:"a1",publish_time:"1:00"}
+        ],
+    },
+    beforeMount() {
+        this.getList();
+    },
+    methods: {
+        getList: function () {
+            let userName=localStorage.getItem("userName");
+            let passWord=localStorage.getItem("passWord");
+            if (userName===null || passWord===null){
+                return ;
+            }
+            axios.post('/api/unchecked-article',
+                {
+                    editorName: userName,
+                    password: passWord,
+                }
+            ).then(function (response) {
+                this.updateList(response.data.article_list);
+            }.bind(this));
+        },
+        updateList: function (newData) {
+            this.alist = newData;
+        },
+    }
+});
+
+
+</script>
+</body>
+</html>

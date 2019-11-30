@@ -57,7 +57,7 @@ public class ServletUploadArticle {
             if (firstImageBegin!=-1) {
                 firstImageBegin += firstImageBeginTag.length();
                 int firstImageLength = articleText.substring(firstImageBegin).indexOf(firstImageEndTag);
-                firstImageLength += 1;
+//                firstImageLength += 1; //!!!!!!!!!!!!
                 String firstImageData = articleText.substring(firstImageBegin, firstImageBegin + firstImageLength);
                 a.setCoverLink(firstImageData);
             }
