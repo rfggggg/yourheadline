@@ -21,8 +21,6 @@ import java.util.Map;
 @RestController
 public class ServletUploadArticle {
     @Autowired
-    ArticleUncheckedDAO articleUncheckedDAO;
-    @Autowired
     ArticleDAO articleDAO;
     @Autowired
     UserDAO userDAO;
@@ -41,24 +39,24 @@ public class ServletUploadArticle {
                                              @RequestParam Integer moduleId
                                              )
     {
-        Date applyDate = new Date(Calendar.getInstance().getTimeInMillis());
+        Date addDate = new Date(Calendar.getInstance().getTimeInMillis());
 
         Map<String, Object> map = new HashMap<>();
 
         String status = "";
 
         if (validation.checkAuthor(authorId, authorName, password)){
-            ArticleUncheckedEntity a = new ArticleUncheckedEntity();
+            ArticleEntity a = new ArticleEntity();
             a.setAuthorId(authorId);
             a.setArticleTitle(articleTitle);
             a.setArticleText(articleText);
-            a.setApplyTime(applyDate);
+            a.setAddTime(addDate);
             a.setModuleId(moduleId);
 
 
-            a.setCoverLink(getFirstCover(articleText));
+            a.setCoverLink(getFirstImage(articleText));
 
-            a = articleUncheckedDAO.save(a);
+            a = articleDAO.save(a);
             if (a!=null) {
                 status = "Succeed";
             }
@@ -115,7 +113,7 @@ public class ServletUploadArticle {
         if (validation.checkAuthor(authorName,password) && ae.getAuthorId().equals(authorId)){
             ae.setArticleTitle(articleTitle);
             ae.setArticleText(articleText);
-            ae.setArticleText(getFirstCover(articleText));
+            ae.setArticleText(getFirstImage(articleText));
             articleDAO.save(ae);
             status = "Succeed";
         }
@@ -133,7 +131,7 @@ public class ServletUploadArticle {
         return map;
     }
 
-    private String getFirstCover(String articleText)
+    private String getFirstImage(String articleText)
     {
         String firstImageBeginTag = "<img src=\"";
         char firstImageEndTag = '\"';
@@ -142,8 +140,7 @@ public class ServletUploadArticle {
             firstImageBegin += firstImageBeginTag.length();
             int firstImageLength = articleText.substring(firstImageBegin).indexOf(firstImageEndTag);
 //                firstImageLength += 1; //!!!!!!!!!!!!
-            String firstImageData = articleText.substring(firstImageBegin, firstImageBegin + firstImageLength);
-            return firstImageData;
+            return articleText.substring(firstImageBegin, firstImageBegin + firstImageLength);
         }
         return "";
     }
