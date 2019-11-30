@@ -21,8 +21,6 @@ import java.util.Map;
 @RestController
 public class ServletUploadArticle {
     @Autowired
-    ArticleUncheckedDAO articleUncheckedDAO;
-    @Autowired
     ArticleDAO articleDAO;
     @Autowired
     UserDAO userDAO;
@@ -41,24 +39,24 @@ public class ServletUploadArticle {
                                              @RequestParam Integer moduleId
                                              )
     {
-        Date applyDate = new Date(Calendar.getInstance().getTimeInMillis());
+        Date addDate = new Date(Calendar.getInstance().getTimeInMillis());
 
         Map<String, Object> map = new HashMap<>();
 
         String status = "";
 
         if (validation.checkAuthor(authorId, authorName, password)){
-            ArticleUncheckedEntity a = new ArticleUncheckedEntity();
+            ArticleEntity a = new ArticleEntity();
             a.setAuthorId(authorId);
             a.setArticleTitle(articleTitle);
             a.setArticleText(articleText);
-            a.setApplyTime(applyDate);
+            a.setAddTime(addDate);
             a.setModuleId(moduleId);
 
 
             a.setCoverLink(getFirstCover(articleText));
 
-            a = articleUncheckedDAO.save(a);
+            a = articleDAO.save(a);
             if (a!=null) {
                 status = "Succeed";
             }
