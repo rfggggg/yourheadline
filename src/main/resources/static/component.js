@@ -1,5 +1,6 @@
 var rootUrl='localhost:8080';
 
+
 var app = new Vue({
     el: '#app',
     data: {
@@ -19,7 +20,24 @@ var app = new Vue({
         },
         ufilist:[],
         newUserAvartaLinkOnserinfoPage:'',
-        changeuseravatarlink:false
+        changeuseravatarlink:false,
+        tableData: [{
+            date: '2016-05-02',
+            name: '王小虎',
+            address: '上海市普陀区金沙江路 1518 弄'
+        }, {
+            date: '2016-05-04',
+            name: '王小虎',
+            address: '上海市普陀区金沙江路 1517 弄'
+        }, {
+            date: '2016-05-01',
+            name: '王小虎',
+            address: '上海市普陀区金沙江路 1519 弄'
+        }, {
+            date: '2016-05-03',
+            name: '王小虎',
+            address: '上海市普陀区金沙江路 1516 弄'
+        }]
     },
     beforeMount() {
         // 调用后端的api取得模块
@@ -29,6 +47,12 @@ var app = new Vue({
         this.finduserfollowinfo(localStorage.getItem("userId"));
     },
     methods: {
+        handleEdit(index, row) {
+            console.log(index, row);
+        },
+        handleDelete(index, row) {
+            console.log(index, row);
+        },
         handleOpen(key, keyPath) {
             console.log(key, keyPath);
         },
@@ -154,7 +178,7 @@ var app = new Vue({
             this.ufilist[i].addTime=this.ufilist[i].addTime.substring(0,10);
         },
 
-        
+
         unfollow: function (index, row) {
             this.deleteuserfollow(row.followId);
         },

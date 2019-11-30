@@ -43,4 +43,7 @@ public class ControllerRouter {
 
     @GetMapping("/unchecked-article")
     public String getEditorPage() {return "unchecked-article"; }
+
+    @GetMapping("/author-editor")
+    public String getAuthorEditorPage() {return "author-editor"; }
 }

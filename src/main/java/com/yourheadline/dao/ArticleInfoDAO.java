@@ -17,7 +17,6 @@ public interface ArticleInfoDAO extends JpaRepository<ArticleInfo, Long> {
     @Query(value = "call select_history_by_user_id(?1)", nativeQuery = true)
     List<ArticleInfo> selectHistoryByUserId(Integer userId);
 
-
     @Override
     @Query(value = "select * from article_info", nativeQuery = true)
     List<ArticleInfo> findAll();
@@ -28,6 +27,6 @@ public interface ArticleInfoDAO extends JpaRepository<ArticleInfo, Long> {
 
     @Query(value = "call select_unchecked_article()", nativeQuery = true)
     List<ArticleInfo> selectArticleUnchecked();
-    
+
     List<ArticleInfo> findArticleInfoByArticleId(int articleId);
 }
