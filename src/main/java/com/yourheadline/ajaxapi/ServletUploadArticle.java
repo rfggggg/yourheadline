@@ -1,6 +1,7 @@
 package com.yourheadline.ajaxapi;
 
 
+import com.yourheadline.dao.ArticleDAO;
 import com.yourheadline.dao.ArticleUncheckedDAO;
 import com.yourheadline.dao.UserDAO;
 import com.yourheadline.entity.ArticleEntity;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.sql.Date;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RequestMapping("/api")
@@ -20,6 +22,8 @@ import java.util.Map;
 public class ServletUploadArticle {
     @Autowired
     ArticleUncheckedDAO articleUncheckedDAO;
+    @Autowired
+    ArticleDAO articleDAO;
     @Autowired
     UserDAO userDAO;
     @Autowired
@@ -51,16 +55,8 @@ public class ServletUploadArticle {
             a.setApplyTime(applyDate);
             a.setModuleId(moduleId);
 
-            String firstImageBeginTag = "<img src=\"";
-            char firstImageEndTag = '\"';
-            int firstImageBegin = articleText.indexOf(firstImageBeginTag);
-            if (firstImageBegin!=-1) {
-                firstImageBegin += firstImageBeginTag.length();
-                int firstImageLength = articleText.substring(firstImageBegin).indexOf(firstImageEndTag);
-//                firstImageLength += 1; //!!!!!!!!!!!!
-                String firstImageData = articleText.substring(firstImageBegin, firstImageBegin + firstImageLength);
-                a.setCoverLink(firstImageData);
-            }
+
+            a.setCoverLink(getFirstCover(articleText));
 
             a = articleUncheckedDAO.save(a);
             if (a!=null) {
@@ -102,34 +98,29 @@ public class ServletUploadArticle {
                                              @RequestParam Integer moduleId
     )
     {
-        Date applyDate = new Date(Calendar.getInstance().getTimeInMillis());
+        Date curDate = new Date(Calendar.getInstance().getTimeInMillis());
 
         Map<String, Object> map = new HashMap<>();
 
         String status = "";
 
-        if (validation.checkAuthor(authorName,password)){
-            if (articleId==0){
-                ArticleUncheckedEntity a = articleUncheckedDAO.save(
-                        new ArticleUncheckedEntity(
-                                authorId,moduleId ,articleTitle,articleIntro,articleText,applyDate
-                        )
-                );
-                articleId = a.getId();
-                status = "Succeed";
-            }
-            else {
-                ArticleUncheckedEntity a = articleUncheckedDAO.save(
-                        new ArticleUncheckedEntity(
-                                articleId, authorId,moduleId ,articleTitle,articleIntro,articleText,applyDate
-                        )
-                );
-                status = "AuthorNotChecked";
-            }
+        List<ArticleEntity> aList = articleDAO.findByArticleId(articleId);
+        ArticleEntity ae;
+        if (!aList.isEmpty()){
+            ae = aList.get(0);
+        }
+        else{
+            return null;
+        }
+        if (validation.checkAuthor(authorName,password) && ae.getAuthorId().equals(authorId)){
+            ae.setArticleTitle(articleTitle);
+            ae.setArticleText(articleText);
+            ae.setArticleText(getFirstCover(articleText));
+            articleDAO.save(ae);
+            status = "Succeed";
         }
         else{
             status = "FailCheckAuthor";
-            articleId = 0;
         }
 
 
@@ -139,7 +130,21 @@ public class ServletUploadArticle {
 //        }
 
         map.put("status", status);
-        map.put("articleId", articleId);
         return map;
+    }
+
+    private String getFirstCover(String articleText)
+    {
+        String firstImageBeginTag = "<img src=\"";
+        char firstImageEndTag = '\"';
+        int firstImageBegin = articleText.indexOf(firstImageBeginTag);
+        if (firstImageBegin!=-1) {
+            firstImageBegin += firstImageBeginTag.length();
+            int firstImageLength = articleText.substring(firstImageBegin).indexOf(firstImageEndTag);
+//                firstImageLength += 1; //!!!!!!!!!!!!
+            String firstImageData = articleText.substring(firstImageBegin, firstImageBegin + firstImageLength);
+            return firstImageData;
+        }
+        return "";
     }
 }

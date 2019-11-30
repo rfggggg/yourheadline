@@ -66,8 +66,11 @@
                 // console.log(response);
                 if(response.status=="Succeed"){
                     console.log("ok");
+                    editor.txt.html("");
                 }
-                editor.txt.html("");
+                else if(response.status=="FailCheckAuthor"){
+                    alert("You are not an author, please apply first!");
+                }
             }
         });
     }

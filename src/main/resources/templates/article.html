@@ -130,9 +130,11 @@
 <script>
  var uId=localStorage.getItem("userId");
  var uNm=localStorage.getItem("userName");
+ var aId=window.location.href.split("?id=")[1];
    new Vue({
       el: '#article',
       data: {
+          articleId:aId,
       userId:uId,
       userName:uNm,
       isCollect:{},
@@ -149,20 +151,20 @@
       },
       methods: {
         getArticleInfo: function() {
-            axios.get('/api/article/detail?id=1').then(function (response) {
+            axios.get('/api/article/detail?id='+aId).then(function (response) {
                 this.updateArticleInfo(response.data.article_list);
                 this.getFollowState();
             }.bind(this));
         },
         getAllComment:function(){
-         axios.get('/api/comment?id=1').then(function (response) {
+         axios.get('/api/comment?id='+aId).then(function (response) {
                 this.updateCommentList(response.data.comment_list);
             }.bind(this));
         },
         getCollectState:function(){
          let data = {
            userId:this.userId,
-           articleId:1
+           articleId:aId
                 };
          axios.post('/api/haveCollect',data).then(function (response) {
          this.isCollect=response.data.haveCollect;

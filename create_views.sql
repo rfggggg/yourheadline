@@ -70,8 +70,9 @@ show warnings;
 delimiter //
 create procedure check_article(in p_aid Integer, in p_eid INTEGER)
 Begin
+insert into article (author_id, editor_id, module_id, article_title, article_intro, article_text, cover_link, add_time)
 
-select article_id, author_id, editor_id, module_id, article_title, article_intro, add_time, cover_link, author_name, author_avatar_link, like_num
+select author_id, p_eid, module_id, article_title, article_intro,article_text, cover_link, curdate()
 from article_unchecked 
 where id = p_aid;
 

@@ -33,11 +33,8 @@ public class ControllerRouter {
     @GetMapping("/register-author")
     public String getRegisterAuthorPage() {return "register-author"; }
 
-    @GetMapping("/new-article")
-    public String getNewArticleEditor() {return "new-article"; }
-
-    @GetMapping("/edit-article")
-    public String getEditArticleEditor() {return "edit-article"; }
+    @GetMapping("/article-editor")
+    public String getNewArticleEditor() {return "article-editor"; }
 
     @GetMapping("/unchecked-article")
     public String getEditorPage() {return "unchecked-article"; }

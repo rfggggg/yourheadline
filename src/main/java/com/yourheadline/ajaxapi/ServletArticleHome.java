@@ -1,6 +1,8 @@
 package com.yourheadline.ajaxapi;
 
+import com.yourheadline.dao.ArticleDAO;
 import com.yourheadline.dao.ArticleInfoDAO;
+import com.yourheadline.entity.ArticleEntity;
 import com.yourheadline.model.ArticleInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +16,8 @@ public class ServletArticleHome {
 //    ArticleDAO articleDAO;
     @Autowired
     ArticleInfoDAO articleInfoDAO;
-
+    @Autowired
+    ArticleDAO articleDAO;
 
     @GetMapping("/article/home")
     @ResponseBody
@@ -80,9 +83,13 @@ public class ServletArticleHome {
 
         Map<String, Object> map = new HashMap<String, Object>();
 
-        List<ArticleInfo> article = articleInfoDAO.findArticleInfoByArticleId(id);
-        map.put("article_list", article);
-
-        return map;
+        List<ArticleEntity> aList = articleDAO.findByArticleId(id);
+        if (aList.isEmpty()){
+            return null;
+        }
+        else {
+            map.put("articleEntity", aList.get(0));
+            return map;
+        }
     }
 }
