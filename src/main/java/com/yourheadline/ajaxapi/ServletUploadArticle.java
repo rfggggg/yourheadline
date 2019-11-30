@@ -54,7 +54,7 @@ public class ServletUploadArticle {
             a.setModuleId(moduleId);
 
 
-            a.setCoverLink(getFirstCover(articleText));
+            a.setCoverLink(getFirstImage(articleText));
 
             a = articleDAO.save(a);
             if (a!=null) {
@@ -113,7 +113,7 @@ public class ServletUploadArticle {
         if (validation.checkAuthor(authorName,password) && ae.getAuthorId().equals(authorId)){
             ae.setArticleTitle(articleTitle);
             ae.setArticleText(articleText);
-            ae.setArticleText(getFirstCover(articleText));
+            ae.setArticleText(getFirstImage(articleText));
             articleDAO.save(ae);
             status = "Succeed";
         }
@@ -131,7 +131,7 @@ public class ServletUploadArticle {
         return map;
     }
 
-    private String getFirstCover(String articleText)
+    private String getFirstImage(String articleText)
     {
         String firstImageBeginTag = "<img src=\"";
         char firstImageEndTag = '\"';
@@ -140,8 +140,7 @@ public class ServletUploadArticle {
             firstImageBegin += firstImageBeginTag.length();
             int firstImageLength = articleText.substring(firstImageBegin).indexOf(firstImageEndTag);
 //                firstImageLength += 1; //!!!!!!!!!!!!
-            String firstImageData = articleText.substring(firstImageBegin, firstImageBegin + firstImageLength);
-            return firstImageData;
+            return articleText.substring(firstImageBegin, firstImageBegin + firstImageLength);
         }
         return "";
     }
