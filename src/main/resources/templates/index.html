@@ -122,7 +122,7 @@
                     <input type="text" value="退出登录" onclick="Logout()" style="width: 60px;border: 0;cursor: pointer">
                 </div>
                 <div style="margin-top: 40px;margin-left: 20px;float: left">
-                    <img src="./img/leon.jpg" style="width: 80px;height: 80px;border-radius: 100%">
+                    <img :src="userinfo.userAvatarLink" style="width: 80px;height: 80px;border-radius: 100%">
                 </div>
                 <div v-model="userinfo" class="username" style="margin-top: 18%;margin-left: 5%;float: left;font-size: 18px;font-weight: 700">
                     你好！{{userinfo.userName}}
@@ -132,15 +132,21 @@
                         <el-button type="danger" icon="el-icon-edit">发表</el-button>
                     </div>
                     <div class="myArticle" style="float: left;width: 100px;font-size: 18px;font-weight: 500;padding-left: 10px">
-                        <el-button type="danger" icon="el-icon-tickets">我的文章</el-button>
+                        <a href="/userinfo">
+                            <el-button type="danger" icon="el-icon-tickets">我的主页</el-button>
+                        </a>
                     </div>
                 </div>
                 <div class="userClick" id="normal" style="float: left;padding-top: 60px;width: 300px;display: none">
                     <div class="publish" style="float: left;width: 100px;padding-left: 40px;font-size: 18px;font-weight: 500">
-                        <el-button type="danger" icon="el-icon-star-off">关注</el-button>
+                        <el-tooltip class="item" effect="light" content="个人主页" placement="top">
+                            <a href="/userinfo">
+                                <el-button type="danger" icon="el-icon-star-off">主页</el-button>
+                            </a>
+                        </el-tooltip>
                     </div>
                     <div class="myArticle" style="float: left;width: 100px;font-size: 18px;font-weight: 500;padding-left: 10px">
-                        <el-tooltip class="item" effect="dark" content="申请成为作者" placement="right-start">
+                        <el-tooltip class="item" effect="light" content="申请成为作者" placement="top">
                             <el-button type="danger" icon="el-icon-plus">申请</el-button>
                         </el-tooltip>
                     </div>
