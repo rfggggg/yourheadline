@@ -14,7 +14,7 @@ show warnings;
 delimiter //
 create procedure select_collection_by_user_id(in p_uid Integer)
 Begin
-select * from article_info where article_id in 
+select * from article_info where article_id in
 (select article_id from collect where user_id = p_uid);
 end //
 delimiter ;
@@ -30,7 +30,7 @@ show warnings;
 delimiter //
 create procedure select_history_by_user_id(in p_uid Integer)
 Begin
-select * from article_info where article_id in 
+select * from article_info where article_id in
 (select article_id from viewed where user_id = p_uid);
 end //
 delimiter ;

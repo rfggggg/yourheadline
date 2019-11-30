@@ -19,7 +19,6 @@ public class ServletLogin {
 
         Map<String, Object> map = new HashMap<>();
         int userId = 0;
-
         String loginStatus = "";
         String userType = "";
         String userAvatarLink = "";

@@ -4,7 +4,7 @@ server:
 spring:
   datasource:
     driverName: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/yourheadline?useUnicode=true&characterEncoding=utf-8&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone = Asia/Shanghai
+    url: jdbc:mysql://cdb-mw8hntaa.bj.tencentcdb.com:10027/yourheadline?useUnicode=true&characterEncoding=utf-8&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone = Asia/Shanghai
     username: root
     password: mysql
 
@@ -19,7 +19,7 @@ spring:
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     show-sql: true
 
-localStaticPath: C:\Users\asus\Desktop\yourheadline\src\main\resources\static\article-imgs\
+#localStaticPath: C:\Users\asus\Desktop\yourheadline\src\main\resources\static\article-imgs\
 
 localPathDelimiter: \
 

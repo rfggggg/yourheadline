@@ -15,10 +15,10 @@ user_avatar_link longtext,
 
 birth_date date,
 gender varchar(20),
-	
+
 email varchar(50),
 mobile_phone varchar(20),
-	
+
 add_time date
 
 );
@@ -118,7 +118,7 @@ comment_id int not null auto_increment primary key,
 content varchar(1024) not null,
 add_time date,
 like_num int default 0,
-	
+
 article_id int references article(article_id),
 user_id int references user(user_id)
 
