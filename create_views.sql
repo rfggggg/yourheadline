@@ -58,3 +58,24 @@ show warnings;
 
 
 
+
+DROP PROCEDURE IF EXISTS check_article_publish;
+
+show warnings;
+
+delimiter //
+create procedure check_article_publish(in p_aid Integer, in p_eid INTEGER)
+Begin
+insert into article 
+(author_id, editor_id, module_id, article_title, article_text, cover_link, add_time)
+
+select author_id, p_eid, module_id, article_title, article_text, cover_link, curdate() 
+from article_unchecked 
+where id = p_aid;
+
+delete from article_unchecked where id=p_aid;
+
+end //
+delimiter ;
+
+
