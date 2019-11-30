@@ -3,11 +3,14 @@ server:
 # spring-data 配置
 spring:
   datasource:
-    driverName: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/yourheadline?useUnicode=true&characterEncoding=utf-8&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone = Asia/Shanghai
+#    driverName: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://localhost:3306/yourheadline?useUnicode=true&characterEncoding=utf-8&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone = Asia/Shanghai
+#    username: root
+    url: jdbc:mysql://cdb-mw8hntaa.bj.tencentcdb.com:10027/yourheadline?useUnicode=true&characterEncoding=utf-8&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone = Asia/Shanghai
     username: root
+    password: lx123456
 
-    password: mysql
+#    password: mysql
 
 
   hikari:
