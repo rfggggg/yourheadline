@@ -21,23 +21,7 @@ var app = new Vue({
         ufilist:[],
         newUserAvartaLinkOnserinfoPage:'',
         changeuseravatarlink:false,
-        tableData: [{
-            date: '2016-05-02',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-            date: '2016-05-04',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1517 弄'
-        }, {
-            date: '2016-05-01',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1519 弄'
-        }, {
-            date: '2016-05-03',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1516 弄'
-        }]
+
     },
     beforeMount() {
         // 调用后端的api取得模块
@@ -47,12 +31,6 @@ var app = new Vue({
         this.finduserfollowinfo(localStorage.getItem("userId"));
     },
     methods: {
-        handleEdit(index, row) {
-            console.log(index, row);
-        },
-        handleDelete(index, row) {
-            console.log(index, row);
-        },
         handleOpen(key, keyPath) {
             console.log(key, keyPath);
         },
@@ -67,6 +45,14 @@ var app = new Vue({
         getModules: function () {
             axios.get('/api/module').then(function (response) {
                 this.updateModule(response.data.module_list);
+            }.bind(this));
+        },
+        toSearch: function(){
+            axios.get('/api/search?keyword=' + this.input1).then(function (response) {
+                if(response.data.searchResult != null){
+                    this.updateList(response.data.searchResult);
+                }
+                else alert("无相关内容");
             }.bind(this));
         },
         toHome: function () {

@@ -35,6 +35,14 @@ public class ControllerRouter {
     {
         return "userinfo";
     }
+
+    @GetMapping("/authorinfo")
+    public String getAuthorinfoPage()
+    {
+        return "authorinfo";
+    }
+
+
     @GetMapping("/register-author")
     public String getRegisterAuthorPage() {return "register-author"; }
 
