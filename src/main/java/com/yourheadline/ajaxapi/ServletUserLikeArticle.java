@@ -25,6 +25,10 @@ public class ServletUserLikeArticle {
         newLike.setArticleId(Integer.parseInt(data.get("articleId")));
         newLike.setUserId(Integer.parseInt(data.get("userId")));
         newLike.setAddTime(date);
+
+        if(userLikeArticleDAO.findByUserIdAndArticleId(newLike.getUserId(),newLike.getArticleId()).size()>0)
+            ;
+        else
         userLikeArticleDAO.save(newLike);
         map.put("userLikeArticle", newLike);
 

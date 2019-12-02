@@ -14,9 +14,10 @@
         </el-col>
         <el-col span="12">
             <el-card>
-                <el-avatar :src="articleInfo[0].authorAvatarLink"></el-avatar>{{articleInfo[0].authorName}}
+                <a :href="'authorinfo?id='+articleInfo[0].authorId">
+                <el-avatar :src="articleInfo[0].authorAvatarLink"></el-avatar></a>{{articleInfo[0].authorName}}
                 <div style="text-align:center">
-                        {{articleInfo[0].articleTitle}}
+                    {{articleInfo[0].articleTitle}}
                 </div>
             </el-card>
         </el-col>
@@ -106,9 +107,9 @@
                             <div class="content">{{comment.content}}
                             </div>
                             <div>
-                                 <el-button class="like" icon="el-icon-thumb"  @click="likeComment(comment)" round>
-                                 <div class="like-num">{{comment.likeNum > 0 ? comment.likeNum + '人赞' : '赞'}}</div>
-                                 </el-button>
+                                <el-button class="like" icon="el-icon-thumb"  @click="likeComment(comment)" round>
+                                    <div class="like-num">{{comment.likeNum > 0 ? comment.likeNum + '人赞' : '赞'}}</div>
+                                </el-button>
                             </div>
                         </div>
                     </div>
@@ -134,7 +135,6 @@
    new Vue({
       el: '#article',
       data: {
-          articleId:aId,
       userId:uId,
       userName:uNm,
       isCollect:{},
@@ -151,7 +151,7 @@
       },
       methods: {
         getArticleInfo: function() {
-            axios.get('/api/article/detail?id='+aId).then(function (response) {
+            axios.get('/api/article/info?id='+aId).then(function (response) {
                 this.updateArticleInfo(response.data.article_list);
                 this.getFollowState();
             }.bind(this));
@@ -190,14 +190,14 @@
         likeArticle:function(article){
            if (article.isLike === null) {
           Vue.$set(article, "isLike", true);
-          this.plusLikeNumOfArticle(article.articleId);
+          this.plusLikeNumOfArticle();
           this.articleInfo[0].likeNum++;
         } else {
           if (article.isLike) {
-            this.minusLikeNumOfArticle(this.userId,article.articleId);
+            this.minusLikeNumOfArticle();
             this.articleInfo[0].likeNum--;
           } else {
-            this.plusLikeNumOfArticle(this.userId,article.articleId);
+            this.plusLikeNumOfArticle();
             this.articleInfo[0].likeNum++;
           }
           article.isLike = !article.isLike;
@@ -207,14 +207,14 @@
            if (comment.isLike === null) {
           Vue.$set(comment, "isLike", true);
           comment.likeNum++;
-          this.plusLikeNumOfComment(comment.commentId);
+          this.plusLikeNumOfComment(comment.commentId,this.userId);
         } else {
           if (comment.isLike) {
             comment.likeNum--;
-            this.minusLikeNumOfComment(comment.commentId);
+            this.minusLikeNumOfComment(comment.commentId,this.userId);
           } else {
             comment.likeNum++;
-            this.plusLikeNumOfComment(comment.commentId);
+            this.plusLikeNumOfComment(comment.commentId,this.userId);
           }
           comment.isLike = !comment.isLike;
         }
@@ -244,7 +244,7 @@
                 axios.post('/api/plusLikeNumOfArticle',data).then(function (response) {
                 }.bind(this));
         },
-        minusLikeNumOfArticle:function(id){
+        minusLikeNumOfArticle:function(){
         let data = {
            userId:this.userId,
            articleId:this.articleInfo[0].articleId
@@ -252,13 +252,21 @@
                 axios.post('/api/minusLikeNumOfArticle',data).then(function (response) {
                 }.bind(this));
         },
-        plusLikeNumOfComment:function(id){
-         axios.get('/api/plusLikeNumOfComment?id='+id).then(function (response) {
-            }.bind(this));
+        plusLikeNumOfComment:function(cid,uid){
+        let data = {
+           userId:uid,
+           commentId:cid
+                };
+                axios.post('/api/plusLikeNumOfComment',data).then(function (response) {
+                }.bind(this));
         },
-        minusLikeNumOfComment:function(id){
-         axios.get('/api/minusLikeNumOfComment?id='+id).then(function (response) {
-            }.bind(this));
+        minusLikeNumOfComment:function(cid,uid){
+         let data = {
+           userId:uid,
+           commentId:cid
+                };
+                axios.post('/api/minusLikeNumOfComment',data).then(function (response) {
+                }.bind(this));
         },
         addNewComment:function(value){
         let data = {
@@ -306,21 +314,23 @@
                 this.isFollow=!this.isFollow;
         },
         updateArticleInfo:function(info){
-        this.articleInfo=info;
+        if (info[0].authorAvatarLink === "" || info[0].authorAvatarLink === undefined || info[0].authorAvatarLink === null) {
+                 info[0].authorAvatarLink = "/img/touxiang.png";
+                 }
+                 this.articleInfo=info;
         },
         updateCommentList:function(commentList){
-        for(var i in commentList)
-        {
-            if(!!i.addTime)
-            i.addTime=i.addTime.toString().substring(0,3);
-        }
+        for(var i=0;i<commentList.length;i++)
+                {
+               if (commentList[i].userAvatarLink === "" || commentList[i].userAvatarLink === undefined || commentList[i].userAvatarLink === null) {
+                 commentList[i].userAvatarLink = "/img/touxiang.png";
+                }
+                commentList[i].addTime=commentList[i].addTime.slice(0,10);
+                }
         this.commentList=commentList;
         },
         }
     })
-
-
-
 </script>
 
 <style>
@@ -365,9 +375,5 @@
         line-height: 20px;
         padding: 10px 0;
       }
-
-
-
-
 </style>
 </html>
