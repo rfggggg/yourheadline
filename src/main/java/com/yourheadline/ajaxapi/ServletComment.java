@@ -1,6 +1,7 @@
 package com.yourheadline.ajaxapi;
 
 import com.yourheadline.dao.CommentDAO;
+import com.yourheadline.dao.UserLikeCommentDAO;
 import com.yourheadline.entity.CommentEntity;
 import com.yourheadline.model.CommentInfo;
 import org.springframework.beans.factory.annotation.Autowired;

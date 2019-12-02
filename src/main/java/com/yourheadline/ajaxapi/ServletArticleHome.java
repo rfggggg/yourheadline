@@ -83,6 +83,22 @@ public class ServletArticleHome {
 
         Map<String, Object> map = new HashMap<String, Object>();
 
+        List<ArticleEntity> aList = articleDAO.findByArticleId(id);
+        if (aList.isEmpty()){
+            return null;
+        }
+        else {
+            map.put("articleEntity", aList.get(0));
+            return map;
+        }
+    }
+
+    @GetMapping("/article/info")
+    @ResponseBody
+    public  Map<String, Object> findArticleInfo(@RequestParam int id){
+
+        Map<String, Object> map = new HashMap<String, Object>();
+
         List<ArticleInfo> aList = articleInfoDAO.findArticleInfoByArticleId(id);
 
             map.put("article_list", aList);

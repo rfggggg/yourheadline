@@ -14,7 +14,7 @@
         </el-col>
         <el-col span="12">
             <el-card>
-                <a href="/article?id=2">
+                <a :href="'authorinfo?id='+articleInfo[0].authorId">
                 <el-avatar :src="articleInfo[0].authorAvatarLink"></el-avatar></a>{{articleInfo[0].authorName}}
                 <div style="text-align:center">
                     {{articleInfo[0].articleTitle}}
@@ -151,7 +151,7 @@
       },
       methods: {
         getArticleInfo: function() {
-            axios.get('/api/article/detail?id='+aId).then(function (response) {
+            axios.get('/api/article/info?id='+aId).then(function (response) {
                 this.updateArticleInfo(response.data.article_list);
                 this.getFollowState();
             }.bind(this));
@@ -306,14 +306,19 @@
                 this.isFollow=!this.isFollow;
         },
         updateArticleInfo:function(info){
-        this.articleInfo=info;
+        if (info[0].authorAvatarLink === "" || info[0].authorAvatarLink === undefined || info[0].authorAvatarLink === null) {
+                 info[0].authorAvatarLink = "/img/touxiang.png";
+                 }
+                 this.articleInfo=info;
         },
         updateCommentList:function(commentList){
-        for(var i in commentList)
-        {
-            if(!!i.addTime)
-            i.addTime=i.addTime.toString().substring(0,3);
-        }
+        for(var i=0;i<commentList.length;i++)
+                {
+               if (commentList[i].userAvatarLink === "" || commentList[i].userAvatarLink === undefined || commentList[i].userAvatarLink === null) {
+                 commentList[i].userAvatarLink = "/img/touxiang.png";
+                }
+                commentList[i].addTime=commentList[i].addTime.slice(0,10);
+                }
         this.commentList=commentList;
         },
         }
