@@ -21,7 +21,7 @@
             <el-input v-model="input1" placeholder="请输入内容"></el-input>
         </div>
         <div class="top-div" style="margin-top: 25px">
-            <el-button icon="el-icon-search" circle @click="getInput"></el-button>
+            <el-button icon="el-icon-search" circle @click="toSearch"></el-button>
         </div>
         <div class="top-div" id="location_component">
             <i class="el-icon-location-information"></i>
@@ -65,7 +65,7 @@
         <div class="block">
             <el-carousel :interval="4000" type="card" height="250px">
                 <el-carousel-item v-for="(item,index) in alist.slice(0,6)" :key="item">
-                    <a :href="'login?id='+item.articleId">
+                    <a :href="'article?id='+item.articleId">
                         <img :src="item.coverLink" style="width: 350px;height: 250px">
                     </a>
                 </el-carousel-item>
@@ -77,7 +77,7 @@
             <div class="introPic" v-if="item.coverLink!=='null'&&item.coverLink!==''">
                 <div class="text">
                     <p>
-                        <a class="article-headline" :href="'login?id='+item.articleId" target="_blank">
+                        <a class="article-headline" :href="'article?id='+item.articleId" target="_blank">
                             <span style="font-size: 18px">
                         正文：{{item.articleTitle}}<br><br>
                     </span>
@@ -93,7 +93,7 @@
             <div class="introOnly" v-else>
                 <div class="textOnly">
                     <p>
-                        <a class="article-headline" :href="'login?id='+item.articleId" target="_blank">
+                        <a class="article-headline" :href="'article?id='+item.articleId" target="_blank">
                             <span style="font-size: 18px">
                         正文：{{item.articleTitle}}<br><br>
                     </span>

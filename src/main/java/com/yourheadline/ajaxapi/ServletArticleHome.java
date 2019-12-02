@@ -89,4 +89,26 @@ public class ServletArticleHome {
             return map;
 
     }
+
+    @PostMapping("/article/authorpage")
+    @ResponseBody
+    public  Map<String, Object> findarticlebyauthor(@RequestBody Map<String, String> inMap){
+
+        Map<String, Object> map = new HashMap<String, Object>();
+
+        if (inMap.containsKey("authorId")) {
+            int authorId = Integer.parseInt(inMap.get("authorId"));
+
+            List<ArticleEntity> aList = new ArrayList<>();
+            aList=articleDAO.findByAuthorId(authorId);
+            if (aList.isEmpty()){
+                return null;
+            }
+            else {
+                map.put("article_list", aList);
+                return map;
+            }
+        }
+        return  null;
+    }
 }

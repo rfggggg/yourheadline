@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <!-- import CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=7dWMrK7LI4IauYBNtpwRPoStbHIcvLGi"></script>
+    <!-- import Vue before Element -->
+    <script src="js/vue.js"></script>
+    <!-- import JavaScript -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <script src="js/axios.min.js"></script>
+</head>
+<body>
+<!-- JavaScript files-->
+<script src="js/jquery.min.js"></script>
+<script src="js/jquery.cookie.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="vendor/jquery-validation/jquery.validate.min.js"></script><!--表单验证-->
+<script src="js/axios.min.js"></script>
+
+<div id="app">
+    <!--    头像栏-->
+    <div class = "top-nav">
+        <div class = "top-div">
+            <a href="/">
+                <img src="./img/logo.png" style="height: 80px; cursor: pointer; margin-left: 40px">
+            </a>
+        </div>
+        <div class="top-div" id="searchBar">
+            <el-input v-model="input1" placeholder="请输入内容"></el-input>
+        </div>
+        <div class="top-div" style="margin-top: 25px">
+            <el-button icon="el-icon-search" circle @click="getInput"></el-button>
+        </div>
+        <div class="top-div" id="location_component">
+            <i class="el-icon-location-information"></i>
+            <label id="location"></label>
+        </div>
+        <label class = "top-div" id="clock"></label>
+    </div>
+    <div class="userCard" style="margin-top: 150px">
+        <el-row>
+            <el-col :span="4"><div class="grid-content bg-purple"></div></el-col>
+            <el-col :span="16">
+                <!--            card-->
+                <el-card class="box-card">
+                    <!--                pic-->
+                    <el-row>
+                        <el-col :span="4">
+                            <div class="demo-image" style="border-radius: 100%">
+                                <img
+                                        style="width: 100px; height: 100px;border-radius: 100%"
+                                        :src="userinfo.userAvatarLink"
+                                        fit="fill"/>
+                            </div>
+                        </el-col>
+                        <el-col :span="4">
+                            <div v-model="userinfo" class="username">
+                                {{userinfo.userName}}
+                            </div>
+                        </el-col>
+                    </el-row>
+                </el-card>
+            </el-col>
+            <el-col :span="4"><div class="grid-content bg-purple"></div></el-col>
+        </el-row>
+        <br>
+        <el-row>
+            <el-col :span="4"><div class="grid-content bg-purple"></div></el-col>
+            <el-col :span="16">
+                <!--            card-->
+                <el-card class="box-card2">
+                    <template>
+                        <el-tabs  @tab-click="handleClickOnUserinfoPage">
+                            <el-tab-pane label="基本资料" name="first">
+                                <el-form label-position="right" label-width="80px" :model="userinfo">
+                                    <el-form-item label="用户名">
+                                        <el-input id="nameinput" v-model="userinfo.userName" disabled="true"></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="生日">
+                                        <el-date-picker id="birthinput" type="date" placeholder="选择日期" v-model="userinfo.birthDate" disabled="true" style="width: 100%;">
+                                        </el-date-picker>
+                                    </el-form-item>
+                                    <el-form-item label="性别">
+                                        <el-select id="genderinput" v-model="userinfo.gender" placeholder="请选择性别" disabled="true">
+                                            <el-option label="male" value="male"></el-option>
+                                            <el-option label="female" value="female"></el-option>
+                                        </el-select>
+                                    </el-form-item>
+                                    <el-form-item label="注册时间">
+                                        <el-input v-model="userinfo.addTime" disabled="true"></el-input>
+                                    </el-form-item>
+                                </el-form>
+                            </el-tab-pane>
+                            <el-tab-pane label="作者文章" name="second">
+                                <div class = "articleBlock">
+                                    <div class="article" v-for="item in alist">
+                                        <div class="introPic" v-if="item.coverLink!=='null'&&item.coverLink!==''">
+                                            <div class="text">
+                                                <p>
+                                                    <a class="article-headline" :href="'login?id='+item.articleId" target="_blank">
+                                                        <span style="font-size: 18px">
+                                                            正文：{{item.articleTitle}}<br><br>
+                                                         </span>
+                                                    </a>
+                                                    作者：{{item.authorId}}<br>
+                                                    发布时间{{item.addTime}}
+                                                </p>
+                                            </div>
+                                            <div class="articlePicture">
+                                                <img :src="item.coverLink" style="width: 200px; height: 160px">
+                                            </div>
+                                        </div>
+                                        <div class="introOnly" v-else>
+                                            <div class="textOnly">
+                                                <p>
+                                                    <a class="article-headline" :href="'login?id='+item.articleId" target="_blank">
+                                                        <span style="font-size: 18px">
+                                                            正文：{{item.articleTitle}}<br><br>
+                                                         </span>
+                                                    </a>
+                                                    作者：{{item.authorId}}<br>
+                                                    发布时间{{item.addTime}}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </el-tab-pane>
+                        </el-tabs>
+                    </template>
+                </el-card>
+            </el-col>
+            <el-col :span="4"><div class="grid-content bg-purple"></div></el-col>
+        </el-row>
+    </div>
+</div>
+
+
+<!--获取当前城市-->
+<script type="text/javascript">
+    var map = new BMap.Map("container");
+    var nowCity = new BMap.LocalCity();
+    nowCity.get(bdGetPosition);
+    function bdGetPosition(result){
+        var city = document.getElementById("location");
+        city.innerText = result.name;
+    }
+</script>
+<!--获取当前时间-->
+<script type="text/javascript">
+    window.onload(getDate());
+
+    function getDate()
+    {
+        window.setTimeout(function(){
+            window.requestAnimationFrame(getDate)
+        },1000/2);
+        var d=new Date();
+        var year=d.getFullYear(); //获取年
+        var month=d.getMonth()+1;  //获取月，从 Date 对象返回月份 (0 ~ 11)，故在此处+1
+        var day=d.getDay();  //获取日
+        var days=d.getDate();//获取日期
+        var hour=d.getHours();   //获取小时
+        var minute=d.getMinutes();  //获取分钟
+        var second=d.getSeconds();   //获取秒
+
+        if(month<10) month="0"+month;
+        if(days<10) days="0"+days;
+        if(hour<10) hour="0"+hour;
+        if(minute<10) minute="0"+minute;
+        if(second<10) second="0"+second;
+
+        var week=new Array("星期日","星期一","星期二","星期三","星期四","星期五","星期六");
+        var Tools=document.getElementById("clock");
+        var da=year+"/"+month+"/"+days+" "+week[day]+" "+hour+":"+minute+":"+second;
+        Tools.innerHTML=da;
+    }
+</script>
+
+
+<style>
+    body{
+        padding: 0;
+        margin: 0;
+    }
+    #app{
+        margin: 0;
+        padding: 0;
+    }
+    .top-nav {
+        /*顶部导航栏*/
+        background: rgba(255, 216, 77, 1);
+        position: absolute;
+        top: 0;
+        width: 100%;
+        height: 80px;
+        z-index: 10;
+        font-size: large;
+        min-width: 1410px;
+    }
+    .top-div{
+        float: left;
+    }
+    #searchBar{
+        width: 260px;
+        height: 20px;
+        margin-top: 25px;
+        margin-left: 150px;
+    }
+    #location_component{
+        width: 80px;
+        margin-left: 20%;
+        margin-top: 30px;
+        font-size: medium;
+    }
+    #clock{
+        width: 320px;
+        margin-left: 50px;
+        margin-top: 30px;
+        color: black;
+        font-size: medium;
+    }
+    /*layout*/
+    .el-row {
+        margin-bottom: 20px;
+    &:last-child {
+         margin-bottom: 0;
+     }
+    }
+    .el-col {
+        border-radius: 4px;
+    }
+    .bg-purple-dark {
+        background: #99a9bf;
+    }
+    .bg-purple {
+        background: #ffffff;
+    }
+    .bg-purple-light {
+        background: #e5e9f2;
+    }
+    .grid-content {
+        border-radius: 4px;
+        min-height: 36px;
+    }
+    .row-bg {
+        padding: 10px 0;
+        background-color: #f9fafc;
+    }
+
+    /*card*/
+    .text {
+        font-size: 14px;
+    }
+
+    .item {
+        padding: 18px 0;
+    }
+
+    .box-card {
+        width: 960px;
+        background-color: lavender;
+    }
+    .box-card2 {
+        width: 960px;
+    }
+    .username {
+        font-size: xx-large;
+        font-weight: bold;
+
+    }
+    /*文章列表*/
+    .article-headline{
+        text-decoration-line: none;
+        color: black;
+    }
+    .article-headline:hover span{
+        color: #5184eb;
+        cursor: pointer;
+    }
+    .article{
+        width: 750px;
+        height: 200px;
+        border-bottom: 1px solid rgba(0,0,0,.30);
+    }
+    .introPic{
+        width: 750px;
+        height: 200px;
+        padding-top: 20px;
+    }
+    .introPic>div{
+        float: left;
+    }
+    .text{
+        width: 550px;
+        height: 160px;
+    }
+    .articlePicture {
+        width: 200px;
+        height: 160px;
+    }
+    .introOnly{
+        width: 750px;
+        height: 200px;
+        padding-top: 20px;
+    }
+    .textOnly{
+        width: 750px;
+        height: 160px;
+    }
+</style>
+
+<script>
+    var aId=window.location.href.split("?id=")[1];
+    var app = new Vue({
+        el: '#app',
+        data: {
+            alist: [
+                {id:1,text:"<p>不应该出现的文章条条</p>",author_name:"a1",publish_time:"1:00"}
+            ],
+            input1:'',
+            userinfo:{userId:1,userName:"jia",userType:"author",birthDate:"1999-01-01",gender:"male",email:"99@qq.com",
+                mobilePhone:"123456",addTime:"1999-01-01"
+            }
+        },
+        beforeMount() {
+            // 调用后端的api取得模块
+            this.findarticle();
+            this.finduserinfo();
+        },
+        methods: {
+            getInput: function () {
+                alert(this.input1);
+                return this.input1;
+            },
+            findarticle: function () {
+                let data = {
+                    authorId: aId
+                };
+                axios.post('/api/article/authorpage', data).then(function (response) {
+                    this.updateList(response.data.article_list)
+                }.bind(this));
+            },
+            updateList: function (newData) {
+                this.alist = newData;
+            },
+            handleClickOnUserinfoPage: function (tab, event) {
+                console.log(tab, event);
+            },
+            finduserinfo: function () {
+                let data = {
+                    userId: aId
+                };
+                axios.post('/api/userinfo', data).then(function (response) {
+                    this.updateuser(response.data.user_info)
+                }.bind(this));
+            },
+            updateuser: function (data) {
+                this.userinfo = data;
+                if (data.userAvatarLink === "" || data.userAvatarLink === undefined || data.userAvatarLink === null) {
+                    this.userinfo.userAvatarLink = "./img/touxiang.png";
+                }
+            },
+            unfollow: function (index, row) {
+                this.deleteuserfollow(row.followId);
+            },
+            deleteuserfollow: function (_followId) {
+                let data = {
+                    followId: _followId
+                }
+                axios.post('/api/updateUser/deletefollow', data).then(function (response) {
+                    this.finduserfollowinfo(localStorage.getItem("userId"));
+                }.bind(this));
+            }
+        }
+    });
+</script>
+
+</body>
+
+
+</html>

@@ -1,5 +1,6 @@
 var rootUrl='localhost:8080';
 
+
 var app = new Vue({
     el: '#app',
     data: {
@@ -19,7 +20,8 @@ var app = new Vue({
         },
         ufilist:[],
         newUserAvartaLinkOnserinfoPage:'',
-        changeuseravatarlink:false
+        changeuseravatarlink:false,
+
     },
     beforeMount() {
         // 调用后端的api取得模块
@@ -43,6 +45,14 @@ var app = new Vue({
         getModules: function () {
             axios.get('/api/module').then(function (response) {
                 this.updateModule(response.data.module_list);
+            }.bind(this));
+        },
+        toSearch: function(){
+            axios.get('/api/search?keyword=' + this.input1).then(function (response) {
+                if(response.data.searchResult != null){
+                    this.updateList(response.data.searchResult);
+                }
+                else alert("无相关内容");
             }.bind(this));
         },
         toHome: function () {
@@ -154,7 +164,7 @@ var app = new Vue({
             this.ufilist[i].addTime=this.ufilist[i].addTime.substring(0,10);
         },
 
-        
+
         unfollow: function (index, row) {
             this.deleteuserfollow(row.followId);
         },

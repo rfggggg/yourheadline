@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=7dWMrK7LI4IauYBNtpwRPoStbHIcvLGi"></script>
+    <!-- import Vue before Element -->
+    <script src="js/vue.js"></script>
+    <title>author-edit</title>
+</head>
+
+
+<body>
+
+<script src="js/jquery.min.js"></script>
+<script src="js/jquery.cookie.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="vendor/jquery-validation/jquery.validate.min.js"></script><!--表单验证-->
+<script src="js/axios.min.js"></script>
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<!--获取当前城市-->
+<script type="text/javascript">
+    var map = new BMap.Map("container");
+    var nowCity = new BMap.LocalCity();
+    nowCity.get(bdGetPosition);
+    function bdGetPosition(result){
+        var city = document.getElementById("location");
+        city.innerText = result.name;
+    }
+</script>
+<!--获取当前时间-->
+<script type="text/javascript">
+    window.onload(getDate());
+
+    function getDate()
+    {
+        window.setTimeout(function(){
+            window.requestAnimationFrame(getDate)
+        },1000/2);
+        var d=new Date();
+        var year=d.getFullYear(); //获取年
+        var month=d.getMonth()+1;  //获取月，从 Date 对象返回月份 (0 ~ 11)，故在此处+1
+        var day=d.getDay();  //获取日
+        var days=d.getDate();//获取日期
+        var hour=d.getHours();   //获取小时
+        var minute=d.getMinutes();  //获取分钟
+        var second=d.getSeconds();   //获取秒
+
+        if(month<10) month="0"+month;
+        if(days<10) days="0"+days;
+        if(hour<10) hour="0"+hour;
+        if(minute<10) minute="0"+minute;
+        if(second<10) second="0"+second;
+
+        var week=new Array("星期日","星期一","星期二","星期三","星期四","星期五","星期六");
+        var Tools=document.getElementById("clock");
+        var da=year+"/"+month+"/"+days+" "+week[day]+" "+hour+":"+minute+":"+second;
+        Tools.innerHTML=da;
+    }
+</script>
+
+<div id="edit">
+    <div class = "top-nav">
+        <div class = "top-div" @click = "toHome">
+            <img src="./img/logo.png" style="height: 80px; cursor: pointer; margin-left: 40px">
+        </div>
+        <div class="top-div" id="searchBar">
+            <el-input v-model="inputs" placeholder="请输入内容"></el-input>
+        </div>
+        <div class="top-div" style="margin-top: 25px">
+            <el-button icon="el-icon-search" circle @click="getInput"></el-button>
+        </div>
+        <div class="top-div" id="location_component">
+            <i class="el-icon-location-information"></i>
+            <label id="location"></label>
+        </div>
+        <label class = "top-div" id="clock"></label>
+    </div>
+    <div style="margin-top: 500px">
+        <el-table
+                :data="tableData"
+                style="width: 100%">
+            <el-table-column
+                    prop="date"
+                    label="日期"
+                    width="180">
+            </el-table-column>
+            <el-table-column
+                    prop="name"
+                    label="姓名"
+                    width="180">
+            </el-table-column>
+            <el-table-column
+                    prop="address"
+                    label="地址">
+            </el-table-column>
+        </el-table>
+        <el-button>默认按钮</el-button>
+    </div>
+</div>
+
+<script>
+    var app = new Vue({
+        el: "#edit",
+        data:{
+            inputs:'',
+            return:{
+                tableData: [{
+                    date: '2016-05-02',
+                    name: '王小虎',
+                    address: '上海市普陀区金沙江路 1518 弄'
+                }]
+            }
+        },
+        beforeMount() {
+            this.getInput();
+        },
+        methods:{
+            getInput(){
+                return this.inputs;
+            },
+            handleEdit(index, row) {
+                console.log(index, row);
+            },
+            handleDelete(index, row) {
+                console.log(index, row);
+            },
+        }
+    });
+</script>
+
+<style>
+    body{
+        padding: 0;
+        margin: 0;
+    }
+    .top-nav {
+        /*顶部导航栏*/
+        background: rgba(255, 216, 77, 1);
+        position: absolute;
+        top: 0;
+        width: 100%;
+        height: 80px;
+        z-index: 10;
+        font-size: large;
+        min-width: 1410px;
+    }
+    .top-div{
+        float: left;
+    }
+    #searchBar{
+        width: 260px;
+        height: 20px;
+        margin-top: 25px;
+        margin-left: 150px;
+    }
+    #location_component{
+        width: 80px;
+        margin-left: 20%;
+        margin-top: 30px;
+        font-size: medium;
+    }
+    #clock{
+        width: 320px;
+        margin-left: 50px;
+        margin-top: 30px;
+        color: black;
+        font-size: medium;
+    }
+</style>
+
+
+</body>
+
+
+
+</html>

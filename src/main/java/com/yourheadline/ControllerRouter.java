@@ -30,6 +30,19 @@ public class ControllerRouter {
         return "article";
     }
 
+    @GetMapping("/userinfo")
+    public String getUserinfoPage()
+    {
+        return "userinfo";
+    }
+
+    @GetMapping("/authorinfo")
+    public String getAuthorinfoPage()
+    {
+        return "authorinfo";
+    }
+
+
     @GetMapping("/register-author")
     public String getRegisterAuthorPage() {return "register-author"; }
 
@@ -38,4 +51,7 @@ public class ControllerRouter {
 
     @GetMapping("/unchecked-article")
     public String getEditorPage() {return "unchecked-article"; }
+
+    @GetMapping("/author-editor")
+    public String getAuthorEditorPage() {return "author-editor"; }
 }

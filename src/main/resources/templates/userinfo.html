@@ -18,7 +18,9 @@
 <!--    头像栏-->
     <div class = "top-nav">
         <div class = "top-div" @click = "toHome">
-            <img src="./img/logo.png" style="height: 80px; cursor: pointer; margin-left: 40px">
+            <a href="/">
+                <img src="./img/logo.png" style="height: 80px; cursor: pointer; margin-left: 40px">
+            </a>
         </div>
         <div class="top-div" id="searchBar">
             <el-input v-model="input1" placeholder="请输入内容"></el-input>
