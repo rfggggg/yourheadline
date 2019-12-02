@@ -113,7 +113,7 @@ public class ServletUploadArticle {
         if (validation.checkAuthor(authorName,password) && ae.getAuthorId().equals(authorId)){
             ae.setArticleTitle(articleTitle);
             ae.setArticleText(articleText);
-            ae.setArticleText(getFirstImage(articleText));
+            ae.setCoverLink(getFirstImage(articleText));
             articleDAO.save(ae);
             status = "Succeed";
         }

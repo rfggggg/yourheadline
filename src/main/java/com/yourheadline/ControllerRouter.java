@@ -54,4 +54,7 @@ public class ControllerRouter {
 
     @GetMapping("/author-editor")
     public String getAuthorEditorPage() {return "author-editor"; }
+
+    @GetMapping("/author-confirm")
+    public String getAuthorApplyPage() {return "apply-files"; }
 }

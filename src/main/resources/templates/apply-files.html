@@ -24,28 +24,17 @@
     <label class = "top-div" id="clock"></label>
 </div>
 
-<div id="app" style="display: inline-block;">
-    <div class="module-list" style="height: 60px;">
-        <span style="font-size: 25px;">模块：</span>
-        <el-select v-model="selectedModuleId" placeholder="请选择">
-            <el-option
-                    v-for="m in modules"
-                    :key="m.moduleName"
-                    :label="m.moduleName"
-                    :value="m.moduleId">
-            </el-option>
-        </el-select>
-        <el-button type="primary" @click="doUpload" style="margin-left: 10px;">发布文章</el-button>
-        </span>
+<div id="upload-info" style="margin-top: 100px;">
+    <div onclick="selectIdCardImage($('#back-image'))">
+        <div>有人像的一面：</div>
+        <img style="height:300px; width: 400px;" id="back-image" src="/img/upload-image.png" alt="请上传身份证">
     </div>
-    <div id = "test-module" style = "color: #FF0000;"></div>
+    <div onclick="selectIdCardImage($('#front-image'))">
+        <div>有国徽的一面：</div>
+        <img style="height:300px; width: 400px;" id="front-image" src="/img/upload-image.png" alt="请上传身份证">
+    </div>
 </div>
-
-<div class="title-box">
-    <input type="text" id="articleTitle" maxlength="100" placeholder="输入文章标题">
-    <span class="max-length"><span class="max-length-change">0</span>/100</span>
-</div>
-<p id = "testArticleTitle" style = "color: #FF0000;"></p>
+<p id = "testPhoto" style = "color: #FF0000;"></p>
 
 <div id = "editor"></div>
 <div id = "testEditor" style = "color: #FF0000;"></div>
@@ -85,7 +74,11 @@
         }
         return true;
     }
-
+    function selectIdCardImage(target)
+    {
+        console.log(target);
+        return;
+    }
 
 
 
@@ -104,23 +97,6 @@
 
     editor.create();
 
-    var _articleId=getQueryVariable("id");
-    console.log(_articleId);
-    if (_articleId!=null){
-        $.ajax({
-            type: "get",
-            url: "/api/article/detail",
-            data: {
-                id:_articleId
-            },
-            async: true,
-            success: function (response) {
-                // console.log(response);
-                editor.txt.html(response.articleEntity.articleText);
-                $("#articleTitle").val(response.articleEntity.articleTitle);
-            }
-        });
-    }
 
 
     var app = new Vue({
@@ -133,23 +109,8 @@
             ],
         },
         beforeMount() {
-            // 调用后端的api取得模块
-            this.getModules();
         },
         methods: {
-            getModules: function () {
-                axios.get('/api/module').then(function (response) {
-                    this.updateModule(response.data.module_list);
-                }.bind(this));
-            },
-            toHome: function () {
-                axios.get('/api/article/home').then(function (response) {
-                    this.updateList(response.data.article_list);
-                }.bind(this));
-            },
-            updateModule: function (data) {
-                this.modules = data;
-            },
             doUpload: function()
             {
                 if (testEmpty()===false){
