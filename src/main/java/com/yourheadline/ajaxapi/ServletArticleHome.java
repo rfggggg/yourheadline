@@ -2,12 +2,19 @@ package com.yourheadline.ajaxapi;
 
 import com.yourheadline.dao.ArticleDAO;
 import com.yourheadline.dao.ArticleInfoDAO;
+import com.yourheadline.dao.HistoryDAO;
 import com.yourheadline.entity.ArticleEntity;
+import com.yourheadline.entity.ViewedEntity;
 import com.yourheadline.model.ArticleInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Date;
 import java.util.*;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
@@ -18,6 +25,8 @@ public class ServletArticleHome {
     ArticleInfoDAO articleInfoDAO;
     @Autowired
     ArticleDAO articleDAO;
+    @Autowired
+    HistoryDAO historyDAO;
 
     @GetMapping("/article/home")
     @ResponseBody
@@ -126,5 +135,32 @@ public class ServletArticleHome {
             }
         }
         return  null;
+    }
+
+    @PostMapping("/article/addView")
+    @ResponseBody
+    public Map<String, Object> addView(@RequestBody Map<String, String> inMap){
+        Date addDate = new Date(Calendar.getInstance().getTimeInMillis());
+
+        String status = "";
+        Map<String, Object> map = new HashMap<>();
+
+        if(inMap.containsKey("articleId") && inMap.containsKey("userId")){
+            ViewedEntity v = new ViewedEntity();
+            v.setAddTime(addDate);
+            v.setArticleId(Integer.parseInt(inMap.get("articleId")));
+            v.setUserId(Integer.parseInt(inMap.get("userId")));
+            v = historyDAO.save(v);
+
+            if (v!=null) {
+                status = "Succeed";
+            }
+            else{
+                status = "DatabaseInnerError";
+            }
+        }
+
+        map.put("addStatus", status);
+        return map;
     }
 }

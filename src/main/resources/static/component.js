@@ -81,7 +81,16 @@ var app = new Vue({
                     this.updateList(response.data.article_list);
                 }.bind(this));
             },
-
+        addView: function(id){
+            let userId = localStorage.getItem("userId");
+            let data = {
+                userId: userId,
+                articleId: id,
+            };
+            axios.post('/api/article/addView', data).then(function (response) {
+                console.log(response.data.addStatus);
+            }.bind(this));
+        },
         updateList: function (newData) {
             this.alist = newData;
         },

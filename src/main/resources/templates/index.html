@@ -78,9 +78,9 @@
                 <div class="text">
                     <p>
                         <a class="article-headline" :href="'article?id='+item.articleId" target="_blank">
-                            <span style="font-size: 18px">
+                            <span style="font-size: 18px"  @click="addView(item.articleId)">
                         正文：{{item.articleTitle}}<br><br>
-                    </span>
+                            </span>
                         </a>
                         作者：{{item.authorId}}<br>
                         发布时间{{item.addTime}}
@@ -94,9 +94,9 @@
                 <div class="textOnly">
                     <p>
                         <a class="article-headline" :href="'article?id='+item.articleId" target="_blank">
-                            <span style="font-size: 18px">
+                            <span style="font-size: 18px" @click="addView(item.articleId)">
                         正文：{{item.articleTitle}}<br><br>
-                    </span>
+                            </span>
                         </a>
                         作者：{{item.authorId}}<br>
                         发布时间{{item.addTime}}
@@ -258,7 +258,34 @@
         }
     };
 </script>
-
+<!--<script>-->
+<!--    function addView(articleid) {-->
+<!--        if (localStorage.getItem("userId")==null-->
+<!--            ||localStorage.getItem("userName")==null-->
+<!--            ||localStorage.getItem("passWord")==null){-->
+<!--            alert("没有登陆！");-->
+<!--            return;-->
+<!--        }-->
+<!--        else{-->
+<!--            $.ajax({-->
+<!--                type: "post",-->
+<!--                url: "/api/article/addView",-->
+<!--                data: {-->
+<!--                    userId: localStorage.getItem("userId"),-->
+<!--                    articleId: articleid,-->
+<!--                },-->
+<!--                async: true,-->
+<!--                success: function (response) {-->
+<!--                    if (response.status === "Succeed") {-->
+<!--                        console.log("ok");-->
+<!--                    } else if (response.status === "FailCheckAuthor") {-->
+<!--                        alert("add error!");-->
+<!--                    }-->
+<!--                }-->
+<!--            });-->
+<!--        }-->
+<!--    }-->
+<!--</script>-->
 
 <style>
     body{
