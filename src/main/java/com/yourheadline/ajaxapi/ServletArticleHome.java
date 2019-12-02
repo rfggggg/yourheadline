@@ -102,6 +102,19 @@ public class ServletArticleHome {
         }
     }
 
+    @GetMapping("/article/info")
+    @ResponseBody
+    public  Map<String, Object> findArticleInfo(@RequestParam int id){
+
+        Map<String, Object> map = new HashMap<String, Object>();
+
+        List<ArticleInfo> aList = articleInfoDAO.findArticleInfoByArticleId(id);
+
+            map.put("article_list", aList);
+            return map;
+
+    }
+
     @PostMapping("/article/authorpage")
     @ResponseBody
     public  Map<String, Object> findarticlebyauthor(@RequestBody Map<String, String> inMap){

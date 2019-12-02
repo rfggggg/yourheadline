@@ -14,18 +14,16 @@ insert into user values(8, 'jerry', '123456', 'normal', '', '1999-01-01', 'male'
 
 
 
-insert into editor_worker values(3, 1);
-insert into editor_worker values(4, 2);
+insert into editor values(3, 1);
+insert into editor values(4, 2);
 
 
 
-insert into editor_authorize_author values(1, 3, '2019-11-14');
-insert into editor_authorize_author values(2, 3, '2019-11-14');
+insert into author values(1, 1, 3, '2019-11-14', '', '', '', '2019-12-2');
+insert into author values(2, 1, 3, '2019-11-14', '', '', '', '2019-12-2');
 
-
-
-insert into author_apply values(5, '2019-11-14', '');
-insert into author_apply values(6, '2019-11-14', '');
+insert into author values(5, 0, null, null, '', '', '', '2019-12-1');
+insert into author values(6, 0, null, null, '', '', '', '2019-12-1');
 
 
 

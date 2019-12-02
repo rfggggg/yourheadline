@@ -4,8 +4,8 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name = "editor_worker", schema = "yourheadline", catalog = "")
-public class EditorWorkerEntity {
+@Table(name = "editor", schema = "yourheadline", catalog = "")
+public class EditorEntity {
     private int editorId;
     private Integer workerId;
 
@@ -33,7 +33,7 @@ public class EditorWorkerEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        EditorWorkerEntity that = (EditorWorkerEntity) o;
+        EditorEntity that = (EditorEntity) o;
         return editorId == that.editorId &&
                 Objects.equals(workerId, that.workerId);
     }

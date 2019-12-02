@@ -3,18 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="css/element-ui.css">
+    <link rel="stylesheet" type="text/css" href="css/style.default.css">
     <script src="js/wangEditor.js"></script>
     <script src="js/jquery.min.js"></script>
+    <script src="js/vue.min.js"></script>
+    <script src="js/element-ui.js"></script>
+    <script src="js/axios.min.js"></script>
 </head>
 <body>
-<button id="uploadArticle" onclick = "doUpload();">发布文章</button>
-<div>文章标题
-    <input id = "articleTitle" type = "text"/>
-    <p id = "testArticleTitle" style = "color: #FF0000;"></p>
+
+<div class = "top-nav">
+    <div class = "top-div" >
+        <img src="./img/logo.png" style="height: 80px; cursor: pointer; margin-left: 40px">
+    </div>
+    <div class="top-div" id="location_component">
+        <i class="el-icon-location-information"></i>
+        <label id="location"></label>
+    </div>
+    <label class = "top-div" id="clock"></label>
 </div>
+
+<div id="app" style="display: inline-block;">
+    <div class="module-list" style="height: 60px;">
+        <span style="font-size: 25px;">模块：</span>
+        <el-select v-model="selectedModuleId" placeholder="请选择">
+            <el-option
+                    v-for="m in modules"
+                    :key="m.moduleName"
+                    :label="m.moduleName"
+                    :value="m.moduleId">
+            </el-option>
+        </el-select>
+        <el-button type="primary" @click="doUpload" style="margin-left: 10px;">发布文章</el-button>
+        </span>
+    </div>
+    <div id = "test-module" style = "color: #FF0000;"></div>
+</div>
+
+<div class="title-box">
+    <input type="text" id="articleTitle" maxlength="100" placeholder="输入文章标题">
+    <span class="max-length"><span class="max-length-change">0</span>/100</span>
+</div>
+<p id = "testArticleTitle" style = "color: #FF0000;"></p>
+
 <div id = "editor"></div>
-<div id = "testEditor" style = "text-color: #FF0000;"></div>
+<div id = "testEditor" style = "color: #FF0000;"></div>
 
 <script>
     function getQueryVariable(variable)
@@ -35,83 +69,24 @@
         else{
             $("#testArticleTitle").html("");
         }
-        if ( editor.txt.html()===""){
-            $("#testEditor").append("请输入文章标题！");
+        if (editor.txt.text()===""){
+            $("#testEditor").append("请输入文章内容！");
             return false;
         }
         else{
             $("#testEditor").html("");
         }
+        if (app.selectedModuleId===''){
+            $("#test-module").append("请选择模块！");
+            return false;
+        }
+        else {
+            $("#test-module").html("");
+        }
         return true;
     }
 
-    function doUpload()
-    {
-        if (testEmpty()===false){
-            return;
-        }
-        if (localStorage.getItem("userId")==null
-            ||localStorage.getItem("userName")==null
-            ||localStorage.getItem("passWord")==null){
-            alert("没有登陆！");
-            return;
-        }
-        if (_articleId===null) {
-            $.ajax({
-                type: "post",
-                url: "/api/new-article",
-                data: {
-                    authorId: localStorage.getItem("userId"),
-                    authorName: localStorage.getItem("userName"),
-                    password: localStorage.getItem("passWord"),
 
-                    articleTitle: $("#articleTitle").val(),
-                    articleIntro: "",
-                    articleText: editor.txt.html(),
-
-                    moduleId: 2,
-                },
-                async: true,
-                success: function (response) {
-                    // console.log(response);
-                    if (response.status === "Succeed") {
-                        console.log("ok");
-                        editor.txt.html("");
-                    } else if (response.status === "FailCheckAuthor") {
-                        alert("You are not an author, please apply first!");
-                    }
-                }
-            });
-        }
-        else{
-            $.ajax({
-                type: "post",
-                url: "/api/edit-article",
-                data: {
-                    articleId: _articleId,
-                    authorId: localStorage.getItem("userId"),
-                    authorName: localStorage.getItem("userName"),
-                    password: localStorage.getItem("passWord"),
-
-                    articleTitle: $("#articleTitle").val(),
-                    articleIntro: "",
-                    articleText: editor.txt.html(),
-
-                    moduleId: 2,
-                },
-                async: true,
-                success: function (response) {
-                    // console.log(response);
-                    if (response.status === "Succeed") {
-                        console.log("ok");
-                        editor.txt.html("");
-                    } else if (response.status === "FailCheckAuthor") {
-                        alert("You are not an author, please apply first!");
-                    }
-                }
-            });
-        }
-    }
 
 
     var E = window.wangEditor;
@@ -147,12 +122,160 @@
         });
     }
 
-    $(function(){
-        $("#articleTitle").change(function(){
-            testEmpty();
-        });
-    });
 
+    var app = new Vue({
+        el: '#app',
+        data: {
+            message: 'Your headline!',
+            selectedModuleId: '',
+            modules: [
+                {url: "#em1", name: "不应该出现的模块"}
+            ],
+        },
+        beforeMount() {
+            // 调用后端的api取得模块
+            this.getModules();
+        },
+        methods: {
+            getModules: function () {
+                axios.get('/api/module').then(function (response) {
+                    this.updateModule(response.data.module_list);
+                }.bind(this));
+            },
+            toHome: function () {
+                axios.get('/api/article/home').then(function (response) {
+                    this.updateList(response.data.article_list);
+                }.bind(this));
+            },
+            updateModule: function (data) {
+                this.modules = data;
+            },
+            doUpload: function()
+            {
+                if (testEmpty()===false){
+                    return;
+                }
+                if (localStorage.getItem("userId")==null
+                    ||localStorage.getItem("userName")==null
+                    ||localStorage.getItem("passWord")==null){
+                    alert("没有登陆！");
+                    return;
+                }
+                if (_articleId===null) {
+                    $.ajax({
+                        type: "post",
+                        url: "/api/new-article",
+                        data: {
+                            authorId: localStorage.getItem("userId"),
+                            authorName: localStorage.getItem("userName"),
+                            password: localStorage.getItem("passWord"),
+
+                            articleTitle: $("#articleTitle").val(),
+                            articleIntro: "",
+                            articleText: editor.txt.html(),
+
+                            moduleId: this.selectedModuleId,
+                        },
+                        async: true,
+                        success: function (response) {
+                            // console.log(response);
+                            if (response.status === "Succeed") {
+                                console.log("ok");
+                                editor.txt.html("");
+                            } else if (response.status === "FailCheckAuthor") {
+                                alert("You are not an author, please apply first!");
+                            }
+                        }
+                    });
+                }
+                else{
+                    $.ajax({
+                        type: "post",
+                        url: "/api/edit-article",
+                        data: {
+                            articleId: _articleId,
+                            authorId: localStorage.getItem("userId"),
+                            authorName: localStorage.getItem("userName"),
+                            password: localStorage.getItem("passWord"),
+
+                            articleTitle: $("#articleTitle").val(),
+                            articleIntro: "",
+                            articleText: editor.txt.html(),
+
+                            moduleId: this.selectedModuleId,
+                        },
+                        async: true,
+                        success: function (response) {
+                            // console.log(response);
+                            if (response.status === "Succeed") {
+                                console.log("ok");
+                                editor.txt.html("");
+                            } else if (response.status === "FailCheckAuthor") {
+                                alert("You are not an author, please apply first!");
+                            }
+                        }
+                    });
+                }
+            }
+        }
+    });
 </script>
+
+<style>
+    #app{
+        margin-top: 120px;
+    }
+
+
+    #articleTitle {
+        display: inline-block;
+        width: 92%;
+        height: 80px;
+        line-height: 80px;
+        box-sizing: border-box;
+        padding-left: 16px;
+        border: none;
+        background-color: #efefef;
+        color: #4d4d4d;
+        font-size: 20px;
+    }
+    div.title-box {
+        margin-top: 20px;
+        margin-bottom: 24px;
+        background-color: #efefef;
+        padding: 0;
+        font-size: 20px;
+        position: relative;
+    }
+    .top-nav {
+        /*顶部导航栏*/
+        background: rgba(255, 216, 77, 1);
+        position: absolute;
+        top: 0;
+        width: 100%;
+        height: 80px;
+        z-index: 10;
+        font-size: large;
+        min-width: 1410px;
+        left: 0;
+    }
+    .top-div{
+        float: left;
+    }
+    #location_component{
+        width: 80px;
+        margin-left: 20%;
+        margin-top: 30px;
+        font-size: medium;
+    }
+    #clock{
+        width: 320px;
+        margin-left: 50px;
+        margin-top: 30px;
+        color: black;
+        font-size: medium;
+    }
+</style>
+
 </body>
 </html>

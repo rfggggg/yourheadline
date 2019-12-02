@@ -13,46 +13,36 @@ user_type varchar(50) not null default "normal",
 
 user_avatar_link longtext,
 
-birth_date date,
-gender varchar(20),
+birth_date date not null default "2000-01-01",
+gender varchar(20) default "",
 
-email varchar(50),
-mobile_phone varchar(20),
+email varchar(50) default "",
+mobile_phone varchar(20) default "",
 
-add_time date
+add_time date default "2000-01-01"
 
 );
 
 
 
-create table if not exists editor_worker (
+create table if not exists editor (
 editor_id int primary key references user(user_id),
-worker_id int
+worker_id int default 0
 );
 
 
 
 
-create table if not exists editor_authorize_author (
+create table if not exists author (
 author_id int primary key references user(user_id),
+authorized int,
 authorize_editor_id int,
-authorize_date date
+authorize_date date,
+id_card_back longtext,
+id_card_front longtext,
+apply_text longtext,
+apply_time date
 );
-
-
-
-
-
-create table if not exists author_apply (
-
-id int primary key references user(user_id),
-apply_time date,
-application_file_link varchar(50)
-
-);
-
-
-
 
 
 
