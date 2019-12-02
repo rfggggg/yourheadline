@@ -24,22 +24,68 @@
     <label class = "top-div" id="clock"></label>
 </div>
 
-<div id="upload-info" style="margin-top: 100px;">
-    <div onclick="selectIdCardImage($('#back-image'))">
-        <div>有人像的一面：</div>
-        <img style="height:300px; width: 400px;" id="back-image" src="/img/upload-image.png" alt="请上传身份证">
+<input id="back-selector" type="file" style="display: none;">
+<input id="front-selector" type="file" style="display: none;">
+<div id="upload-info" style="margin-top: 100px; width:100%;">
+    <div onclick="selectBackImage()" style="float: left; width: 30%">
+        <div>请上传身份证有人像的一面：</div>
+        <img style="height:150px; width: 250px;" id="back-image" src="/img/upload-image.png" alt="请上传身份证">
     </div>
-    <div onclick="selectIdCardImage($('#front-image'))">
-        <div>有国徽的一面：</div>
-        <img style="height:300px; width: 400px;" id="front-image" src="/img/upload-image.png" alt="请上传身份证">
+    <div onclick="selectFrontImage()" style="float: left; width: 30%">
+        <div>请上传身份证有国徽的一面：</div>
+        <img style="height:150px; width: 250px;" id="front-image" src="/img/upload-image.png" alt="请上传身份证">
     </div>
+    <button onclick="upload()" style="height:60px; width:90px; margin-left: 10px; font-size: 25px; color: floralwhite; background-color: #3a8ee6; border-radius: 25px;">上传</button>
 </div>
 <p id = "testPhoto" style = "color: #FF0000;"></p>
-
-<div id = "editor"></div>
+<div style="font-size: 36px; text-align: center; float: left; width: 100%">请输入您的自述</div>
+<div id = "editor" style="float: left; width: 100%"></div>
 <div id = "testEditor" style = "color: #FF0000;"></div>
 
 <script>
+    function upload()
+    {
+        if (testEmpty()===false){
+            return;
+        }
+        if (localStorage.getItem("userId")==null
+            ||localStorage.getItem("userName")==null
+            ||localStorage.getItem("passWord")==null){
+            alert("没有登陆！");
+            return;
+        }
+        $.ajax({
+            type: "post",
+            url: "/api/author-confirm",
+            data: {
+                authorId: localStorage.getItem("userId"),
+                authorName: localStorage.getItem("userName"),
+                password: localStorage.getItem("passWord"),
+                idCardBack: document.getElementById("back-image").src,
+                idCardFront: document.getElementById("front-image").src,
+                applyText: editor.txt.html()
+            },
+            async: true,
+            success: function (response) {
+                if (response.status === "Succeed") {
+                    console.log("ok");
+                    editor.txt.html("");
+                } else if (response.status === "FailCheckAuthor") {
+                    alert("You are not an author, please register first!");
+                }
+            }
+        });
+    }
+    function convertBase64(fileInput, target) {
+        if (fileInput.files[0]) {
+            let reader = new FileReader();
+            reader.readAsDataURL(fileInput.files[0]);
+            reader.onload = function () {
+                console.log(reader.result);
+                target.src = reader.result;
+            };
+        }
+    }
     function getQueryVariable(variable)
     {
         let query = window.location.search.substring(1);
@@ -51,22 +97,22 @@
         return null;
     }
     function testEmpty(){
-        if($("#articleTitle").val()===""){
-            $("#testArticleTitle").append("请输入文章标题！");
+        if(document.getElementById("back-image").src.substring(0, 4)==="http"){
+            document.getElementById("testPhoto").append("请上传身份证背面图片！   ");
             return false;
         }
         else{
-            $("#testArticleTitle").html("");
+            $("#testPhoto").html("");
         }
-        if (editor.txt.text()===""){
-            $("#testEditor").append("请输入文章内容！");
+        if (document.getElementById("front-image").src.substring(0, 4)==="http"){
+            document.getElementById("testPhoto").append("请上传身份证正面图片！");
             return false;
         }
         else{
-            $("#testEditor").html("");
+            $("#testPhoto").html("");
         }
-        if (app.selectedModuleId===''){
-            $("#test-module").append("请选择模块！");
+        if (editor.txt.text()===''){
+            $("#testEditor").append("请输入您的自述！");
             return false;
         }
         else {
@@ -74,13 +120,22 @@
         }
         return true;
     }
-    function selectIdCardImage(target)
+    function selectBackImage()
     {
-        console.log(target);
-        return;
+        $("#back-selector").click();
     }
 
+    function selectFrontImage()
+    {
+        $("#front-selector").click();
+    }
 
+    document.getElementById('back-selector').addEventListener('change', function () {
+        convertBase64(document.getElementById("back-selector"), document.getElementById("back-image"));
+    });
+    document.getElementById('front-selector').addEventListener('change', function () {
+        convertBase64(document.getElementById("front-selector"), document.getElementById("front-image"));
+    });
 
     var E = window.wangEditor;
     //这里的id为<div id="editor"中的id.
@@ -102,82 +157,8 @@
     var app = new Vue({
         el: '#app',
         data: {
-            message: 'Your headline!',
-            selectedModuleId: '',
-            modules: [
-                {url: "#em1", name: "不应该出现的模块"}
-            ],
-        },
-        beforeMount() {
         },
         methods: {
-            doUpload: function()
-            {
-                if (testEmpty()===false){
-                    return;
-                }
-                if (localStorage.getItem("userId")==null
-                    ||localStorage.getItem("userName")==null
-                    ||localStorage.getItem("passWord")==null){
-                    alert("没有登陆！");
-                    return;
-                }
-                if (_articleId===null) {
-                    $.ajax({
-                        type: "post",
-                        url: "/api/new-article",
-                        data: {
-                            authorId: localStorage.getItem("userId"),
-                            authorName: localStorage.getItem("userName"),
-                            password: localStorage.getItem("passWord"),
-
-                            articleTitle: $("#articleTitle").val(),
-                            articleIntro: "",
-                            articleText: editor.txt.html(),
-
-                            moduleId: this.selectedModuleId,
-                        },
-                        async: true,
-                        success: function (response) {
-                            // console.log(response);
-                            if (response.status === "Succeed") {
-                                console.log("ok");
-                                editor.txt.html("");
-                            } else if (response.status === "FailCheckAuthor") {
-                                alert("You are not an author, please apply first!");
-                            }
-                        }
-                    });
-                }
-                else{
-                    $.ajax({
-                        type: "post",
-                        url: "/api/edit-article",
-                        data: {
-                            articleId: _articleId,
-                            authorId: localStorage.getItem("userId"),
-                            authorName: localStorage.getItem("userName"),
-                            password: localStorage.getItem("passWord"),
-
-                            articleTitle: $("#articleTitle").val(),
-                            articleIntro: "",
-                            articleText: editor.txt.html(),
-
-                            moduleId: this.selectedModuleId,
-                        },
-                        async: true,
-                        success: function (response) {
-                            // console.log(response);
-                            if (response.status === "Succeed") {
-                                console.log("ok");
-                                editor.txt.html("");
-                            } else if (response.status === "FailCheckAuthor") {
-                                alert("You are not an author, please apply first!");
-                            }
-                        }
-                    });
-                }
-            }
         }
     });
 </script>

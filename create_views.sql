@@ -100,3 +100,21 @@ end //
 delimiter ;
 
 
+
+DROP PROCEDURE IF EXISTS check_author;
+
+show warnings;
+
+delimiter //
+create procedure check_author(in p_eid integer, in p_auid int)
+Begin
+
+update author set
+authorized = 1,
+authorize_editor_id =p_eid,
+authorize_date = curdate()
+where author_id=p_auid;
+
+end //
+delimiter ;
+
