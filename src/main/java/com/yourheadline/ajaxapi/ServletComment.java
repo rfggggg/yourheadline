@@ -1,8 +1,10 @@
 package com.yourheadline.ajaxapi;
 
 import com.yourheadline.dao.CommentDAO;
+import com.yourheadline.dao.CommentInfoDAO;
 import com.yourheadline.dao.UserLikeCommentDAO;
 import com.yourheadline.entity.CommentEntity;
+import com.yourheadline.entity.UserLikeCommentEntity;
 import com.yourheadline.model.CommentInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -18,40 +20,54 @@ public class ServletComment {
 
     @Autowired
     CommentDAO commentDAO;
+    @Autowired
+    CommentInfoDAO commentInfoDAO;
+    @Autowired
+    UserLikeCommentDAO userLikeCommentDAO;
 
     @GetMapping("/comment")
     @ResponseBody
     public Map<String, Object> getAllCommentOfArticle(@RequestParam int id) {
         Map<String, Object> map = new HashMap<String, Object>();
 
-        List<CommentInfo> clist = commentDAO.findByArticleId(id);
+        List<CommentInfo> clist = commentInfoDAO.findByArticleId(id);
 
         map.put("comment_list", clist);
 
         return map;
     }
 
-    @GetMapping("/plusLikeNumOfComment")
+    @PostMapping("/plusLikeNumOfComment")
     @ResponseBody
-    public Map<String, Object> plusLikeNumOfComment(@RequestParam int id) {
+    public Map<String, Object> plusLikeNumOfComment(@RequestBody Map<String,String> data) {
         Map<String, Object> map = new HashMap<String, Object>();
 
-        CommentEntity comment = commentDAO.findByCommentId(id);
+        CommentEntity comment = commentDAO.findByCommentId(Integer.parseInt(data.get("commentId")));
         comment.setLikeNum(comment.getLikeNum()+1);
         commentDAO.save(comment);
+
+        java.sql.Date date=new java.sql.Date(System.currentTimeMillis());
+        UserLikeCommentEntity newLike=new UserLikeCommentEntity();
+        newLike.setAddTime(date);
+        newLike.setCommentId(Integer.parseInt(data.get("commentId")));
+        newLike.setUserId(Integer.parseInt(data.get("userId")));
+
+        userLikeCommentDAO.save(newLike);
         map.put("comment", comment);
 
         return map;
     }
 
-    @GetMapping("/minusLikeNumOfComment")
+    @PostMapping("/minusLikeNumOfComment")
     @ResponseBody
-    public Map<String, Object> minusLikeNumOfComment(@RequestParam int id) {
+    public Map<String, Object> minusLikeNumOfComment(@RequestBody Map<String,String> data) {
         Map<String, Object> map = new HashMap<String, Object>();
 
-        CommentEntity comment = commentDAO.findByCommentId(id);
+        CommentEntity comment = commentDAO.findByCommentId(Integer.parseInt(data.get("commentId")));
         comment.setLikeNum(comment.getLikeNum()-1);
         commentDAO.save(comment);
+
+        userLikeCommentDAO.deleteByUserIdAndCommentId(Integer.parseInt(data.get("userId")),Integer.parseInt(data.get("commentId")));
         map.put("comment", comment);
 
         return map;
