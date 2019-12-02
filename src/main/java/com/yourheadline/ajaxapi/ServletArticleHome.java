@@ -83,13 +83,10 @@ public class ServletArticleHome {
 
         Map<String, Object> map = new HashMap<String, Object>();
 
-        List<ArticleEntity> aList = articleDAO.findByArticleId(id);
-        if (aList.isEmpty()){
-            return null;
-        }
-        else {
-            map.put("articleEntity", aList.get(0));
+        List<ArticleInfo> aList = articleInfoDAO.findArticleInfoByArticleId(id);
+
+            map.put("article_list", aList);
             return map;
-        }
+
     }
 }
