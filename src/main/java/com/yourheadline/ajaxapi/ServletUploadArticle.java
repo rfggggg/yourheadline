@@ -3,9 +3,11 @@ package com.yourheadline.ajaxapi;
 
 import com.yourheadline.dao.ArticleDAO;
 import com.yourheadline.dao.ArticleUncheckedDAO;
+import com.yourheadline.dao.AuthorDAO;
 import com.yourheadline.dao.UserDAO;
 import com.yourheadline.entity.ArticleEntity;
 import com.yourheadline.entity.ArticleUncheckedEntity;
+import com.yourheadline.entity.AuthorEntity;
 import com.yourheadline.entity.UserEntity;
 import com.yourheadline.service.Validation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,8 @@ public class ServletUploadArticle {
     UserDAO userDAO;
     @Autowired
     Validation validation;
+    @Autowired
+    AuthorDAO authorDAO;
 
     @PostMapping("/new-article")
     @ResponseBody
@@ -43,29 +47,31 @@ public class ServletUploadArticle {
 
         Map<String, Object> map = new HashMap<>();
 
-        String status = "";
+        String status = "FailCheckAuthor";
 
         if (validation.checkAuthor(authorId, authorName, password)){
-            ArticleEntity a = new ArticleEntity();
-            a.setAuthorId(authorId);
-            a.setArticleTitle(articleTitle);
-            a.setArticleText(articleText);
-            a.setAddTime(addDate);
-            a.setModuleId(moduleId);
+            List<AuthorEntity> auList = authorDAO.findByAuthorId(authorId);
+            if (!auList.isEmpty()){
+                if (auList.get(0).getAuthorized()==1){
+                    ArticleEntity a = new ArticleEntity();
+                    a.setAuthorId(authorId);
+                    a.setArticleTitle(articleTitle);
+                    a.setArticleText(articleText);
+                    a.setAddTime(addDate);
+                    a.setModuleId(moduleId);
 
+                    a.setCoverLink(getFirstImage(articleText));
 
-            a.setCoverLink(getFirstImage(articleText));
-
-            a = articleDAO.save(a);
-            if (a!=null) {
-                status = "Succeed";
+                    a = articleDAO.save(a);
+                    if (a!=null) {
+                        status = "Succeed";
+                    }
+                    else{
+                        status = "DatabaseInnerError";
+                    }
+                }
             }
-            else{
-                status = "DatabaseInnerError";
-            }
-        }
-        else{
-            status = "FailCheckAuthor";
+
         }
 
 

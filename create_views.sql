@@ -11,6 +11,17 @@ as
 select c.comment_id,c.content,c.add_time,c.like_num,c.article_id,u.user_id,u.user_name,u.user_avatar_link from comment as c left join user as u on c.user_id = u.user_id;
 
 
+create or replace view author_info
+(author_id, author_name, id_card_back, id_card_front, apply_text, apply_time) 
+as
+(select au.author_id, u.user_name, au.id_card_back, au.id_card_front, au.apply_text, au.apply_time
+from author as au left join user as u on au.author_id=u.user_id
+);
+
+
+
+
+
 DROP PROCEDURE IF EXISTS select_collection_by_user_id;
 
 show warnings;
@@ -117,4 +128,6 @@ where author_id=p_auid;
 
 end //
 delimiter ;
+
+
 

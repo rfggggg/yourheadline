@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="css/element-ui.css">
+    <link rel="stylesheet" type="text/css" href="css/style.default.css">
+    <script src="js/wangEditor.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/vue.min.js"></script>
+    <script src="js/element-ui.js"></script>
+    <script src="js/axios.min.js"></script>
+</head>
+<body>
+
+<div class = "top-nav">
+    <div class = "top-div" >
+        <img src="./img/logo.png" style="height: 80px; cursor: pointer; margin-left: 40px">
+    </div>
+    <div class="top-div" id="location_component">
+        <i class="el-icon-location-information"></i>
+        <label id="location"></label>
+    </div>
+    <label class = "top-div" id="clock"></label>
+</div>
+
+<input id="back-selector" type="file" style="display: none;">
+<input id="front-selector" type="file" style="display: none;">
+<div id="upload-info" style="margin-top: 100px; width:100%;">
+    <div onclick="selectBackImage()" style="float: left; width: 30%">
+        <div>请上传身份证有人像的一面：</div>
+        <img style="height:150px; width: 250px;" id="back-image" src="/img/upload-image.png" alt="请上传身份证">
+    </div>
+    <div onclick="selectFrontImage()" style="float: left; width: 30%">
+        <div>请上传身份证有国徽的一面：</div>
+        <img style="height:150px; width: 250px;" id="front-image" src="/img/upload-image.png" alt="请上传身份证">
+    </div>
+    <button onclick="upload()" style="height:60px; width:90px; margin-left: 10px; font-size: 25px; color: floralwhite; background-color: #3a8ee6; border-radius: 25px;">上传</button>
+</div>
+<p id = "testPhoto" style = "color: #FF0000;"></p>
+<div style="font-size: 36px; text-align: center; float: left; width: 100%">请输入您的自述</div>
+<div id = "editor" style="float: left; width: 100%"></div>
+<div id = "testEditor" style = "color: #FF0000;"></div>
+
+<script>
+    function upload()
+    {
+        if (testEmpty()===false){
+            return;
+        }
+        if (localStorage.getItem("userId")==null
+            ||localStorage.getItem("userName")==null
+            ||localStorage.getItem("passWord")==null){
+            alert("没有登陆！");
+            return;
+        }
+        $.ajax({
+            type: "post",
+            url: "/api/check-author",
+            data: {
+                editorId: localStorage.getItem("userId"),
+                editorName: localStorage.getItem("userName"),
+                password: localStorage.getItem("passWord"),
+                authorId: _authorId
+            },
+            async: true,
+            success: function (response) {
+                if (response.status === "Succeed") {
+                    console.log("ok");
+                    editor.txt.html("");
+                } else if (response.status === "FailCheckAuthor") {
+                    alert("You are not an author, please register first!");
+                }
+            }
+        });
+    }
+    function getQueryVariable(variable)
+    {
+        let query = window.location.search.substring(1);
+        let vars = query.split("&");
+        for (let i=0;i<vars.length;i++) {
+            let pair = vars[i].split("=");
+            if(pair[0] === variable){return pair[1];}
+        }
+        return null;
+    }
+
+    function selectBackImage()
+    {
+        $("#back-selector").click();
+    }
+
+    function selectFrontImage()
+    {
+        $("#front-selector").click();
+    }
+
+    document.getElementById('back-selector').addEventListener('change', function () {
+        convertBase64(document.getElementById("back-selector"), document.getElementById("back-image"));
+    });
+    document.getElementById('front-selector').addEventListener('change', function () {
+        convertBase64(document.getElementById("front-selector"), document.getElementById("front-image"));
+    });
+
+    var E = window.wangEditor;
+    //这里的id为<div id="editor"中的id.
+    var editor = new E('#editor');
+
+    // 关闭粘贴内容中的样式
+    editor.customConfig.pasteFilterStyle = false;
+    // 忽略粘贴内容中的图片
+    editor.customConfig.pasteIgnoreImg = true;
+    // 使用 base64 保存图片
+    editor.customConfig.uploadImgShowBase64 = true;
+
+    // editor.customConfig.uploadImgMaxSize = 5 * 1024 * 1024; // 将图片大小限制为 3M
+
+    editor.create();
+
+
+
+    var app = new Vue({
+        el: '#app',
+        data: {
+        },
+        methods: {
+        }
+    });
+</script>
+
+<style>
+    #app{
+        margin-top: 120px;
+    }
+
+
+    #articleTitle {
+        display: inline-block;
+        width: 92%;
+        height: 80px;
+        line-height: 80px;
+        box-sizing: border-box;
+        padding-left: 16px;
+        border: none;
+        background-color: #efefef;
+        color: #4d4d4d;
+        font-size: 20px;
+    }
+    div.title-box {
+        margin-top: 20px;
+        margin-bottom: 24px;
+        background-color: #efefef;
+        padding: 0;
+        font-size: 20px;
+        position: relative;
+    }
+    .top-nav {
+        /*顶部导航栏*/
+        background: rgba(255, 216, 77, 1);
+        position: absolute;
+        top: 0;
+        width: 100%;
+        height: 80px;
+        z-index: 10;
+        font-size: large;
+        min-width: 1410px;
+        left: 0;
+    }
+    .top-div{
+        float: left;
+    }
+    #location_component{
+        width: 80px;
+        margin-left: 20%;
+        margin-top: 30px;
+        font-size: medium;
+    }
+    #clock{
+        width: 320px;
+        margin-left: 50px;
+        margin-top: 30px;
+        color: black;
+        font-size: medium;
+    }
+</style>
+
+</body>
+</html>
+</body>
+</html>

@@ -50,6 +50,18 @@ public class Validation {
         }
         return false;
     }
+    public boolean checkEditor(int editorId, String username, String password)
+    {
+        List<UserEntity> list = instance.userDAO.findByUserName(username);
+        if (!list.isEmpty()) {
+            UserEntity u =list.get(0);
+            if (u.getPassword().equals(password) && u.getUserType().equals("editor") && u.getUserId()==editorId){
+                return true;
+            }
+        }
+        return false;
+    }
+
 
 
     public boolean checkAuthor(int authorId, String authorName, String password) {

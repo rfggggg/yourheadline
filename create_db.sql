@@ -13,7 +13,7 @@ user_type varchar(50) not null default "normal",
 
 user_avatar_link longtext,
 
-birth_date date not null default "2000-01-01",
+birth_date date default "2000-01-01",
 gender varchar(20) default "",
 
 email varchar(50) default "",

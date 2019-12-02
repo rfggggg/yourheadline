@@ -1,7 +1,9 @@
 package com.yourheadline.ajaxapi;
 
+import com.yourheadline.entity.AuthorEntity;
 import com.yourheadline.entity.UserEntity;
 import com.yourheadline.dao.UserDAO;
+import com.yourheadline.dao.AuthorDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,44 +15,38 @@ import java.util.Map;
 public class ServletRegister {
     @Autowired
     UserDAO userDAO;
-
-    private enum UserType {
-        normal, unchecked_author
-    }
+    @Autowired
+    AuthorDAO authorDAO;
 
     @PostMapping("/api/register")
     @ResponseBody
-    public Map<String, Object> doRegister(@RequestParam String userName, @RequestParam String passWord){
-
-        return doRealRegister(userName,passWord, UserType.normal);
+    public Map<String, String> doRegister(@RequestParam String userName, @RequestParam String passWord){
+        return doRealRegister(userName,passWord, "normal");
     }
 
     @PostMapping("/api/register-author")
     @ResponseBody
-    public Map<String, Object> doRegisterAuthor(@RequestParam String userName, @RequestParam String passWord){
-
-        return doRealRegister(userName,passWord, UserType.unchecked_author);
+    public Map<String, String> doRegisterAuthor(@RequestParam String userName, @RequestParam String passWord){
+        Map<String, String> map =  doRealRegister(userName,passWord, "author");
+        if (map.get("registerStatus").equals("Succeed")){
+            AuthorEntity ae =new AuthorEntity();
+            ae.setAuthorized(0);
+            ae.setAuthorId(Integer.parseInt(map.get("userId")));
+            authorDAO.save(ae);
+        }
+        return map;
     }
 
 
 
-    private Map<String, Object> doRealRegister(String userName, String passWord, UserType type) {
+    private Map<String, String> doRealRegister(String userName, String passWord, String userType) {
 
         UserEntity u = new UserEntity();
 
 
-        Map<String, Object> map = new HashMap<>();
+        Map<String, String> map = new HashMap<>();
         String registerStatus = "";
-        String userType = "";
         String userAvatarLink = "";
-
-        if (type == UserType.normal){
-            userType = "normal";
-        }
-        if (type == UserType.unchecked_author){
-            userType = "unchecked_author";
-        }
-
 
 
         int userId = 0;
@@ -78,7 +74,7 @@ public class ServletRegister {
         } else {
             registerStatus = "UsernameExist";
         }
-        map.put("userId", userId);
+        map.put("userId", String.valueOf(userId));
         map.put("registerStatus", registerStatus);
         map.put("userType", userType);
         map.put("userAvatarLink", userAvatarLink);
