@@ -17,10 +17,7 @@ var app = new Vue({
         input1:'',
         userinfo:{userId:1,userName:"jia",userType:"author",birthDate:"1999-01-01",gender:"male",email:"99@qq.com",
             mobilePhone:"123456",addTime:"1999-01-01"
-        },
-        ufilist:[],
-        newUserAvartaLinkOnserinfoPage:'',
-        changeuseravatarlink:false,
+        }
 
     },
     beforeMount() {
@@ -28,7 +25,6 @@ var app = new Vue({
         this.getModules();
         this.toHome();
         this.finduserinfo(localStorage.getItem("userId"));
-        this.finduserfollowinfo(localStorage.getItem("userId"));
     },
     methods: {
         handleOpen(key, keyPath) {
@@ -106,31 +102,6 @@ var app = new Vue({
         updatehlist: function (data) {
             this.hlist = data;
         },
-        handleClickOnUserinfoPage: function (tab, event) {
-            console.log(tab, event);
-        },
-        onSubmitOnUserinfoPage: function () {
-            let newName = $("#nameinput").val();
-            let newbirthDate = $("#birthinput").val();
-            let newgender = $("#genderinput").val();
-            let newemail = $("#emailinput").val();
-            let newmobilePhone = $("#phoneinput").val();
-            this.updateuserinfo(localStorage.getItem("userId"), newName, newbirthDate, newgender, newemail, newmobilePhone);
-            this.open1();
-        },
-        updateuserinfo: function (_userId, _username, _birthdate, _gender, _email, _mobilephone) {
-            let data = {
-                userId: _userId,
-                userName: _username,
-                birthDate: _birthdate,
-                gender: _gender,
-                email: _email,
-                mobilePhone: _mobilephone
-            };
-            axios.post('/api/updateUser', data).then(function (response) {
-                this.updateuser(response.data.user_info)
-            }.bind(this));
-        },
         finduserinfo: function (_userId) {
             let data = {
                 userId: _userId
@@ -143,86 +114,6 @@ var app = new Vue({
             this.userinfo = data;
             if (data.userAvatarLink === "" || data.userAvatarLink === undefined || data.userAvatarLink === null) {
                 this.userinfo.userAvatarLink = "./img/touxiang.png";
-            }
-        },
-        open1: function () {
-            this.$notify({
-                title: '成功',
-                message: '用户基本资料已更新',
-                type: 'success'
-            });
-            console.log("资料修改成功");
-        },
-        finduserfollowinfo: function (_userId) {
-            let data = {
-                userId: _userId
-            };
-            axios.post('/api/userfollowinfo', data).then(function (response) {
-                this.updateuserfollowinfo(response.data.user_info)
-            }.bind(this));
-        },
-        updateuserfollowinfo: function (data) {
-            this.ufilist = data;
-            console.log("dfdsf")
-            for (i = 0; i < data.length; i++) {
-                if (data[i].authorAvatarLink === "" || data[i].authorAvatarLink === undefined || data[i].authorAvatarLink === null) {
-                    this.ufilist[i].authorAvatarLink = "./img/touxiang.png";
-                }
-                this.ufilist[i].addTime = this.ufilist[i].addTime.substring(0, 10);
-            }
-            this.ufilist[i].addTime=this.ufilist[i].addTime.substring(0,10);
-        },
-
-
-        unfollow: function (index, row) {
-            this.deleteuserfollow(row.followId);
-        },
-        deleteuserfollow: function (_followId) {
-            let data = {
-                followId: _followId
-            }
-            axios.post('/api/updateUser/deletefollow', data).then(function (response) {
-                this.finduserfollowinfo(localStorage.getItem("userId"));
-            }.bind(this));
-        },
-        closeHandle: function (done) {
-            this.$confirm('确认关闭？')
-                .then(_ => {
-                    done();
-                })
-                .catch(_ => {
-                });
-        },
-        changeUserAvatarLink: function () {
-            this.changeuseravatarlink = true;
-        },
-        closeChangeUserAvatarLinkWithCancel: function () {
-            this.changeuseravatarlink = false;
-            this.newUserAvartaLinkOnserinfoPage = '';
-        },
-        closeChangeUserAvatarLinkWithEnter: function () {
-            this.changeuseravatarlink = false;
-            let newuserAvatarLink = this.newUserAvartaLinkOnserinfoPage;
-            this.updateuserAvatarLink(localStorage.getItem("userId"), newuserAvatarLink);
-            this.newUserAvartaLinkOnserinfoPage = '';
-        },
-        updateuserAvatarLink: function (_userId, _newuserAvatarLink) {
-            let data = {
-                userId: _userId,
-                userAvatarLink: _newuserAvatarLink
-            };
-            axios.post('/api/updateUser/updateAvatarLink', data).then(function (response) {
-                this.updateuser(response.data.user_info)
-            }.bind(this));
-        },
-        convertUserAvatar: function (file, fileList) {
-            console.log(file);
-            if (file.raw) {
-                let reader = new FileReader();
-                reader.readAsDataURL(file.raw);
-                reader.onload = function () {
-                    app.newUserAvartaLinkOnserinfoPage = reader.result;
-                };
             }
         }
     }
