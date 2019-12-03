@@ -57,4 +57,7 @@ public class ControllerRouter {
 
     @GetMapping("/author-confirm")
     public String getAuthorApplyPage() {return "apply-files"; }
+
+    @GetMapping("/all-apply")
+    public String getAllApplyPage() {return "all-apply"; }
 }

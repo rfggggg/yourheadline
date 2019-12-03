@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/css/element-ui.css">
+    <title>ViewApply</title>
+</head>
+
+
+<body>
+
+<!---所有的vue功能的东西都要写在这个div里面--->
+    <div class = "top-nav">
+        <div class = "top-div">
+            <img src="./img/logo.png" style="height: 80px; cursor: pointer; margin-left: 40px">
+        </div>
+    </div>
+    <div class = "sideBar">
+        <button onclick="app.showArticle()"
+                style="height:60px; width:100px; margin-left: 0px; font-size: 15px; color: floralwhite; background-color: #3a8ee6; border-radius: 25px;"
+        >未审核作者</button>
+        <button onclick="app.showAuthor()"
+                style="height:60px; width:100px; margin-left: 0px; font-size: 15px; color: floralwhite; background-color: #3a8ee6; border-radius: 25px;"
+        >未审核文章</button>
+    </div>
+<div id="app">
+    <div class = "articleBlock">
+        <div class="article" v-for="item in alist">
+            <div class="introPic" v-if="item.coverLink!=='null'&&item.coverLink!==''">
+                <div class="text">
+                    <p>
+                        <a class="article-headline" :href="'article?id='+item.articleId" target="_blank">
+                            <span style="font-size: 18px"  @click="addView(item.articleId)">
+                        正文：{{item.articleTitle}}<br><br>
+                            </span>
+                        </a>
+                        作者：{{item.authorId}}<br>
+                        发布时间{{item.addTime}}
+                    </p>
+                </div>
+                <div class="articlePicture">
+                    <img :src="item.coverLink" style="width: 200px; height: 160px">
+                </div>
+            </div>
+            <div class="introOnly" v-else>
+                <div class="textOnly">
+                    <p>
+                        <a class="article-headline" :href="'article?id='+item.articleId" target="_blank">
+                            <span style="font-size: 18px" @click="addView(item.articleId)">
+                        正文：{{item.articleTitle}}<br><br>
+                            </span>
+                        </a>
+                        作者：{{item.authorId}}<br>
+                        发布时间{{item.addTime}}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div>
+    <div class = "loginBlock">
+        <div>
+            <div>
+                <img id="user-avatar" src="/img/default-avatar.png" alt="/img/default-avatar.png" style="width: 200px;height: 200px;border-radius: 100%">
+            </div>
+            <div id="username" style="margin-top: 10%; font-size: 28px; font-weight: 700"></div>
+            <div>
+                请您审核本页面的文章发布和作者申请
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="js/vue.js"></script>
+<script src="js/axios.min.js"></script>
+<script src="js/jquery.min.js"></script>
+
+<script>
+    window.onload=function () {
+        let userName = localStorage.getItem("userName");
+        let userType = localStorage.getItem("userType");
+        if(userName === null || userType !== "editor") {
+            alert("You haven't login yet!");
+            window.location="/login";
+        }
+        else{
+            document.getElementById("username").append(userName);
+            document.getElementById("user-avatar").append(localStorage.getItem("userAvatar"));
+        }
+    };
+    
+    var app = new Vue({
+        el: '#app',
+        data: {
+            alist: [],
+            auList:[],
+            isShowArticle: true,
+            isShowAuthor: false
+        },
+        beforeMount() {
+
+        },
+        methods: {
+            showArticle: function () {
+                
+            },
+            showAuthor: function () {
+
+            }
+        }
+    });
+</script>
+
+
+</body>
+
+<style>
+    body{
+        padding: 0;
+        margin: 0;
+    }
+    #app{
+        margin: 0;
+        padding: 0;
+    }
+    .sideBar{
+        background-color: white;
+        position: absolute;
+        width: 120px;
+        height: 540px;
+        left: 100px;
+        top: 165px;
+        overflow-x: hidden;
+    }
+    .top-nav {
+        /*顶部导航栏*/
+        background: rgba(255, 216, 77, 1);
+        position: absolute;
+        top: 0;
+        width: 100%;
+        height: 80px;
+        z-index: 10;
+        font-size: large;
+        min-width: 1410px;
+    }
+    .top-div{
+        float: left;
+    }
+    .articleBlock{
+        position: absolute;
+        left: 240px;
+        width: 750px;
+        margin-top: 200px;
+        background-color: white;
+        /*border-bottom: 1px solid rgba(0,0,0,.30);*/
+    }
+    .article-headline{
+        text-decoration-line: none;
+        color: black;
+    }
+    .article-headline:hover span{
+        color: #5184eb;
+        cursor: pointer;
+    }
+    .article{
+        width: 750px;
+        height: 200px;
+        border-bottom: 1px solid rgba(0,0,0,.30);
+    }
+    .introPic{
+        width: 750px;
+        height: 200px;
+        padding-top: 20px;
+    }
+    .introPic>div{
+        float: left;
+    }
+    .text{
+        width: 550px;
+        height: 160px;
+    }
+    .articlePicture {
+        width: 200px;
+        height: 160px;
+    }
+    .introOnly{
+        width: 750px;
+        height: 200px;
+        padding-top: 20px;
+    }
+    .textOnly{
+        width: 750px;
+        height: 160px;
+    }
+    .el-carousel__item h3 {
+        color: #475669;
+        font-size: 18px;
+        opacity: 0.75;
+        line-height: 200px;
+        top: 120px;
+    }
+    .loginBlock{
+        position: absolute;
+        width: 300px;
+        height: 300px;
+        margin-top: 165px;
+        margin-left: 1100px;
+        padding: 20px;
+        background-color: #ffc9a1;
+    }
+
+</style>
+
+
+</html>
