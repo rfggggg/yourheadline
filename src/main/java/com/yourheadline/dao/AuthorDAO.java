@@ -18,4 +18,8 @@ public interface AuthorDAO extends JpaRepository<AuthorEntity,Long> {
 
     List<AuthorEntity> findByAuthorId(int id);
 
+    @Transactional
+    @Modifying
+    @Query(value = "call decline_author(?1)",nativeQuery = true)
+    void declineAuthor(int authorId);
 }

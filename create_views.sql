@@ -15,7 +15,7 @@ create or replace view author_info
 (author_id, author_name, id_card_back, id_card_front, apply_text, apply_time) 
 as
 (select au.author_id, u.user_name, au.id_card_back, au.id_card_front, au.apply_text, au.apply_time
-from author as au left join user as u on au.author_id=u.user_id
+from author as au left join user as u on au.author_id=u.user_id where au.authorized = 0
 );
 
 
@@ -124,6 +124,23 @@ update author set
 authorized = 1,
 authorize_editor_id =p_eid,
 authorize_date = curdate()
+where author_id=p_auid;
+
+end //
+delimiter ;
+
+
+
+
+DROP PROCEDURE IF EXISTS decline_author;
+
+show warnings;
+
+delimiter //
+create procedure decline_author(in p_auid int)
+Begin
+
+delete from author
 where author_id=p_auid;
 
 end //

@@ -10,5 +10,5 @@ import java.util.List;
 
 public interface ArticleUncheckedDAO extends JpaRepository<ArticleUncheckedEntity, Long> {
     @Query(value = "call check_article(?1, ?2)", nativeQuery = true)
-    int checkArticle(int articleUncheckedId, int editorId);
+    void checkArticle(int articleUncheckedId, int editorId);
 }

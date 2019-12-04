@@ -18,13 +18,13 @@
     <div class = "sideBar">
         <button onclick="app.showArticle()"
                 style="height:60px; width:100px; margin-left: 0px; font-size: 15px; color: floralwhite; background-color: #3a8ee6; border-radius: 25px;"
-        >未审核作者</button>
+        >未审核文章</button>
         <button onclick="app.showAuthor()"
                 style="height:60px; width:100px; margin-left: 0px; font-size: 15px; color: floralwhite; background-color: #3a8ee6; border-radius: 25px;"
-        >未审核文章</button>
+        >未审核作者</button>
     </div>
 <div id="app">
-    <div class = "articleBlock">
+    <div class = "articleBlock" v-if="isShowArticle">
         <div class="article" v-for="item in alist">
             <div class="introPic" v-if="item.coverLink!=='null'&&item.coverLink!==''">
                 <div class="text">
@@ -53,9 +53,37 @@
                         作者：{{item.authorId}}<br>
                         发布时间{{item.addTime}}
                     </p>
+                    <span>         </span>
+                    <button @click="acceptArticle(item.articleId)"
+                            style="height:60px; width:100px; margin-left: 0px; font-size: 15px; color: floralwhite; background-color: #3a8ee6; border-radius: 25px;"
+                    >通过</button><span>             </span>
+                    <button @click="declineArticle(item.articleId)"
+                            style="height:60px; width:100px; margin-left: 0px; font-size: 15px; color: floralwhite; background-color: #3a8ee6; border-radius: 25px;"
+                    >拒绝</button>
                 </div>
             </div>
         </div>
+    </div>
+    <div class = "authorBlock" v-if="isShowAuthor">
+        <div class="authorItem" v-for="item in auList">
+            <span style="font-size: 18px"  @click="addView(item.articleId)">
+                姓名：{{item.authorName}}<br><br>
+            </span>
+            <span>申请时间：{{item.applyTime}}<br><br></span>
+            <img :src="item.idCardFront" alt = "身份证正面未上传！" style="width: 150px; height: 100px;">
+            <img :src="item.idCardBack" alt = "身份证背面未上传！" style="width: 150px; height: 100px;">
+            <br><br>
+            <div>自述：{{item.applyText}}</div>
+            <br><br>
+            <span>         </span>
+            <button @click="acceptAuthor(item.authorId)"
+                    style="height:60px; width:100px; margin-left: 0px; font-size: 15px; color: floralwhite; background-color: #3a8ee6; border-radius: 25px;"
+            >通过</button><span>             </span>
+            <button @click="declineAuthor(item.authorId)"
+                    style="height:60px; width:100px; margin-left: 0px; font-size: 15px; color: floralwhite; background-color: #3a8ee6; border-radius: 25px;"
+            >拒绝</button>
+        </div>
+        <div style="text-align: center;">All have been showed</div>
     </div>
 </div>
 <div>
@@ -100,14 +128,128 @@
             isShowAuthor: false
         },
         beforeMount() {
-
+            this.getAuthorList();
+            this.getArticleList();
         },
         methods: {
+            acceptArticle: function (id) {
+                console.log("通过文章",id);
+                let userName = localStorage.getItem("userName");
+                let passWord = localStorage.getItem("passWord");
+                let userId = localStorage.getItem("userId");
+                $.ajax({
+                    type:"post",
+                    url:"/api/all-apply",
+                    data:{"authorId": id, "editorId": userId, "editorName": userName, "password": passWord},
+                    async:true,
+                    success:function(response){
+                        if (response.hasContent === "yes"){
+                            app.auList = response.authorInfoList;
+                        }
+                        else{
+                            app.auList=[];
+                        }
+                    }
+                });
+            },
+            declineArticle: function (id) {
+                console.log("拒绝文章",id);
+                let userName = localStorage.getItem("userName");
+                let passWord = localStorage.getItem("passWord");
+                let userId = localStorage.getItem("userId");
+                $.ajax({
+                    type:"post",
+                    url:"/api/all-apply",
+                    data:{"authorId": id, "editorId": userId, "editorName": userName, "password": passWord},
+                    async:true,
+                    success:function(response){
+                        if (response.hasContent === "yes"){
+                            app.auList = response.authorInfoList;
+                        }
+                        else{
+                            app.auList=[];
+                        }
+                    }
+                });
+            },
+            acceptAuthor: function (id) {
+                console.log("通过作者",id);
+                let userId = localStorage.getItem("userId");
+                let userName = localStorage.getItem("userName");
+                let passWord = localStorage.getItem("passWord");
+                $.ajax({
+                    type:"post",
+                    url:"/api/check-author",
+                    data:{"authorId": id, "editorId": userId, "editorName": userName, "password": passWord},
+                    async:true,
+                    success:function(response){
+                        if (response.hasContent === "yes"){
+                            app.auList = response.authorInfoList;
+                        }
+                        else{
+                            app.auList=[];
+                        }
+                    }
+                });
+            },
+            declineAuthor: function (id) {
+                console.log("拒绝作者",id);
+                let userId = localStorage.getItem("userId");
+                let userName = localStorage.getItem("userName");
+                let passWord = localStorage.getItem("passWord");
+                $.ajax({
+                    type:"post",
+                    url:"/api/decline-author",
+                    data:{"authorId": id, "editorId": userId, "editorName": userName, "password": passWord},
+                    async: true,
+                    success:function(response){
+                        if (response === "Succeed"){
+                            this.getAuthorList();
+                        }
+                        else{
+                            alert("Please login first!");
+                        }
+                    }
+                });
+            },
             showArticle: function () {
-                
+                this.isShowArticle = true;
+                this.isShowAuthor = false;
             },
             showAuthor: function () {
-
+                this.isShowArticle = false;
+                this.isShowAuthor = true;
+            },
+            getAuthorList: function () {
+                let userName = localStorage.getItem("userName");
+                let passWord = localStorage.getItem("passWord");
+                $.ajax({
+                    type:"post",
+                    url:"/api/all-apply",
+                    data:{"editorName":userName,"password":passWord},
+                    async:true,
+                    success:function(response){
+                        if (response.hasContent === "yes"){
+                            app.auList = response.authorInfoList;
+                        }
+                        else{
+                            app.auList=[];
+                        }
+                    }
+                });
+            },
+            getArticleList: function () {
+                let userName = localStorage.getItem("userName");
+                let passWord = localStorage.getItem("passWord");
+                $.ajax({
+                    type:"post",
+                    url:"/api/unchecked-article",
+                    data:{"editorName":userName,"password":passWord},
+                    async:true,
+                    success:function(response){
+                        app.alist = response.article_list;
+                    }
+                });
             }
         }
     });
@@ -152,7 +294,15 @@
         position: absolute;
         left: 240px;
         width: 750px;
-        margin-top: 200px;
+        margin-top: 120px;
+        background-color: white;
+        /*border-bottom: 1px solid rgba(0,0,0,.30);*/
+    }
+    .authorBlock{
+        position: absolute;
+        left: 240px;
+        width: 750px;
+        margin-top: 120px;
         background-color: white;
         /*border-bottom: 1px solid rgba(0,0,0,.30);*/
     }
@@ -166,7 +316,13 @@
     }
     .article{
         width: 750px;
-        height: 200px;
+        height: 240px;
+        border-bottom: 1px solid rgba(0,0,0,.30);
+    }
+    .authorItem{
+        width: 750px;
+        margin-top: 60px;
+        margin-bottom: 60px;
         border-bottom: 1px solid rgba(0,0,0,.30);
     }
     .introPic{

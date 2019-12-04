@@ -1,15 +1,19 @@
 package com.yourheadline.ajaxapi;
 
 
+import com.yourheadline.dao.ArticleInfoDAO;
+import com.yourheadline.dao.ArticleUncheckedDAO;
 import com.yourheadline.dao.AuthorInfoDAO;
 import com.yourheadline.entity.AuthorEntity;
 import com.yourheadline.dao.AuthorDAO;
 import com.yourheadline.entity.UserEntity;
+import com.yourheadline.model.ArticleInfo;
 import com.yourheadline.model.AuthorInfoEntity;
 import com.yourheadline.service.Validation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.sql.Date;
@@ -28,7 +32,12 @@ public class ServletAuthorConfirm {
     AuthorDAO authorDAO;
     @Autowired
     AuthorInfoDAO authorInfoDAO;
+    @Autowired
+    private ArticleUncheckedDAO articleUncheckedDAO;
+    @Autowired
+    private ArticleInfoDAO articleInfoDAO;
 
+    //接收上传的作者申请
     @PostMapping("/api/author-confirm")
     public Map<String, String> acceptAuthorConfirm(Integer authorId,
                                              String authorName,
@@ -73,28 +82,56 @@ public class ServletAuthorConfirm {
         Map<String, Object> map = new HashMap<>();
         if (validation.checkEditor(editorName, password)) {
             List<AuthorInfoEntity> uList = authorInfoDAO.findAll();
+            map.put("hasContent", "yes");
             map.put("authorInfoList", uList);
         }
         else {
+            map.put("hasContent", "no");
             map.put("authorInfoList", null);
         }
         return map;
     }
 
+    @PostMapping("api/check-article")
+    public String checkArticle(@RequestParam int articleUncheckedId, @RequestParam int editorId, @RequestParam String editorName, @RequestParam String password) {
+        if (validation.checkEditor(editorName, password)) {
+            articleUncheckedDAO.checkArticle(editorId, articleUncheckedId);
+            return "Succeed";
+        }
+        return "FailCheckingEditor";
+    }
 
-    @PostMapping("/api/check-author")
-    public String checkAuthor(@RequestParam int editorId,
-                              @RequestParam String editorName,
-                              @RequestParam String password,
-                              @RequestParam int authorId)
-    {
+    @PostMapping("api/unchecked-article")
+    @ResponseBody
+    public Map<String, Object> getData(@RequestParam String editorName, @RequestParam String password) {
+
+        if (validation.checkEditor(editorName, password)) {
+            Map<String, Object> map = new HashMap<String, Object>();
+
+            List<ArticleInfo> aiList = articleInfoDAO.selectArticleUnchecked();
+            map.put("article_list", aiList);
+            return map;
+        }
+        return null;
+    }
+
+
+    @PostMapping("api/check-author")
+    public String checkAuthor(@RequestParam int authorId, @RequestParam int editorId, @RequestParam String editorName, @RequestParam String password) {
         if (validation.checkEditor(editorId, editorName, password)) {
             authorDAO.checkAuthor(editorId, authorId);
-            return "Success";
+            return "Succeed";
         }
-        else{
-            return "Fail";
+        return "FailCheckingEditor";
+    }
+
+    @PostMapping("api/decline-author")
+    public String declineAuthor(@RequestParam int authorId, @RequestParam int editorId, @RequestParam String editorName, @RequestParam String password){
+        if (validation.checkEditor(editorId, editorName, password)) {
+            authorDAO.declineAuthor(authorId);
+            return "Succeed";
         }
+        return "FailCheckingEditor";
     }
 
 }
