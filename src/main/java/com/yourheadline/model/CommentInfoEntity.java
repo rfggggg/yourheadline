@@ -1,21 +1,22 @@
-package com.yourheadline.entity;
+package com.yourheadline.model;
 
 import javax.persistence.*;
 import java.sql.Date;
 import java.util.Objects;
 
 @Entity
-@Table(name = "comment", schema = "yhl", catalog = "")
-public class CommentEntity {
+@Table(name = "comment_info", schema = "yhl", catalog = "")
+public class CommentInfoEntity {
     private int commentId;
     private String content;
     private Date addTime;
     private Integer likeNum;
     private Integer articleId;
     private Integer userId;
+    private String userName;
+    private String userAvatarLink;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "comment_id")
     public int getCommentId() {
         return commentId;
@@ -75,21 +76,43 @@ public class CommentEntity {
         this.userId = userId;
     }
 
+    @Basic
+    @Column(name = "user_name")
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    @Basic
+    @Column(name = "user_avatar_link")
+    public String getUserAvatarLink() {
+        return userAvatarLink;
+    }
+
+    public void setUserAvatarLink(String userAvatarLink) {
+        this.userAvatarLink = userAvatarLink;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        CommentEntity that = (CommentEntity) o;
+        CommentInfoEntity that = (CommentInfoEntity) o;
         return commentId == that.commentId &&
                 Objects.equals(content, that.content) &&
                 Objects.equals(addTime, that.addTime) &&
                 Objects.equals(likeNum, that.likeNum) &&
                 Objects.equals(articleId, that.articleId) &&
-                Objects.equals(userId, that.userId);
+                Objects.equals(userId, that.userId) &&
+                Objects.equals(userName, that.userName) &&
+                Objects.equals(userAvatarLink, that.userAvatarLink);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(commentId, content, addTime, likeNum, articleId, userId);
+        return Objects.hash(commentId, content, addTime, likeNum, articleId, userId, userName, userAvatarLink);
     }
 }

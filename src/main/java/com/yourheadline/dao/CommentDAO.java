@@ -1,7 +1,7 @@
 package com.yourheadline.dao;
 
 import com.yourheadline.entity.CommentEntity;
-import com.yourheadline.model.CommentInfo;
+import com.yourheadline.model.CommentInfoEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

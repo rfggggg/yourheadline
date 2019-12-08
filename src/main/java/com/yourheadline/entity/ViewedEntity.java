@@ -5,7 +5,7 @@ import java.sql.Date;
 import java.util.Objects;
 
 @Entity
-@Table(name = "viewed", schema = "yourheadline", catalog = "")
+@Table(name = "viewed", schema = "yhl", catalog = "")
 public class ViewedEntity {
     private int viewId;
     private Integer userId;
@@ -13,6 +13,7 @@ public class ViewedEntity {
     private Date addTime;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "view_id")
     public int getViewId() {
         return viewId;

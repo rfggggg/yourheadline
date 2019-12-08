@@ -5,7 +5,7 @@ import java.sql.Date;
 import java.util.Objects;
 
 @Entity
-@Table(name = "author", schema = "yourheadline", catalog = "")
+@Table(name = "author", schema = "yhl", catalog = "")
 public class AuthorEntity {
     private int authorId;
     private Integer authorizeEditorId;

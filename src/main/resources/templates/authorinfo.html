@@ -10,6 +10,7 @@
     <!-- import JavaScript -->
     <script src="https://unpkg.com/element-ui/lib/index.js"></script>
     <script src="js/axios.min.js"></script>
+    <title>Author Info</title>
 </head>
 <body>
 <!-- JavaScript files-->
@@ -77,20 +78,20 @@
                             <el-tab-pane label="基本资料" name="first">
                                 <el-form label-position="right" label-width="80px" :model="userinfo">
                                     <el-form-item label="用户名">
-                                        <el-input id="nameinput" v-model="userinfo.userName" disabled="true"></el-input>
+                                        <el-input id="nameinput" v-model="userinfo.userName" disabled=true></el-input>
                                     </el-form-item>
                                     <el-form-item label="生日">
-                                        <el-date-picker id="birthinput" type="date" placeholder="选择日期" v-model="userinfo.birthDate" disabled="true" style="width: 100%;">
+                                        <el-date-picker id="birthinput" type="date" placeholder="选择日期" v-model="userinfo.birthDate" disabled=true style="width: 100%;">
                                         </el-date-picker>
                                     </el-form-item>
                                     <el-form-item label="性别">
-                                        <el-select id="genderinput" v-model="userinfo.gender" placeholder="请选择性别" disabled="true">
+                                        <el-select id="genderinput" v-model="userinfo.gender" placeholder="请选择性别" disabled=true>
                                             <el-option label="male" value="male"></el-option>
                                             <el-option label="female" value="female"></el-option>
                                         </el-select>
                                     </el-form-item>
                                     <el-form-item label="注册时间">
-                                        <el-input v-model="userinfo.addTime" disabled="true"></el-input>
+                                        <el-input v-model="userinfo.addTime" disabled=true></el-input>
                                     </el-form-item>
                                 </el-form>
                             </el-tab-pane>
@@ -340,13 +341,14 @@
                 return this.input1;
             },
             getFollowState:function(){
-                let data = {
-                    userId:localStorage.getItem("userId"),
-                    authorId:aId
-                };
-                axios.post('/api/haveFollow',data).then(function (response) {
-                    this.isFollow=response.data.haveFollow;
-                    if(this.isFollow==true)
+                axios.get('/api/check-follow',{
+                    params:{
+                        userId:localStorage.getItem("userId"),
+                        authorId:aId
+                    }
+                }).then(function (response) {
+                    this.isFollow=response.data.status;
+                    if(this.isFollow===true)
                     {
                         this.followIcon="el-icon-star-on";
                     }
@@ -357,30 +359,38 @@
                 }.bind(this));
             },
             changeFollow:function(){
-                let data = {
-                    userId:localStorage.getItem("userId"),
-                    authorId:aId
-                };
                 if(this.isFollow===false)
                 {
-                    axios.post('/api/addNewFollow',data).then(function (response) {
+                    axios.get('/api/do-follow',{
+                        params:{
+                            userId:localStorage.getItem("userId"),
+                            authorId:aId
+                        }
+                    }).then(function (response) {
                         this.followIcon="el-icon-star-on";
                     }.bind(this));
                 }
                 else
                 {
-                    axios.post('/api/deleteFollow',data).then(function (response) {
+                    axios.get('/api/cancel-follow',{
+                        params:{
+                            userId:localStorage.getItem("userId"),
+                            authorId:aId
+                        }
+                    }).then(function (response) {
                         this.followIcon="el-icon-star-off";
                     }.bind(this));
                 }
                 this.isFollow=!this.isFollow;
             },
             findarticle: function () {
-                let data = {
-                    authorId: aId
-                };
-                axios.post('/api/article/authorpage', data).then(function (response) {
-                    this.updateList(response.data.article_list)
+                axios.get('/api/article/author-all', {
+                    params:{
+                        authorId: aId,
+                        startId: 0
+                    }
+                }).then(function (response) {
+                    this.updateList(response.data.articleList)
                 }.bind(this));
             },
             updateList: function (newData) {
@@ -390,30 +400,34 @@
                 console.log(tab, event);
             },
             finduserinfo: function () {
-                let data = {
-                    userId: aId
-                };
-                axios.post('/api/userinfo', data).then(function (response) {
-                    this.updateuser(response.data.user_info)
+                axios.get('/api/user/public-info', {
+                    params:{
+                        "userId": aId
+                    }
+                }).then(function (response) {
+                    this.updateuser(response.data.userInfo)
                 }.bind(this));
             },
             updateuser: function (data) {
                 this.userinfo = data;
                 if (data.userAvatarLink === "" || data.userAvatarLink === undefined || data.userAvatarLink === null) {
-                    this.userinfo.userAvatarLink = "./img/touxiang.png";
+                    this.userinfo.userAvatarLink = "./img/default-avatar.png";
                 }
             },
             unfollow: function (index, row) {
-                this.deleteuserfollow(row.followId);
+                this.deleteuserfollow(row.userId);
             },
-            deleteuserfollow: function (_followId) {
-                let data = {
-                    followId: _followId
-                }
-                axios.post('/api/updateUser/deletefollow', data).then(function (response) {
+            deleteuserfollow: function (_authorId) {
+
+                axios.get('/api/cancel-follow', {
+                    params:{
+                        "userId": localStorage.getItem("userId"),
+                        "authorId": _authorId
+                    }
+                }).then(function (response) {
                     this.finduserfollowinfo(localStorage.getItem("userId"));
                 }.bind(this));
-            }
+            },
         }
     });
 </script>

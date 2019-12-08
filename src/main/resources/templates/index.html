@@ -108,7 +108,7 @@
     <div class = "loginBlock">
         <div class = "innerBlock" id="logoutStatus">
             <span>资讯不断，登录点赞，信息万千，收藏每天</span>
-            <img src="./img/touxiang.png">
+            <img src="./img/default-avatar.png">
             <a class = "loginButton" href="login">
                 <button class = "login-button" style="cursor: pointer">登录</button>
             </a>
@@ -198,7 +198,9 @@
         var week=new Array("星期日","星期一","星期二","星期三","星期四","星期五","星期六");
         var Tools=document.getElementById("clock");
         var da=year+"/"+month+"/"+days+" "+week[day]+" "+hour+":"+minute+":"+second;
-        Tools.innerHTML=da;
+        if (Tools!==null){
+            Tools.innerHTML=da;
+        }
     }
 </script>
 <!--侧栏动态效果-->

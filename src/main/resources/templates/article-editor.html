@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Edit Article</title>
     <link rel="stylesheet" type="text/css" href="css/element-ui.css">
     <link rel="stylesheet" type="text/css" href="css/style.default.css">
     <script src="js/wangEditor.js"></script>
@@ -26,8 +26,8 @@
 
 <div id="app" style="display: inline-block;">
     <div class="module-list" style="height: 60px;">
-        <span style="font-size: 25px;">模块：</span>
-        <el-select v-model="selectedModuleId" placeholder="请选择">
+        <span style="font-size: 25px;">Modules: </span>
+        <el-select v-model="selectedModuleId" placeholder="Select one">
             <el-option
                     v-for="m in modules"
                     :key="m.moduleName"
@@ -35,14 +35,14 @@
                     :value="m.moduleId">
             </el-option>
         </el-select>
-        <el-button type="primary" @click="doUpload" style="margin-left: 10px;">发布文章</el-button>
+        <el-button type="primary" @click="doUpload" style="margin-left: 10px;">Upload</el-button>
         </span>
     </div>
     <div id = "test-module" style = "color: #FF0000;"></div>
 </div>
 
 <div class="title-box">
-    <input type="text" id="articleTitle" maxlength="100" placeholder="输入文章标题">
+    <input type="text" id="articleTitle" maxlength="100" placeholder="Please enter your article title">
     <span class="max-length"><span class="max-length-change">0</span>/100</span>
 </div>
 <p id = "testArticleTitle" style = "color: #FF0000;"></p>
@@ -63,21 +63,21 @@
     }
     function testEmpty(){
         if($("#articleTitle").val()===""){
-            $("#testArticleTitle").append("请输入文章标题！");
+            $("#testArticleTitle").append("Please enter your article title!");
             return false;
         }
         else{
             $("#testArticleTitle").html("");
         }
         if (editor.txt.text()===""){
-            $("#testEditor").append("请输入文章内容！");
+            $("#testEditor").append("Please enter your content!");
             return false;
         }
         else{
             $("#testEditor").html("");
         }
         if (app.selectedModuleId===''){
-            $("#test-module").append("请选择模块！");
+            $("#test-module").append("Please choose a module!");
             return false;
         }
         else {
@@ -139,12 +139,7 @@
         methods: {
             getModules: function () {
                 axios.get('/api/module').then(function (response) {
-                    this.updateModule(response.data.module_list);
-                }.bind(this));
-            },
-            toHome: function () {
-                axios.get('/api/article/home').then(function (response) {
-                    this.updateList(response.data.article_list);
+                    this.updateModule(response.data.moduleList);
                 }.bind(this));
             },
             updateModule: function (data) {
@@ -158,7 +153,7 @@
                 if (localStorage.getItem("userId")==null
                     ||localStorage.getItem("userName")==null
                     ||localStorage.getItem("passWord")==null){
-                    alert("没有登陆！");
+                    alert("You haven't login, please save your article and go to login page！");
                     return;
                 }
                 if (_articleId===null) {
@@ -179,11 +174,12 @@
                         async: true,
                         success: function (response) {
                             // console.log(response);
-                            if (response.status === "Succeed") {
-                                console.log("ok");
+                            if (response.status === "OK") {
+                                alert("You've successfully upload an article, please wait for an editor to check!");
                                 editor.txt.html("");
+                                document.getElementById("articleTitle").innerHTML="";
                             } else if (response.status === "FailCheckAuthor") {
-                                alert("You are not an author, please apply first!");
+                                alert("You haven't login, please save your article and go to login page！");
                             }
                         }
                     });
@@ -207,11 +203,12 @@
                         async: true,
                         success: function (response) {
                             // console.log(response);
-                            if (response.status === "Succeed") {
-                                console.log("ok");
+                            if (response.status === "OK") {
                                 editor.txt.html("");
+                                document.getElementById("articleTitle").innerHTML="";
+                                alert("You've successfully upload an article, please wait for an editor to check!");
                             } else if (response.status === "FailCheckAuthor") {
-                                alert("You are not an author, please apply first!");
+                                alert("You haven't login, please save your article and go to login page！");
                             }
                         }
                     });

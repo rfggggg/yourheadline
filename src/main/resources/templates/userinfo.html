@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <!-- import CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="css/element-ui.css">
     <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=7dWMrK7LI4IauYBNtpwRPoStbHIcvLGi"></script>
     <!-- import Vue before Element -->
     <script src="js/vue.js"></script>
     <!-- import JavaScript -->
-    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <script src="js/element-ui.js"></script>
     <script src="js/axios.min.js"></script>
+    <title>UserInfo</title>
 
 </head>
 <body>
@@ -139,8 +140,8 @@
                                                     fit="fill"></img>
                                         </template>
                                     </el-table-column>
-                                    <el-table-column prop="authorName" label="用户名" width="250"></el-table-column>
-                                    <el-table-column prop="followNum" label="关注人数" width="180"></el-table-column>
+                                    <el-table-column prop="userName" label="用户名" width="250"></el-table-column>
+                                    <el-table-column prop="gender" label="性别" width="180"></el-table-column>
                                     <el-table-column prop="addTime" label="注册时间" width="250"></el-table-column>
                                     <el-table-column label="操作" width="180">
                                         <template slot-scope="scope">
@@ -374,22 +375,24 @@
                     email: _email,
                     mobilePhone: _mobilephone
                 };
-                axios.post('/api/updateUser', data).then(function (response) {
-                    this.updateuser(response.data.user_info)
+                axios.post("/api/user/update-info", data).then(function (response) {
+                    this.updateuser(response.data.userInfo)
                 }.bind(this));
             },
             finduserinfo: function (_userId) {
-                let data = {
-                    userId: _userId
-                };
-                axios.post('/api/userinfo', data).then(function (response) {
-                    this.updateuser(response.data.user_info)
+                axios.get('/api/user/info', {
+                    params:{
+                        "username": localStorage.getItem("userName"),
+                        "password": localStorage.getItem("passWord"),
+                    }
+                }).then(function (response) {
+                    this.updateuser(response.data.userInfo)
                 }.bind(this));
             },
             updateuser: function (data) {
                 this.userinfo = data;
                 if (data.userAvatarLink === "" || data.userAvatarLink === undefined || data.userAvatarLink === null) {
-                    this.userinfo.userAvatarLink = "./img/touxiang.png";
+                    this.userinfo.userAvatarLink = "./img/default-avatar.png";
                 }
             },
             open1: function () {
@@ -401,11 +404,15 @@
                 console.log("资料修改成功");
             },
             finduserfollowinfo: function (_userId) {
-                let data = {
-                    userId: _userId
-                };
-                axios.post('/api/userfollowinfo', data).then(function (response) {
-                    this.updateuserfollowinfo(response.data.user_info)
+                axios.get('/api/user/following-author', {
+                    params:{
+                        "userId": _userId,
+                        "username": localStorage.getItem("userName"),
+                        "password": localStorage.getItem("passWord"),
+                        "startId": 0
+                    }
+                }).then(function (response) {
+                    this.updateuserfollowinfo(response.data.userInfo)
                 }.bind(this));
             },
             updateuserfollowinfo: function (data) {
@@ -413,20 +420,23 @@
                 console.log("dfdsf")
                 for (i = 0; i < data.length; i++) {
                     if (data[i].authorAvatarLink === "" || data[i].authorAvatarLink === undefined || data[i].authorAvatarLink === null) {
-                        this.ufilist[i].authorAvatarLink = "./img/touxiang.png";
+                        this.ufilist[i].authorAvatarLink = "./img/default-avatar.png";
                     }
                     this.ufilist[i].addTime = this.ufilist[i].addTime.substring(0, 10);
                 }
                 this.ufilist[i].addTime=this.ufilist[i].addTime.substring(0,10);
             },
             unfollow: function (index, row) {
-                this.deleteuserfollow(row.followId);
+                this.deleteuserfollow(row.userId);
             },
-            deleteuserfollow: function (_followId) {
-                let data = {
-                    followId: _followId
-                }
-                axios.post('/api/updateUser/deletefollow', data).then(function (response) {
+            deleteuserfollow: function (_authorId) {
+
+                axios.get('/api/cancel-follow', {
+                    params:{
+                        "userId": localStorage.getItem("userId"),
+                        "authorId": _authorId
+                    }
+                }).then(function (response) {
                     this.finduserfollowinfo(localStorage.getItem("userId"));
                 }.bind(this));
             },
@@ -452,13 +462,22 @@
                 this.newUserAvartaLinkOnserinfoPage = '';
             },
             updateuserAvatarLink: function (_userId, _newuserAvatarLink) {
-                let data = {
-                    userId: _userId,
-                    userAvatarLink: _newuserAvatarLink
-                };
-                axios.post('/api/updateUser/updateAvatarLink', data).then(function (response) {
-                    this.updateuser(response.data.user_info)
-                }.bind(this));
+                $.ajax({
+                    type: "post",
+                    url: "/api/user/update-avatar",
+                    data: {
+                        username: localStorage.getItem("userName"),
+                        password: localStorage.getItem("passWord"),
+                        userAvatarLink: _newuserAvatarLink
+                    },
+                    async: true,
+                    success: function (response) {
+                        if (response.status === "OK") {
+                            app.updateuser(response.userInfo)
+                        }
+                    }
+                });
+
             },
             convertUserAvatar: function (file, fileList) {
                 console.log(file);

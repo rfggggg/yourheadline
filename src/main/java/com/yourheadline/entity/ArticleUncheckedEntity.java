@@ -5,63 +5,27 @@ import java.sql.Date;
 import java.util.Objects;
 
 @Entity
-@Table(name = "article_unchecked", schema = "yourheadline", catalog = "")
+@Table(name = "article_unchecked", schema = "yhl", catalog = "")
 public class ArticleUncheckedEntity {
-    private int id;
+    private int articleId;
     private Integer authorId;
+    private Integer editorId;
     private Integer moduleId;
     private String articleTitle;
     private String articleIntro;
     private String articleText;
-    private Date applyTime;
     private String coverLink;
-
-    public ArticleUncheckedEntity(Integer authorId,
-                                  Integer moduleId,
-                                  String articleTitle,
-                                  String articleIntro,
-                                  String articleText,
-                                  Date applyTime)
-    {
-        this.authorId = authorId;
-        this.moduleId = moduleId;
-        this.articleTitle = articleTitle;
-        this.articleIntro = articleIntro;
-        this.articleText = articleText;
-        this.applyTime = applyTime;
-    }
-
-    public ArticleUncheckedEntity(int id,
-                                  Integer authorId,
-                                  Integer moduleId,
-                                  String articleTitle,
-                                  String articleIntro,
-                                  String articleText,
-                                  Date applyTime)
-    {
-        this.id = id;
-        this.authorId = authorId;
-        this.moduleId = moduleId;
-        this.articleTitle = articleTitle;
-        this.articleIntro = articleIntro;
-        this.articleText = articleText;
-        this.applyTime = applyTime;
-    }
-
-
-    public ArticleUncheckedEntity() {
-
-    }
+    private Date addTime;
 
     @Id
-    @Column(name = "id")
+    @Column(name = "article_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public int getId() {
-        return id;
+    public int getArticleId() {
+        return articleId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setArticleId(int articleId) {
+        this.articleId = articleId;
     }
 
     @Basic
@@ -72,6 +36,16 @@ public class ArticleUncheckedEntity {
 
     public void setAuthorId(Integer authorId) {
         this.authorId = authorId;
+    }
+
+    @Basic
+    @Column(name = "editor_id")
+    public Integer getEditorId() {
+        return editorId;
+    }
+
+    public void setEditorId(Integer editorId) {
+        this.editorId = editorId;
     }
 
     @Basic
@@ -115,35 +89,6 @@ public class ArticleUncheckedEntity {
     }
 
     @Basic
-    @Column(name = "apply_time")
-    public Date getApplyTime() {
-        return applyTime;
-    }
-
-    public void setApplyTime(Date applyTime) {
-        this.applyTime = applyTime;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        ArticleUncheckedEntity that = (ArticleUncheckedEntity) o;
-        return id == that.id &&
-                Objects.equals(authorId, that.authorId) &&
-                Objects.equals(moduleId, that.moduleId) &&
-                Objects.equals(articleTitle, that.articleTitle) &&
-                Objects.equals(articleIntro, that.articleIntro) &&
-                Objects.equals(articleText, that.articleText) &&
-                Objects.equals(applyTime, that.applyTime);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, authorId, moduleId, articleTitle, articleIntro, articleText, applyTime);
-    }
-
-    @Basic
     @Column(name = "cover_link")
     public String getCoverLink() {
         return coverLink;
@@ -151,5 +96,36 @@ public class ArticleUncheckedEntity {
 
     public void setCoverLink(String coverLink) {
         this.coverLink = coverLink;
+    }
+
+    @Basic
+    @Column(name = "add_time")
+    public Date getAddTime() {
+        return addTime;
+    }
+
+    public void setAddTime(Date addTime) {
+        this.addTime = addTime;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ArticleUncheckedEntity that = (ArticleUncheckedEntity) o;
+        return articleId == that.articleId &&
+                Objects.equals(authorId, that.authorId) &&
+                Objects.equals(editorId, that.editorId) &&
+                Objects.equals(moduleId, that.moduleId) &&
+                Objects.equals(articleTitle, that.articleTitle) &&
+                Objects.equals(articleIntro, that.articleIntro) &&
+                Objects.equals(articleText, that.articleText) &&
+                Objects.equals(coverLink, that.coverLink) &&
+                Objects.equals(addTime, that.addTime);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(articleId, authorId, editorId, moduleId, articleTitle, articleIntro, articleText, coverLink, addTime);
     }
 }

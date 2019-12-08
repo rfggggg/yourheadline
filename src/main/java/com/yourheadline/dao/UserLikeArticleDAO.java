@@ -12,4 +12,5 @@ import java.util.List;
     UserLikeArticleEntity save(UserLikeArticleEntity newLike);
     List<UserLikeArticleEntity> findByUserIdAndArticleId(int uid,int aid);
     void deleteByUserIdAndArticleId(int uid,int aid);
-    }
+
+}

@@ -5,7 +5,7 @@ import java.sql.Date;
 import java.util.Objects;
 
 @Entity
-@Table(name = "user_chase_key", schema = "yourheadline", catalog = "")
+@Table(name = "user_chase_key", schema = "yhl", catalog = "")
 public class UserChaseKeyEntity {
     private int keyId;
     private Integer userId;
@@ -14,6 +14,7 @@ public class UserChaseKeyEntity {
     private Date addTime;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "key_id")
     public int getKeyId() {
         return keyId;

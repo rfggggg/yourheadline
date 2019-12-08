@@ -5,7 +5,7 @@ import java.sql.Date;
 import java.util.Objects;
 
 @Entity
-@Table(name = "follow", schema = "yourheadline", catalog = "")
+@Table(name = "follow", schema = "yhl", catalog = "")
 public class FollowEntity {
     private int followId;
     private Integer userId;
@@ -13,6 +13,7 @@ public class FollowEntity {
     private Date addTime;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "follow_id")
     public int getFollowId() {
         return followId;

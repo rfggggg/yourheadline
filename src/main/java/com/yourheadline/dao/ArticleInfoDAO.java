@@ -1,32 +1,38 @@
 package com.yourheadline.dao;
 
-import com.yourheadline.model.ArticleInfo;
+import com.yourheadline.entity.ArticleEntity;
+import com.yourheadline.model.ArticleInfoEntity;
+import org.springframework.data.domain.*;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.jpa.repository.query.Procedure;
+
 import org.springframework.data.repository.query.Param;
 
-import javax.persistence.NamedStoredProcedureQuery;
-import javax.persistence.StoredProcedureParameter;
 import java.util.List;
 
-public interface ArticleInfoDAO extends JpaRepository<ArticleInfo, Long> {
-    @Query(value = "call select_collection_by_user_id(?1)", nativeQuery = true)
-    List<ArticleInfo> selectCollectionByUserId(Integer userId);
+public interface ArticleInfoDAO extends JpaRepository<ArticleInfoEntity, Long> {
 
-    @Query(value = "call select_history_by_user_id(?1)", nativeQuery = true)
-    List<ArticleInfo> selectHistoryByUserId(Integer userId);
+    Page<ArticleInfoEntity> findAll(Pageable pageable);
 
-    @Override
-    @Query(value = "select * from article_info", nativeQuery = true)
-    List<ArticleInfo> findAll();
+    @Query(value = "select * from article_info where article_id in (select article_id from article where checked=0)", nativeQuery = true)
+    Page<ArticleInfoEntity> selectUncheckedArticle(Pageable pageable);
+
+    @Query(value = "select * from article_info where article_id in (select distinct article_id from collect where user_id = ?1)", nativeQuery = true)
+    Page<ArticleInfoEntity> selectCollectionByUserId(Integer userId, Pageable pageable);
+
+    @Query(value = "select * from article_info where article_id in (select distinct article_id from viewed where user_id = ?1)", nativeQuery = true)
+    Page<ArticleInfoEntity> selectHistoryByUserId(Integer userId, Pageable pageable);
+
+    @Query(value = "select * from articleInfo", nativeQuery = true)
+    Page<ArticleInfoEntity> selectFeedByUserId(int userId, Pageable pr);
+
+    @Query(value = "select * from article_info where article_id in (select article_id from article where article_title like %:keyword% OR article_text like %:keyword%)", nativeQuery = true)
+    Page<ArticleInfoEntity> selectArticleInfoByKeyWord(@Param("keyword") String keyword, Pageable pr);
+
 
     //声明接口无需实现即可使用
-    List<ArticleInfo> findArticleInfoByAuthorId(Integer authorId);
-    List<ArticleInfo> findArticleInfoByModuleId(Integer moduleId);
+    Page<ArticleInfoEntity> findByAuthorId(int authorId, Pageable pr);
+    Page<ArticleInfoEntity> findByModuleId(int moduleId, Pageable pr);
 
-    @Query(value = "call select_unchecked_article()", nativeQuery = true)
-    List<ArticleInfo> selectArticleUnchecked();
-
-    List<ArticleInfo> findArticleInfoByArticleId(int articleId);
+    List<ArticleInfoEntity> findByArticleId(int articleId);
 }

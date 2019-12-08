@@ -5,7 +5,7 @@ import com.yourheadline.dao.CommentInfoDAO;
 import com.yourheadline.dao.UserLikeCommentDAO;
 import com.yourheadline.entity.CommentEntity;
 import com.yourheadline.entity.UserLikeCommentEntity;
-import com.yourheadline.model.CommentInfo;
+import com.yourheadline.model.CommentInfoEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,8 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api")
-public class ServletComment {
+public class ServletUserComment {
 
     @Autowired
     CommentDAO commentDAO;
@@ -25,68 +24,58 @@ public class ServletComment {
     @Autowired
     UserLikeCommentDAO userLikeCommentDAO;
 
-    @GetMapping("/comment")
+
+
+    @GetMapping("/api/do-like-comment")
     @ResponseBody
-    public Map<String, Object> getAllCommentOfArticle(@RequestParam int id) {
+    public Map<String, Object> doLikeComment(@RequestParam int commentId, @RequestParam int userId) {
         Map<String, Object> map = new HashMap<String, Object>();
 
-        List<CommentInfo> clist = commentInfoDAO.findByArticleId(id);
-
-        map.put("comment_list", clist);
-
-        return map;
-    }
-
-    @PostMapping("/plusLikeNumOfComment")
-    @ResponseBody
-    public Map<String, Object> plusLikeNumOfComment(@RequestBody Map<String,String> data) {
-        Map<String, Object> map = new HashMap<String, Object>();
-
-        CommentEntity comment = commentDAO.findByCommentId(Integer.parseInt(data.get("commentId")));
+        CommentEntity comment = commentDAO.findByCommentId(commentId);
         comment.setLikeNum(comment.getLikeNum()+1);
         commentDAO.save(comment);
 
         java.sql.Date date=new java.sql.Date(System.currentTimeMillis());
         UserLikeCommentEntity newLike=new UserLikeCommentEntity();
         newLike.setAddTime(date);
-        newLike.setCommentId(Integer.parseInt(data.get("commentId")));
-        newLike.setUserId(Integer.parseInt(data.get("userId")));
+        newLike.setCommentId(commentId);
+        newLike.setUserId(userId);
 
         userLikeCommentDAO.save(newLike);
-        map.put("comment", comment);
+        map.put("status", "OK");
 
         return map;
     }
 
-    @PostMapping("/minusLikeNumOfComment")
+    @GetMapping("/api/cancel-like-comment")
     @ResponseBody
-    public Map<String, Object> minusLikeNumOfComment(@RequestBody Map<String,String> data) {
+    public Map<String, Object> cancelLikeComment(@RequestParam int commentId, @RequestParam int userId) {
         Map<String, Object> map = new HashMap<String, Object>();
 
-        CommentEntity comment = commentDAO.findByCommentId(Integer.parseInt(data.get("commentId")));
+        CommentEntity comment = commentDAO.findByCommentId(commentId);
         comment.setLikeNum(comment.getLikeNum()-1);
         commentDAO.save(comment);
 
-        userLikeCommentDAO.deleteByUserIdAndCommentId(Integer.parseInt(data.get("userId")),Integer.parseInt(data.get("commentId")));
-        map.put("comment", comment);
+        userLikeCommentDAO.deleteByUserIdAndCommentId(userId, commentId);
+        map.put("status", "OK");
 
         return map;
     }
 
-    @PostMapping("/addNewComment")
+    @GetMapping("/api/add-comment")
     @ResponseBody
-    public Map<String, Object> addNewComment(@RequestBody Map<String,String> data) {
+    public Map<String, Object> addNewComment(@RequestParam int articleId, @RequestParam int userId, @RequestParam String content) {
 
         Map<String, Object> map = new HashMap<String, Object>();
         CommentEntity newComment = new CommentEntity();
         java.sql.Date date=new java.sql.Date(System.currentTimeMillis());
         newComment.setAddTime(date);
-        newComment.setContent(data.get("content"));
+        newComment.setContent(content);
         newComment.setLikeNum(0);
-        newComment.setArticleId(Integer.parseInt(data.get("articleId")));
-        newComment.setUserId(Integer.parseInt(data.get("userId")));
+        newComment.setArticleId(articleId);
+        newComment.setUserId(userId);
         commentDAO.save(newComment);
-        map.put("comment", newComment);
+        map.put("status", "OK");
 
         return map;
     }

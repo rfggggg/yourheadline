@@ -1,13 +1,12 @@
 package com.yourheadline.model;
 
-
 import javax.persistence.*;
 import java.sql.Date;
 import java.util.Objects;
 
 @Entity
-@Table(name = "author_info", schema = "yourheadline", catalog = "")
-public class AuthorInfoEntity {
+@Table(name = "author_apply_info", schema = "yhl", catalog = "")
+public class AuthorApplyInfoEntity {
     private int authorId;
     private String authorName;
     private String idCardBack;
@@ -79,7 +78,7 @@ public class AuthorInfoEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        AuthorInfoEntity that = (AuthorInfoEntity) o;
+        AuthorApplyInfoEntity that = (AuthorApplyInfoEntity) o;
         return authorId == that.authorId &&
                 Objects.equals(authorName, that.authorName) &&
                 Objects.equals(idCardBack, that.idCardBack) &&
@@ -92,5 +91,4 @@ public class AuthorInfoEntity {
     public int hashCode() {
         return Objects.hash(authorId, authorName, idCardBack, idCardFront, applyText, applyTime);
     }
-
 }

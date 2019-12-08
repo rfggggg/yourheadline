@@ -5,7 +5,7 @@ import java.sql.Date;
 import java.util.Objects;
 
 @Entity
-@Table(name = "user_like_comment", schema = "yourheadline", catalog = "")
+@Table(name = "user_like_comment", schema = "yhl", catalog = "")
 public class UserLikeCommentEntity {
     private int likeId;
     private Integer userId;
@@ -13,6 +13,7 @@ public class UserLikeCommentEntity {
     private Date addTime;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "like_id")
     public int getLikeId() {
         return likeId;

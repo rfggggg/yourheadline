@@ -1,25 +1,26 @@
-package com.yourheadline.entity;
+package com.yourheadline.model;
 
 import javax.persistence.*;
 import java.sql.Date;
 import java.util.Objects;
 
 @Entity
-@Table(name = "article", schema = "yhl", catalog = "")
-public class ArticleEntity {
+@Table(name = "article_info", schema = "yhl", catalog = "")
+public class ArticleInfoEntity {
     private int articleId;
     private Integer authorId;
     private Integer editorId;
     private Integer moduleId;
     private String articleTitle;
     private String articleIntro;
-    private String articleText;
-    private String coverLink;
     private Date addTime;
+    private String coverLink;
+    private String authorName;
+    private String authorAvatarLink;
+    private long likeNum;
 
     @Id
     @Column(name = "article_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public int getArticleId() {
         return articleId;
     }
@@ -79,13 +80,13 @@ public class ArticleEntity {
     }
 
     @Basic
-    @Column(name = "article_text")
-    public String getArticleText() {
-        return articleText;
+    @Column(name = "add_time")
+    public Date getAddTime() {
+        return addTime;
     }
 
-    public void setArticleText(String articleText) {
-        this.articleText = articleText;
+    public void setAddTime(Date addTime) {
+        this.addTime = addTime;
     }
 
     @Basic
@@ -99,34 +100,55 @@ public class ArticleEntity {
     }
 
     @Basic
-    @Column(name = "add_time")
-    public Date getAddTime() {
-        return addTime;
+    @Column(name = "author_name")
+    public String getAuthorName() {
+        return authorName;
     }
 
-    public void setAddTime(Date addTime) {
-        this.addTime = addTime;
+    public void setAuthorName(String authorName) {
+        this.authorName = authorName;
+    }
+
+    @Basic
+    @Column(name = "author_avatar_link")
+    public String getAuthorAvatarLink() {
+        return authorAvatarLink;
+    }
+
+    public void setAuthorAvatarLink(String authorAvatarLink) {
+        this.authorAvatarLink = authorAvatarLink;
+    }
+
+    @Basic
+    @Column(name = "like_num")
+    public long getLikeNum() {
+        return likeNum;
+    }
+
+    public void setLikeNum(long likeNum) {
+        this.likeNum = likeNum;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ArticleEntity that = (ArticleEntity) o;
+        ArticleInfoEntity that = (ArticleInfoEntity) o;
         return articleId == that.articleId &&
+                likeNum == that.likeNum &&
                 Objects.equals(authorId, that.authorId) &&
                 Objects.equals(editorId, that.editorId) &&
                 Objects.equals(moduleId, that.moduleId) &&
                 Objects.equals(articleTitle, that.articleTitle) &&
                 Objects.equals(articleIntro, that.articleIntro) &&
-                Objects.equals(articleText, that.articleText) &&
+                Objects.equals(addTime, that.addTime) &&
                 Objects.equals(coverLink, that.coverLink) &&
-                Objects.equals(addTime, that.addTime);
+                Objects.equals(authorName, that.authorName) &&
+                Objects.equals(authorAvatarLink, that.authorAvatarLink);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(articleId, authorId, editorId, moduleId, articleTitle, articleIntro, articleText, coverLink, addTime);
+        return Objects.hash(articleId, authorId, editorId, moduleId, articleTitle, articleIntro, addTime, coverLink, authorName, authorAvatarLink, likeNum);
     }
-
 }

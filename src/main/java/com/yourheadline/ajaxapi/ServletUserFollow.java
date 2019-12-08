@@ -10,49 +10,50 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api")
-public class ServletFollow {
+public class ServletUserFollow {
+
     @Autowired
     FollowDAO followDAO;
 
-    @PostMapping("/addNewFollow")
+    @GetMapping("/api/do-follow")
     @ResponseBody
-    public Map<String, Object> addNewFollow(@RequestBody Map<String, String> data) {
+    public Map<String, Object> doFollow(@RequestParam int userId, @RequestParam int authorId) {
         Map<String, Object> map = new HashMap<String, Object>();
 
         Date date = new Date(System.currentTimeMillis());
         FollowEntity newFollow = new FollowEntity();
-        newFollow.setAuthorId(Integer.parseInt(data.get("authorId")));
-        newFollow.setUserId(Integer.parseInt(data.get("userId")));
+        newFollow.setAuthorId(authorId);
+        newFollow.setUserId(userId);
         newFollow.setAddTime(date);
         followDAO.save(newFollow);
-        map.put("follow", newFollow);
+        map.put("status", "OK");
 
         return map;
     }
 
 
-    @PostMapping("/deleteFollow")
+    @GetMapping("/api/cancel-follow")
     @ResponseBody
-    public Map<String, Object> deleteFollow(@RequestBody Map<String,String> data){
+    public Map<String, Object> cancelFollow(@RequestParam int userId, @RequestParam int authorId){
         Map<String, Object> map = new HashMap<String, Object>();
 
-        followDAO.deleteByUserIdAndAuthorId(Integer.parseInt(data.get("userId")),Integer.parseInt(data.get("authorId")));
+        followDAO.deleteByUserIdAndAuthorId(userId, authorId);
+        map.put("status", "OK");
         return map;
     }
 
-    @PostMapping("/haveFollow")
+    @GetMapping("/api/check-follow")
     @ResponseBody
-    public Map<String, Object> haveFollow(@RequestBody Map<String,String> data){
+    public Map<String, Object> ifFollow(@RequestParam int userId, @RequestParam int authorId){
         Map<String, Object> map = new HashMap<String, Object>();
 
         boolean isFollow;
-        if(followDAO.findByUserIdAndAuthorId(Integer.parseInt(data.get("userId")),Integer.parseInt(data.get("authorId"))).size()>0)
+        if(followDAO.findByUserIdAndAuthorId(userId, authorId).size()>0)
             isFollow=true;
         else
             isFollow=false;
 
-        map.put("haveFollow", isFollow);
+        map.put("status", isFollow);
         return map;
     }
 }

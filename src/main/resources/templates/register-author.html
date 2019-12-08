@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Bootstrap Material Admin</title>
+    <title>Author-register</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="robots" content="all,follow">
@@ -24,9 +24,9 @@
 
                 <div class="content">
                   <div class="logo">
-                    <h1>成为作者！</h1>
+                    <h1>Welcome</h1>
                   </div>
-                  <p>注册登录界面模板</p>
+                  <p>Author-register!</p>
                 </div>
               </div>
             </div>
@@ -35,27 +35,27 @@
               <div class="form d-flex align-items-center">
                 <div class="content">
                     <div class="form-group">
-                      <input id="register-username" class="input-material" type="text" name="registerUsername" placeholder="请输入用户名/姓名" >
+                      <input id="register-username" class="input-material" type="text" name="registerUsername" placeholder="Enter your author name" >
 								      <div class="invalid-feedback">
-								        	用户名必须在2~10位之间
+								        	Username must be between 2~10
 								      </div>
                     </div>
                     <div class="form-group">
-                      <input id="register-password" class="input-material" type="password" name="registerPassword" placeholder="请输入密码"   >
+                      <input id="register-password" class="input-material" type="password" name="registerPassword" placeholder="Enter your password"   >
                     	<div class="invalid-feedback">
-								        	密码必须在6~10位之间
+                                            Password be between 6~10
 								      </div>
                     </div>
                     <div class="form-group">
-                      <input id="register-passwords" class="input-material" type="password" name="registerPasswords" placeholder="确认密码"   >
+                      <input id="register-passwords" class="input-material" type="password" name="registerPasswords" placeholder="Confirm password"   >
                     	<div class="invalid-feedback">
-								        	两次密码必须相同 且在6~10位之间
+								        	Passwords must be the same and between 6~10
 								      </div>
                     </div>
                     <div class="form-group">
                       <button id="regbtn" type="button" onclick="clickRegister()" name="registerSubmit" class="btn btn-primary">注册</button>
                     </div>
-                  <small>已有账号?</small><a href="login" class="signup">&nbsp;登录</a>
+                  <small>Already an author?</small><a href="login" class="signup">&nbsp;Login</a>
                 </div>
               </div>
             </div>
@@ -93,15 +93,15 @@
       function doRegister(userName, passWord)
       {
         $.ajax({
-          type:"post",
-          url:"/api/register-author",
+          type:"get",
+          url:"/api/author/register",
 
-          data:{"userName":userName,"passWord":passWord},
+          data:{"username":userName,"password":passWord},
           async:true,
           
           success:function(response){
             // console.log(response);
-            let status = response.registerStatus;
+            let status = response.status;
             let userAvatarLink = response.userAvatarLink;
             let userType = response.userType;
             let userId = response.userId;
@@ -111,13 +111,15 @@
             else if (status == "PasswordTooShort"){
               alert(status);
             }
-            else if (status == "Succeed"){
+            else if (status ="OK"){
               localStorage.setItem("userId", userId);
               localStorage.setItem("userName", userName);
               localStorage.setItem("passWord", passWord);
 
               localStorage.setItem("userType", userType);
               localStorage.setItem("userAvatarLink", userAvatarLink);
+              alert("Succeed! Now upload your apply files please.");
+              window.open("/author-confirm");
             }
           }
         });
