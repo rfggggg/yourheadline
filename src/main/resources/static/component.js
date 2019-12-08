@@ -44,9 +44,14 @@ var app = new Vue({
             }.bind(this));
         },
         toSearch: function(){
-            axios.get('/api/search?keyword=' + this.input1).then(function (response) {
-                if(response.data.searchResult != null){
-                    this.updateList(response.data.searchResult);
+            axios.get('/api/article/search', {
+                params:{
+                    searchKey: this.input1,
+                    startId: 0
+                }
+            }).then(function (response) {
+                if(response.data.status==="OK"){
+                    this.updateList(response.data.articleList);
                 }
                 else alert("无相关内容");
             }.bind(this));
