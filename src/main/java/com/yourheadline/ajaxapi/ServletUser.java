@@ -301,7 +301,7 @@ public class ServletUser {
         v = viewedDAO.save(v);
 
         if (v!=null) {
-            status = "Succeed";
+            status = "OK";
         }
 
         map.put("status", status);

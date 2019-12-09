@@ -122,8 +122,15 @@
           this.getArticleInfo();
           this.getAllComment();
           this.getCollectState();
+          this.getLikeState();
           this.getArticleContent();
-          this.getFollowState();
+          axios.get('/api/article/add-view',{
+              params:{
+                  userId:this.userId,
+                  articleId:aId
+              }
+          }).then(function (response) {
+          }.bind(this));
       },
       methods: {
           getArticleInfo: function() {
@@ -187,7 +194,7 @@
               axios.get('/api/check-like-article',{
                   params:{
                       userId:this.userId,
-                      authorId:this.articleInfo[0].authorId
+                      articleId:aId
                   }
               }).then(function (response) {
                   this.isLike=response.data.status;
