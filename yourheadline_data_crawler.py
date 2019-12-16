@@ -13,14 +13,12 @@ gameUrl = 'https://www.toutiao.com/api/pc/feed/?category=news_game'
 
 
 def crawlDataFromModuleList(moduleId, moduleUrl, sleepTime = 3):
-    urlStr = 'https://www.toutiao.com/api/pc/feed/?category=news_game'
-
 
     userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36"
     req = request.Request(moduleUrl)
     req.add_header('User-Agent', userAgent)
     mainHtml = request.urlopen(req).read().decode('utf-8')
-
+    print(len(mainHtml))
     mainData = json.loads(mainHtml)["data"]
     aidList = []
     for a in mainData:
@@ -65,7 +63,7 @@ def crawlDataFromModuleList(moduleId, moduleUrl, sleepTime = 3):
 
         insertStmt = 'insert into article values(null, 1, 3, ' + moduleId + ', "' \
                      + titleStr \
-                     + '", "文章简介",  "' \
+                     + '", "article intro",  "' \
                      + contentStr + '", "' \
                      + coverImg \
                      + '", "2019-11-14");\n'

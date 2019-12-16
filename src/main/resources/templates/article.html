@@ -57,8 +57,7 @@
                     <div slot="header" class="clearfix">
                         <span>Content</span>
                     </div>
-                    <div id="text-item">
-                        {{articleContent}}
+                    <div id="text-item" v-html="articleContent">
                     </div>
                 </el-card>
                 <el-card>

@@ -1,10 +1,7 @@
 package com.yourheadline.ajaxapi;
 
 import com.yourheadline.dao.*;
-import com.yourheadline.entity.ArticleEntity;
-import com.yourheadline.entity.AuthorEntity;
-import com.yourheadline.entity.UserEntity;
-import com.yourheadline.entity.ViewedEntity;
+import com.yourheadline.entity.*;
 import com.yourheadline.model.ArticleInfoEntity;
 import com.yourheadline.service.Validation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +28,8 @@ public class ServletAuthor {
     Validation validation;
     @Autowired
     ArticleDAO articleDAO;
+    @Autowired
+    ArticleUncheckedDAO articleUncheckedDAO;
 
     @GetMapping("/api/author/register")
     @ResponseBody
@@ -159,7 +158,7 @@ public class ServletAuthor {
             List<AuthorEntity> auList = authorDAO.findByAuthorId(authorId);
             if (!auList.isEmpty()){
                 if (auList.get(0).getAuthorized()==1){
-                    ArticleEntity a = new ArticleEntity();
+                    ArticleUncheckedEntity a = new ArticleUncheckedEntity();
                     a.setAuthorId(authorId);
                     a.setArticleTitle(articleTitle);
                     a.setArticleText(articleText);
@@ -167,7 +166,7 @@ public class ServletAuthor {
                     a.setModuleId(moduleId);
                     a.setCoverLink(getFirstImage(articleText));
 
-                    a = articleDAO.save(a);
+                    a = articleUncheckedDAO.save(a);
                     if (a!=null) {
                         status = "OK";
                     }

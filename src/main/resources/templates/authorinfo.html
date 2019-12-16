@@ -101,7 +101,7 @@
                                         <div class="introPic" v-if="item.coverLink!=='null'&&item.coverLink!==''">
                                             <div class="text">
                                                 <p>
-                                                    <a class="article-headline" :href="'login?id='+item.articleId" target="_blank">
+                                                    <a class="article-headline" :href="'article?id='+item.articleId" target="_blank">
                                                         <span style="font-size: 18px">
                                                             Body：{{item.articleTitle}}<br><br>
                                                          </span>
@@ -117,7 +117,7 @@
                                         <div class="introOnly" v-else>
                                             <div class="textOnly">
                                                 <p>
-                                                    <a class="article-headline" :href="'login?id='+item.articleId" target="_blank">
+                                                    <a class="article-headline" :href="'article?id='+item.articleId" target="_blank">
                                                         <span style="font-size: 18px">
                                                             Body：{{item.articleTitle}}<br><br>
                                                          </span>
