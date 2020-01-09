@@ -17,8 +17,7 @@
             <el-card>
                 <a :href="'authorinfo?id='+articleInfo[0].authorId">
                 <el-avatar :src="articleInfo[0].authorAvatarLink"></el-avatar></a>{{articleInfo[0].authorName}}
-                <div style="text-align:center">
-                    {{articleInfo[0].articleTitle}}
+                <div style="text-align:center" v-html="articleInfo[0].articleTitle">
                 </div>
             </el-card>
         </el-col>

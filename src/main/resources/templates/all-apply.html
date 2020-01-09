@@ -37,6 +37,12 @@
                         Author: {{item.authorId}}<br>
                         Apply time: {{item.addTime}}
                     </p>
+                    <button @click="acceptArticle(item.articleId)"
+                            style="height:60px; width:100px; margin-left: 0px; font-size: 15px; color: floralwhite; background-color: #3a8ee6; border-radius: 25px;"
+                    >Accept</button><span>             </span>
+                    <button @click="declineArticle(item.articleId)"
+                            style="height:60px; width:100px; margin-left: 0px; font-size: 15px; color: floralwhite; background-color: #3a8ee6; border-radius: 25px;"
+                    >Decline</button>
                 </div>
                 <div class="articlePicture">
                     <img :src="item.coverLink" style="width: 200px; height: 160px">
