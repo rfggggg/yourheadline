@@ -15,7 +15,7 @@ var app = new Vue({
         clist:[],
         hlist:[],
         input1:'',
-        userinfo:{userId:1,userName:"fake-user",userType:"author",birthDate:"1999-01-01",gender:"male",email:"99@qq.com",
+        userinfo:{userId:1,userName:"用户",userType:"normal",birthDate:"1999-01-01",gender:"male",email:"99@qq.com",
             mobilePhone:"123456",addTime:"1999-01-01"
         }
 
@@ -98,7 +98,7 @@ var app = new Vue({
             if (localStorage.getItem("userId")===null
                 ||localStorage.getItem("userName")===null
                 ||localStorage.getItem("passWord")==null){
-                alert("login please");
+                alert("请先登录！");
                 window.open("/login");
             }
             let startId = 0;
@@ -118,7 +118,7 @@ var app = new Vue({
                     alert("您还未看过任何文章！");
                 }
                 else if (response.data.status==="FailCheckUser"){
-                    alert("Login info error!");
+                    alert("登录信息错误！");
                     window.open("/login");
                 }
             }.bind(this));

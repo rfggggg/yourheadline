@@ -234,9 +234,7 @@
 </script>
 <script>
     function Logout() {
-        localStorage.removeItem("userName");
-        localStorage.removeItem("passWord");
-        localStorage.removeItem("userId");
+        localStorage.clear();
         location.reload();
     }
 </script>
