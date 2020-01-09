@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Register</title>
+    <title>注册</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="robots" content="all,follow">
@@ -22,9 +22,9 @@
               <div class="info d-flex align-items-center">
                 <div class="content">
                   <div class="logo">
-                    <h1>Welcome</h1>
+                    <h1>欢迎来到</h1>
                   </div>
-                  <p>Register!</p>
+                  <p>注册页面</p>
                 </div>
               </div>
             </div>
@@ -33,28 +33,28 @@
               <div class="form d-flex align-items-center">
                 <div class="content">
                     <div class="form-group">
-                      <input id="register-username" class="input-material" type="text" name="registerUsername" placeholder="Enter your username" >
+                      <input id="register-username" class="input-material" type="text" name="registerUsername" placeholder="输入用户名" >
 								      <div class="invalid-feedback">
-								        	Username must be between 2 to 10!
+								        	用户名应在2至10位之间
 								      </div>
                     </div>
                     <div class="form-group">
-                      <input id="register-password" class="input-material" type="password" name="registerPassword" placeholder="Enter your password"   >
+                      <input id="register-password" class="input-material" type="password" name="registerPassword" placeholder="输入密码"   >
                     	<div class="invalid-feedback">
-								        	Password must be between 6 to 20!
+								        	密码应在6至20位之间
 								      </div>
                     </div>
                     <div class="form-group">
-                      <input id="register-passwords" class="input-material" type="password" name="registerPasswords" placeholder="Confirm password"   >
+                      <input id="register-passwords" class="input-material" type="password" name="registerPasswords" placeholder="确认密码"   >
                     	<div class="invalid-feedback">
-                                            Passwords must be the same and between 6 to 20!
+                          两次密码应一致，且在6至20位之间
 								      </div>
                     </div>
                     <div class="form-group">
-                      <button id="regbtn" type="button" onclick="clickRegister()" name="registerSubmit" class="btn btn-primary">Register</button>
+                      <button id="regbtn" type="button" onclick="clickRegister()" name="registerSubmit" class="btn btn-primary">注册</button>
                     </div>
-                  <small>Already a user?</small><a href="/login" class="signup">&nbsp;Login</a>
-                  <small>    Want to become author?</small><a href="/register-author" class="signup">&nbsp;click here!</a>
+                  <small>已有账号？</small><a href="/login" class="signup">&nbsp;登录</a>
+                  <small>    想成为作者？</small><a href="/register-author" class="signup">&nbsp;点我注册！</a>
                 </div>
               </div>
             </div>
@@ -117,7 +117,7 @@
 
               localStorage.setItem("userType", userType);
               localStorage.setItem("userAvatarLink", userAvatarLink);
-              alert("Succeed!");
+              alert("注册成功！");
               window.open("/");
             }
           }

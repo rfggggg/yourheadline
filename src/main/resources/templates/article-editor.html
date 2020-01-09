@@ -26,8 +26,8 @@
 
 <div id="app" style="display: inline-block;">
     <div class="module-list" style="height: 60px;">
-        <span style="font-size: 25px;">Modules: </span>
-        <el-select v-model="selectedModuleId" placeholder="Select one">
+        <span style="font-size: 25px;">模块：</span>
+        <el-select v-model="selectedModuleId" placeholder="请选择一个模块">
             <el-option
                     v-for="m in modules"
                     :key="m.moduleName"
@@ -35,14 +35,14 @@
                     :value="m.moduleId">
             </el-option>
         </el-select>
-        <el-button type="primary" @click="doUpload" style="margin-left: 10px;">Upload</el-button>
+        <el-button type="primary" @click="doUpload" style="margin-left: 10px;">上传</el-button>
         </span>
     </div>
     <div id = "test-module" style = "color: #FF0000;"></div>
 </div>
 
 <div class="title-box">
-    <input type="text" id="articleTitle" maxlength="100" placeholder="Please enter your article title">
+    <input type="text" id="articleTitle" maxlength="100" placeholder="请输入文章标题">
     <span class="max-length"><span class="max-length-change">0</span>/100</span>
 </div>
 <p id = "testArticleTitle" style = "color: #FF0000;"></p>
@@ -63,21 +63,21 @@
     }
     function testEmpty(){
         if($("#articleTitle").val()===""){
-            $("#testArticleTitle").append("Please enter your article title!");
+            $("#testArticleTitle").append("请输入文章标题！");
             return false;
         }
         else{
             $("#testArticleTitle").html("");
         }
         if (editor.txt.text()===""){
-            $("#testEditor").append("Please enter your content!");
+            $("#testEditor").append("请输入文章内容！");
             return false;
         }
         else{
             $("#testEditor").html("");
         }
         if (app.selectedModuleId===''){
-            $("#test-module").append("Please choose a module!");
+            $("#test-module").append("请选择一个模块！");
             return false;
         }
         else {
@@ -153,7 +153,7 @@
                 if (localStorage.getItem("userId")==null
                     ||localStorage.getItem("userName")==null
                     ||localStorage.getItem("passWord")==null){
-                    alert("You haven't login, please save your article and go to login page！");
+                    alert("请先登录！");
                     return;
                 }
                 if (_articleId===null) {
@@ -175,11 +175,11 @@
                         success: function (response) {
                             // console.log(response);
                             if (response.status === "OK") {
-                                alert("You've successfully upload an article, please wait for an editor to check!");
+                                alert("您已成功提交文章，等待编辑审核通过即可发布！");
                                 editor.txt.html("");
                                 document.getElementById("articleTitle").innerHTML="";
                             } else if (response.status === "FailCheckAuthor") {
-                                alert("You haven't login, please save your article and go to login page！");
+                                alert("请先登录！");
                             }
                         }
                     });
@@ -206,9 +206,9 @@
                             if (response.status === "OK") {
                                 editor.txt.html("");
                                 document.getElementById("articleTitle").innerHTML="";
-                                alert("You've successfully upload an article, please wait for an editor to check!");
+                                alert("您已成功提交文章，等待编辑审核通过即可发布！");
                             } else if (response.status === "FailCheckAuthor") {
-                                alert("You haven't login, please save your article and go to login page！");
+                                alert("请先登录！");
                             }
                         }
                     });

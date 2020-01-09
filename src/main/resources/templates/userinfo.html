@@ -10,7 +10,7 @@
     <!-- import JavaScript -->
     <script src="js/element-ui.js"></script>
     <script src="js/axios.min.js"></script>
-    <title>UserInfo</title>
+    <title>个人信息</title>
 
 </head>
 <body>
@@ -30,7 +30,7 @@
             </a>
         </div>
         <div class="top-div" id="searchBar">
-            <el-input v-model="input1" placeholder="Please enter content"></el-input>
+            <el-input v-model="input1" placeholder="请输入内容"></el-input>
         </div>
         <div class="top-div" style="margin-top: 25px">
             <el-button icon="el-icon-search" circle @click="getInput"></el-button>
@@ -64,7 +64,7 @@
                     <div v-model="userinfo" class="userid">
                         ID:{{userinfo.userId}}
                     </div>
-                    <el-button type="primary" @click="changeUserAvatarLink">Modify the picture</el-button>
+                    <el-button type="primary" @click="changeUserAvatarLink">上传头像</el-button>
                     <el-dialog
                             title="Modify the picture"
                             :visible.sync="changeuseravatarlink"
@@ -78,8 +78,8 @@
                             </el-upload>
                         </span>
                         <span slot="footer" class="dialog-footer" style="text-align: center;display:block;">
-                            <el-button @click="closeChangeUserAvatarLinkWithCancel">Cancel</el-button>
-                            <el-button type="primary" @click="closeChangeUserAvatarLinkWithEnter">Confirm</el-button>
+                            <el-button @click="closeChangeUserAvatarLinkWithCancel">取消</el-button>
+                            <el-button type="primary" @click="closeChangeUserAvatarLinkWithEnter">确定</el-button>
                         </span>
                     </el-dialog>
                 </el-col>
@@ -96,20 +96,20 @@
             <el-card class="box-card2">
                 <template>
                     <el-tabs  @tab-click="handleClickOnUserinfoPage">
-                        <el-tab-pane label="Basic information" name="first">
+                        <el-tab-pane label="基本信息" name="first">
                             <el-form label-position="right" label-width="80px" :model="userinfo">
-                                <el-form-item label="User name">
+                                <el-form-item label="用户名">
                                     <el-input id="nameinput" v-model="userinfo.userName"></el-input>
                                 </el-form-item>
                                 <el-form-item label="ID">
                                     <el-input v-model="userinfo.userId" disabled="true"></el-input>
                                 </el-form-item>
-                                <el-form-item label="Birthday">
-                                    <el-date-picker id="birthinput" type="date" placeholder="Select a date" v-model="userinfo.birthDate" style="width: 100%;">
+                                <el-form-item label="生日">
+                                    <el-date-picker id="birthinput" type="date" placeholder="请选择日期" v-model="userinfo.birthDate" style="width: 100%;">
                                     </el-date-picker>
                                 </el-form-item>
-                                <el-form-item label="Gender">
-                                    <el-select id="genderinput" v-model="userinfo.gender" placeholder="Please select gender">
+                                <el-form-item label="性别">
+                                    <el-select id="genderinput" v-model="userinfo.gender" placeholder="请选择性别">
                                         <el-option label="male" value="male"></el-option>
                                         <el-option label="female" value="female"></el-option>
                                     </el-select>
@@ -117,22 +117,22 @@
                                 <el-form-item label="Email">
                                     <el-input id="emailinput" v-model="userinfo.email"></el-input>
                                 </el-form-item>
-                                <el-form-item label="Moblie phone">
+                                <el-form-item label="手机号码">
                                     <el-input id="phoneinput" v-model="userinfo.mobilePhone"></el-input>
                                 </el-form-item>
-                                <el-form-item label="Registration time">
+                                <el-form-item label="注册日期">
                                     <el-input v-model="userinfo.addTime" disabled="true"></el-input>
                                 </el-form-item>
                                 <el-form-item>
-                                    <el-button type="primary" @click="onSubmitOnUserinfoPage">Immediately change</el-button>
-                                    <el-button>Cancel</el-button>
+                                    <el-button type="primary" @click="onSubmitOnUserinfoPage">立即修改</el-button>
+                                    <el-button>取消</el-button>
                                 </el-form-item>
                             </el-form>
                         </el-tab-pane>
-                        <el-tab-pane label="Concerned author" name="second">
+                        <el-tab-pane label="关注的作者" name="second">
                             <template>
                                 <el-table :data="ufilist" height="250"  style="width: 100%">
-                                    <el-table-column label="Head portrait" width="100">
+                                    <el-table-column label="头像" width="100">
                                         <template slot-scope="scope">
                                             <img
                                                     style="width: 50px; height: 50px"
@@ -140,12 +140,12 @@
                                                     fit="fill"></img>
                                         </template>
                                     </el-table-column>
-                                    <el-table-column prop="userName" label="User name" width="250"></el-table-column>
-                                    <el-table-column prop="gender" label="Gender" width="180"></el-table-column>
-                                    <el-table-column prop="addTime" label="Registration time" width="250"></el-table-column>
-                                    <el-table-column label="Operation" width="180">
+                                    <el-table-column prop="userName" label="作者名" width="250"></el-table-column>
+                                    <el-table-column prop="gender" label="性别" width="180"></el-table-column>
+                                    <el-table-column prop="addTime" label="注册日期" width="250"></el-table-column>
+                                    <el-table-column label="操作" width="180">
                                         <template slot-scope="scope">
-                                            <el-button type="primary" @click="unfollow(scope.$index,scope.row)">Cancel the attention</el-button>
+                                            <el-button type="primary" @click="unfollow(scope.$index,scope.row)">取消关注</el-button>
                                         </template>
                                     </el-table-column>
                                 </el-table>

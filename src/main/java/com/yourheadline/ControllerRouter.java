@@ -48,9 +48,6 @@ public class ControllerRouter {
     @GetMapping("/article-editor")
     public String getNewArticleEditor() {return "article-editor"; }
 
-    @GetMapping("/author-editor")
-    public String getAuthorEditorPage() {return "author-editor"; }
-
     @GetMapping("/author-confirm")
     public String getAuthorApplyPage() {return "apply-files"; }
 

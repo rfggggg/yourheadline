@@ -18,7 +18,7 @@
             <img src="./img/logo.png" style="height: 80px; cursor: pointer; margin-left: 40px">
         </div>
         <div class="top-div" id="searchBar">
-            <el-input v-model="input1" placeholder="Enter Keywords"></el-input>
+            <el-input v-model="input1" placeholder="关键词搜索"></el-input>
         </div>
         <div class="top-div" style="margin-top: 25px">
             <el-button icon="el-icon-search" circle @click="toSearch"></el-button>
@@ -37,20 +37,20 @@
                 @close="handleClose">
             <el-menu-item index="1" @click = "toHome">
                 <i class="el-icon-s-home"></i>
-                <span slot="title">Home</span>
+                <span slot="title">首页</span>
             </el-menu-item>
             <el-menu-item index="2" @click = "toCollect">
                 <i class="el-icon-star-on"></i>
-                <span slot="title">Collect</span>
+                <span slot="title">收藏</span>
             </el-menu-item>
             <el-menu-item index="3" @click = "toHistory">
                 <i class="el-icon-time"></i>
-                <span slot="title">History</span>
+                <span slot="title">历史</span>
             </el-menu-item>
             <el-submenu index="4">
                 <template slot="title">
                     <i class="el-icon-collection-tag"></i>
-                    <span>Module</span>
+                    <span>模块</span>
                 </template>
                 <el-menu-item-group v-for="m in modules">
                     <el-menu-item index="m.moduleId" @click="toModule(m.moduleId)">
@@ -60,7 +60,7 @@
             </el-submenu>
         </el-menu>
     </div>
-    <span class = "demonstration">Titles</span>
+    <span class = "demonstration">标题</span>
     <div class = "pictureBlock">
         <div class="block">
             <el-carousel :interval="4000" type="card" height="250px">
@@ -79,11 +79,11 @@
                     <p>
                         <a class="article-headline" :href="'article?id='+item.articleId" target="_blank">
                             <span style="font-size: 18px"  @click="addView(item.articleId)">
-                        Titles:{{item.articleTitle}}<br><br>
+                        标题：{{item.articleTitle}}<br><br>
                             </span>
                         </a>
-                        Author:{{item.authorId}}<br>
-                        PublishTime:{{item.addTime}}
+                        作者：{{item.authorName}}<br>
+                        发布日期：{{item.addTime}}
                     </p>
                 </div>
                 <div class="articlePicture">
@@ -95,11 +95,11 @@
                     <p>
                         <a class="article-headline" :href="'article?id='+item.articleId" target="_blank">
                             <span style="font-size: 18px" @click="addView(item.articleId)">
-                        Titles:{{item.articleTitle}}<br><br>
+                        标题：{{item.articleTitle}}<br><br>
                             </span>
                         </a>
-                        Author:{{item.authorId}}<br>
-                        PublishTime:{{item.addTime}}
+                        作者：{{item.authorName}}<br>
+                        发布日期：{{item.addTime}}
                     </p>
                 </div>
             </div>
@@ -109,10 +109,10 @@
         <div class = "innerBlock" id="logoutStatus">
             <img src="./img/default-avatar.png">
             <a class = "loginButton" href="login">
-                <button class = "login-button" style="cursor: pointer;font-size: large">Login</button>
+                <button class = "login-button" style="cursor: pointer;font-size: large">登录</button>
             </a>
             <a class = "registerText" href="register" style="cursor: pointer">
-                Haven't Register? Click Here!
+                还没有账号？前往注册吧！
             </a>
         </div>
         <div>
@@ -124,29 +124,36 @@
                     <img :src="userinfo.userAvatarLink" style="width: 80px;height: 80px;border-radius: 100%">
                 </div>
                 <div v-model="userinfo" class="username" style="margin-top: 18%;margin-left: 5%;float: left;font-size: 18px;font-weight: 700">
-                    Hello！{{userinfo.userName}}
+                    你好！{{userinfo.userName}}
                 </div>
                 <div class="userClick" id="author" style="float: left;padding-top: 60px;width: 300px;display: none">
                     <div class="publish" style="float: left;width: 100px;padding-left: 40px;font-size: 18px;font-weight: 500">
                         <a href="/article-editor">
-                            <el-button type="danger" icon="el-icon-edit">Publish</el-button>
+                            <el-button type="danger" icon="el-icon-edit">发布文章</el-button>
                         </a>
                     </div>
                     <div class="myArticle" style="float: left;width: 100px;font-size: 18px;font-weight: 500;padding-left: 10px">
                         <a href="/userinfo">
-                            <el-button type="danger" icon="el-icon-tickets">Home</el-button>
+                            <el-button type="danger" icon="el-icon-tickets">主页</el-button>
+                        </a>
+                    </div>
+                </div>
+                <div class="userClick" id="editor" style="float: left;padding-top: 60px;width: 300px;display: none">
+                    <div class="publish" style="float: left;width: 100px;padding-left: 40px;font-size: 18px;font-weight: 500">
+                        <a href="/all-apply">
+                            <el-button type="danger">审核</el-button>
                         </a>
                     </div>
                 </div>
                 <div class="userClick" id="normal" style="float: left;padding-top: 60px;width: 300px;display: none">
                     <div class="publish" style="float: left;width: 100px;padding-left: 40px;font-size: 18px;font-weight: 500">
                         <a href="/userinfo">
-                            <el-button type="danger" icon="el-icon-star-off">Home</el-button>
+                            <el-button type="danger" icon="el-icon-star-off">主页</el-button>
                         </a>
                     </div>
                     <div class="myArticle" style="float: left;width: 100px;font-size: 18px;font-weight: 500;padding-left: 10px">
                         <a href="/register-author">
-                            <el-button type="danger" icon="el-icon-plus">Apply</el-button>
+                            <el-button type="danger" icon="el-icon-plus">成为作者</el-button>
                         </a>
                     </div>
                 </div>
@@ -256,7 +263,7 @@
             $("#normal").css("display","block");
         }
         else{
-            //editor div
+            $("#editor").css("display","block");
         }
     };
 </script>

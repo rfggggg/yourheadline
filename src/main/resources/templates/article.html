@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <!-- import CSS -->
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
-    <title>Article</title>
+    <title>文章页</title>
 </head>
 <body>
 <div id="article">
@@ -32,10 +32,10 @@
         </el-col>
         <el-col span="12">
             <el-card>
-                <el-button type="primary" icon="el-icon-edit" @click="writeComment">Write a comment</el-button>
-                <el-button type="primary" icon="el-icon-folder-add" @click="changeCollect" plain>{{isCollect==true?"Cancel collection":"Add to collection"}}</el-button>
-                <el-button style="float: right" type="primary" icon="el-icon-caret-top" @click="likeArticle(articleInfo[0])">{{isLike==true?"Liked":"Like"}}{{articleInfo[0].likeNum}}</el-button>
-                <el-button style="float: right" type="primary" :icon="followIcon" @click="changeFollow" plain>{{isFollow==true?"Cancel follow":"Follow the author"}}</el-button>
+                <el-button type="primary" icon="el-icon-edit" @click="writeComment">写评论</el-button>
+                <el-button type="primary" icon="el-icon-folder-add" @click="changeCollect" plain>{{isCollect==true?"取消收藏":"收藏"}}</el-button>
+                <el-button style="float: right" type="primary" icon="el-icon-caret-top" @click="likeArticle(articleInfo[0])">{{isLike==true?"已点赞":"点赞"}}{{articleInfo[0].likeNum}}</el-button>
+                <el-button style="float: right" type="primary" :icon="followIcon" @click="changeFollow" plain>{{isFollow==true?"取消关注":"关注作者"}}</el-button>
 
             </el-card>
         </el-col>
@@ -54,14 +54,14 @@
             <div>
                 <el-card class="box-card">
                     <div slot="header" class="clearfix">
-                        <span>Content</span>
+                        <span>文章内容</span>
                     </div>
                     <div id="text-item" v-html="articleContent">
                     </div>
                 </el-card>
                 <el-card>
                     <div slot="header">
-                        <span>Comments</span>
+                        <span>评论</span>
                     </div>
                     <div class="container">
                         <div class="comment" v-for="comment in commentList">
@@ -78,7 +78,7 @@
                             </div>
                             <div>
                                 <el-button class="like" icon="el-icon-thumb"  @click="likeComment(comment)" round>
-                                    <div class="like-num">{{comment.likeNum > 0 ? comment.likeNum + 'people liked' : 'like'}}</div>
+                                    <div class="like-num">{{comment.likeNum > 0 ? comment.likeNum + '已点赞' : '点赞'}}</div>
                                 </el-button>
                             </div>
                         </div>

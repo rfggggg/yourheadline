@@ -10,7 +10,7 @@
     <!-- import JavaScript -->
     <script src="https://unpkg.com/element-ui/lib/index.js"></script>
     <script src="js/axios.min.js"></script>
-    <title>Author Info</title>
+    <title>作者信息</title>
 </head>
 <body>
 <!-- JavaScript files-->
@@ -29,7 +29,7 @@
             </a>
         </div>
         <div class="top-div" id="searchBar">
-            <el-input v-model="input1" placeholder="Please enter content"></el-input>
+            <el-input v-model="input1" placeholder="请输入内容"></el-input>
         </div>
         <div class="top-div" style="margin-top: 25px">
             <el-button icon="el-icon-search" circle @click="getInput"></el-button>
@@ -60,7 +60,7 @@
                             <div v-model="userinfo" class="username">
                                 {{userinfo.userName}}
                             </div>
-                            <el-button style="float: left" type="primary" :icon="followIcon" @click="changeFollow" plain>{{isFollow==true?"Cancel the attention":"Follow the author"}}</el-button>
+                            <el-button style="float: left" type="primary" :icon="followIcon" @click="changeFollow" plain>{{isFollow==true?"取消关注":"关注作者"}}</el-button>
                         </el-col>
                     </el-row>
                 </el-card>
@@ -75,27 +75,27 @@
                 <el-card class="box-card2">
                     <template>
                         <el-tabs  @tab-click="handleClickOnUserinfoPage">
-                            <el-tab-pane label="Basic information" name="first">
+                            <el-tab-pane label="基本信息" name="first">
                                 <el-form label-position="right" label-width="80px" :model="userinfo">
-                                    <el-form-item label="User name">
+                                    <el-form-item label="用户名">
                                         <el-input id="nameinput" v-model="userinfo.userName" disabled=true></el-input>
                                     </el-form-item>
-                                    <el-form-item label="Birthday">
+                                    <el-form-item label="生日">
                                         <el-date-picker id="birthinput" type="date" placeholder="Select a date" v-model="userinfo.birthDate" disabled=true style="width: 100%;">
                                         </el-date-picker>
                                     </el-form-item>
-                                    <el-form-item label="Gender">
+                                    <el-form-item label="性别">
                                         <el-select id="genderinput" v-model="userinfo.gender" placeholder="Please select gender" disabled=true>
                                             <el-option label="male" value="male"></el-option>
                                             <el-option label="female" value="female"></el-option>
                                         </el-select>
                                     </el-form-item>
-                                    <el-form-item label="Registration time">
+                                    <el-form-item label="注册时间">
                                         <el-input v-model="userinfo.addTime" disabled=true></el-input>
                                     </el-form-item>
                                 </el-form>
                             </el-tab-pane>
-                            <el-tab-pane label="The author article" name="second">
+                            <el-tab-pane label="作者文章" name="second">
                                 <div class = "articleBlock">
                                     <div class="article" v-for="item in alist">
                                         <div class="introPic" v-if="item.coverLink!=='null'&&item.coverLink!==''">
@@ -103,11 +103,11 @@
                                                 <p>
                                                     <a class="article-headline" :href="'article?id='+item.articleId" target="_blank">
                                                         <span style="font-size: 18px">
-                                                            Body：{{item.articleTitle}}<br><br>
+                                                            标题：{{item.articleTitle}}<br><br>
                                                          </span>
                                                     </a>
-                                                    Author：{{item.authorId}}<br>
-                                                    Release time{{item.addTime}}
+                                                    作者：{{item.authorId}}<br>
+                                                    发布日期：{{item.addTime}}
                                                 </p>
                                             </div>
                                             <div class="articlePicture">
@@ -119,11 +119,11 @@
                                                 <p>
                                                     <a class="article-headline" :href="'article?id='+item.articleId" target="_blank">
                                                         <span style="font-size: 18px">
-                                                            Body：{{item.articleTitle}}<br><br>
+                                                            标题：{{item.articleTitle}}<br><br>
                                                          </span>
                                                     </a>
-                                                    Author：{{item.authorId}}<br>
-                                                    Release time{{item.addTime}}
+                                                    作者：{{item.authorName}}<br>
+                                                    发布日期：{{item.addTime}}
                                                 </p>
                                             </div>
                                         </div>

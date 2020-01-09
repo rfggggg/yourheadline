@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Apply Files</title>
+    <title>上传认证文件</title>
     <link rel="stylesheet" type="text/css" href="css/element-ui.css">
     <link rel="stylesheet" type="text/css" href="css/style.default.css">
     <script src="js/wangEditor.js"></script>
@@ -28,17 +28,17 @@
 <input id="front-selector" type="file" style="display: none;">
 <div id="upload-info" style="margin-top: 100px; width:100%;">
     <div onclick="selectBackImage()" style="float: left; width: 30%">
-        <div>Please upload the image of the back of your ID card: </div>
-        <img style="height:150px; width: 250px;" id="back-image" src="/img/upload-image.png" alt="Upload">
+        <div>请上传您的身份证背面图片</div>
+        <img style="height:150px; width: 250px;" id="back-image" src="/img/upload-image.png" alt="上传">
     </div>
     <div onclick="selectFrontImage()" style="float: left; width: 30%">
-        <div>Please upload the image of the back of your ID card: </div>
-        <img style="height:150px; width: 250px;" id="front-image" src="/img/upload-image.png" alt="Upload">
+        <div>请上传您的身份证正面图片</div>
+        <img style="height:150px; width: 250px;" id="front-image" src="/img/upload-image.png" alt="上传">
     </div>
-    <button onclick="upload()" style="height:60px; width:90px; margin-left: 10px; font-size: 25px; color: floralwhite; background-color: #3a8ee6; border-radius: 25px;">upload</button>
+    <button onclick="upload()" style="height:60px; width:90px; margin-left: 10px; font-size: 25px; color: floralwhite; background-color: #3a8ee6; border-radius: 25px;">上传</button>
 </div>
 <p id = "testPhoto" style = "color: #FF0000;"></p>
-<div style="font-size: 36px; text-align: center; float: left; width: 100%">Please enter your apply text</div>
+<div style="font-size: 36px; text-align: center; float: left; width: 100%">请简述您的申请理由和写作经历</div>
 <div id = "editor" style="float: left; width: 100%"></div>
 <div id = "testEditor" style = "color: #FF0000;"></div>
 
@@ -69,11 +69,11 @@
             async: true,
             success: function (response) {
                 if (response.status === "OK") {
-                    alert("OK! Please wait for an editor to authorize you.");
+                    alert("上传成功，请等待一名编辑用户认证您！");
                     editor.txt.html("");
                     window.open("/");
                 } else if (response.status === "FailCheckAuthor") {
-                    alert("You are not an author, please register first!");
+                    alert("请先注册成为一名作者！");
                 }
             }
         });
@@ -100,11 +100,11 @@
     }
     function testEmpty(){
         if(document.getElementById("back-image").src.substring(0, 4)==="http" || document.getElementById("front-image").src.substring(0, 4)==="http"){
-            alert("Please select the image of your ID card!");
+            alert("请上传您的身份证证件照！");
             return false;
         }
         if (editor.txt.text()===''){
-            alert("Please enter your apply text!");
+            alert("请输入您的简述");
             return false;
         }
         return true;

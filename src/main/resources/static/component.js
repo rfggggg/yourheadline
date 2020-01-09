@@ -6,16 +6,16 @@ var app = new Vue({
     data: {
         message: 'Your headline!',
         modules: [
-            {url:"#em1",name: "不应该出现的模块"}
+            {url:"#em1",name: "模块0"}
         ],
         alist: [
-            {id:1,text:"<p>不应该出现的文章条条</p>",author_name:"a1",publish_time:"1:00"}
+            {id:1,text:"<p>文章0</p>",author_name:"a1",publish_time:"1:00"}
         ],
         mlist:[],
         clist:[],
         hlist:[],
         input1:'',
-        userinfo:{userId:1,userName:"jia",userType:"author",birthDate:"1999-01-01",gender:"male",email:"99@qq.com",
+        userinfo:{userId:1,userName:"fake-user",userType:"author",birthDate:"1999-01-01",gender:"male",email:"99@qq.com",
             mobilePhone:"123456",addTime:"1999-01-01"
         }
 
@@ -69,7 +69,7 @@ var app = new Vue({
             if (localStorage.getItem("userId")===null
                 ||localStorage.getItem("userName")===null
                 ||localStorage.getItem("passWord")==null){
-                alert("login please");
+                alert("请先登录！");
                 window.open("/login");
             }
             let startId = 0;
@@ -86,10 +86,10 @@ var app = new Vue({
                     this.updateList(response.data.articleList);
                 }
                 else if (response.data.status==="Empty"){
-                    alert("Collection is empty!");
+                    alert("您还未收藏任何文章！");
                 }
                 else if (response.data.status==="FailCheckUser"){
-                    alert("Login info error!");
+                    alert("登录信息错误，请重新登录！");
                     window.open("/login");
                 }
             }.bind(this));
@@ -115,7 +115,7 @@ var app = new Vue({
                     this.updateList(response.data.articleList);
                 }
                 else if (response.data.status==="Empty"){
-                    alert("History is empty!");
+                    alert("您还未看过任何文章！");
                 }
                 else if (response.data.status==="FailCheckUser"){
                     alert("Login info error!");
@@ -124,7 +124,7 @@ var app = new Vue({
             }.bind(this));
             },
         toModule: function (id) {
-                axios.get('/api/article/module?moduleId=' + id).then(function (response) {
+                axios.get('/api/article/module?moduleId=' + id + '&startId=0').then(function (response) {
                     this.updateList(response.data.articleList);
                 }.bind(this));
             },
