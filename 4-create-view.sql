@@ -25,8 +25,11 @@ from author as au left join user as u on au.author_id=u.user_id where au.authori
 );
 
 
-
-
+create or replace view user_public_info
+(user_name, user_type, gender, add_time, user_id, user_avatar_link)
+as
+(select user_name, user_type, gender, add_time, user_id, user_avatar_link
+from user);
 
 DROP PROCEDURE IF EXISTS select_collection_by_user_id;
 
